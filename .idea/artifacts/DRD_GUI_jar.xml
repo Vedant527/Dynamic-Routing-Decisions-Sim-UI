@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="DRD-GUI:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/DRD_GUI_jar</output-path>
+    <root id="archive" name="DRD-GUI.jar">
+      <element id="module-output" name="DRD-GUI" />
+    </root>
+  </artifact>
+</component>
