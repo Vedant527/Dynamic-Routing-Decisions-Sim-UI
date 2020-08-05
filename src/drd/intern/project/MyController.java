@@ -1005,7 +1005,7 @@ public class MyController{
                 response = false;
             }
         }
-
+        int p = 0;
         return response;
         //return text.matches("[a-zA-Z]+");
     }
