@@ -39,7 +39,10 @@
                      <font>
                         <Font size="10.0" />
                      </font></Button>
-                  <Button fx:id="MIDNWID_REMOVE" layoutX="570.0" layoutY="-3.0" mnemonicParsing="false" onAction="#handleButtonClick" opacity="0.5" text="-" />
+                  <Button fx:id="MIDNWID_REMOVE" layoutX="570.0" layoutY="-2.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="23.0" prefWidth="21.0" text="-">
+                     <font>
+                        <Font size="10.0" />
+                     </font></Button>
                   <GridPane fx:id="BINPANE1" layoutX="162.0" layoutY="-6.0" prefHeight="33.0" prefWidth="387.0">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -69,7 +72,10 @@
                         <Font size="10.0" />
                      </font>
                   </Button>
-                  <Button fx:id="BINNWID_REMOVE_1" layoutX="591.0" layoutY="79.0" mnemonicParsing="false" onAction="#handleButtonClick" opacity="0.5" text="-" />
+                  <Button fx:id="BINNWID_REMOVE_1" layoutX="591.0" layoutY="79.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="23.0" prefWidth="21.0" text="-">
+                     <font>
+                        <Font size="10.0" />
+                     </font></Button>
                   <GridPane layoutX="14.0" layoutY="105.0" prefHeight="90.0" prefWidth="127.0">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -159,25 +165,37 @@
                         <Font size="10.0" />
                      </font>
                   </Button>
-                  <Button fx:id="BINNWID_REMOVE_2" layoutX="591.0" layoutY="108.0" mnemonicParsing="false" onAction="#handleButtonClick" opacity="0.5" text="-" visible="false" />
+                  <Button fx:id="BINNWID_REMOVE_2" layoutX="591.0" layoutY="108.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="23.0" prefWidth="21.0" text="-" visible="false">
+                     <font>
+                        <Font size="10.0" />
+                     </font></Button>
                   <Button fx:id="BINNWID_ADD_3" layoutX="570.0" layoutY="138.0" mnemonicParsing="false" onAction="#handleButtonClick" text="+" visible="false">
                      <font>
                         <Font size="10.0" />
                      </font>
                   </Button>
-                  <Button fx:id="BINNWID_REMOVE_3" layoutX="591.0" layoutY="138.0" mnemonicParsing="false" onAction="#handleButtonClick" opacity="0.5" text="-" visible="false" />
+                  <Button fx:id="BINNWID_REMOVE_3" layoutX="591.0" layoutY="138.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="23.0" prefWidth="21.0" text="-" visible="false">
+                     <font>
+                        <Font size="10.0" />
+                     </font></Button>
                   <Button fx:id="BINNWID_ADD_4" layoutX="570.0" layoutY="168.0" mnemonicParsing="false" onAction="#handleButtonClick" text="+" visible="false">
                      <font>
                         <Font size="10.0" />
                      </font>
                   </Button>
-                  <Button fx:id="BINNWID_REMOVE_4" layoutX="591.0" layoutY="168.0" mnemonicParsing="false" onAction="#handleButtonClick" opacity="0.5" text="-" visible="false" />
+                  <Button fx:id="BINNWID_REMOVE_4" layoutX="591.0" layoutY="168.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="23.0" prefWidth="21.0" text="-" visible="false">
+                     <font>
+                        <Font size="10.0" />
+                     </font></Button>
                   <Button fx:id="BIN_ADD" layoutX="-8.0" layoutY="79.0" mnemonicParsing="false" onAction="#handleButtonClick" text="+">
                      <font>
                         <Font size="10.0" />
                      </font>
                   </Button>
-                  <Button fx:id="BIN_REMOVE" layoutX="-8.0" layoutY="103.0" mnemonicParsing="false" onAction="#handleButtonClick" opacity="0.5" text="-" />
+                  <Button fx:id="BIN_REMOVE" layoutX="-8.0" layoutY="103.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="23.0" prefWidth="21.0" text="-">
+                     <font>
+                        <Font size="10.0" />
+                     </font></Button>
                   <Label layoutX="15.0" layoutY="61.0" prefHeight="19.0" prefWidth="190.0" text="Enter BIN#, BIN Length, NWID(s)">
                      <font>
                         <Font size="13.0" />
@@ -313,7 +331,10 @@
                         <Font size="10.0" />
                      </font>
                   </Button>
-                  <Button fx:id="BUCKET_REMOVE" layoutX="-10.0" layoutY="365.0" mnemonicParsing="false" onAction="#handleButtonClick" opacity="0.5" text="-" />
+                  <Button fx:id="BUCKET_REMOVE" layoutX="-10.0" layoutY="365.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="20.0" prefWidth="21.0" text="-">
+                     <font>
+                        <Font size="10.0" />
+                     </font></Button>
                   <Label fx:id="MID_ERROR" layoutX="15.0" layoutY="27.0" prefHeight="17.0" prefWidth="544.0" text="*Merchant ID &amp; NWID: Must be a numerical value (ex:1234...)*" textFill="RED" visible="false" />
                   <Label fx:id="BIN_ERROR" layoutX="14.0" layoutY="196.0" text="BIN#: Must be a numberical value(ex:1234...)" textFill="RED" visible="false" />
                   <Label fx:id="BINLENGTH_ERROR" layoutX="14.0" layoutY="213.0" text="BIN Length: Must be a numberical value(ex:1234...)" textFill="RED" visible="false" />

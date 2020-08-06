@@ -276,7 +276,7 @@ public class MyController{
             binnwidError7,binnwidError8,binnwidError9,binnwidError10,binnwidError11,binnwidError12,binnwidError13,
             binnwidError14,binnwidError15,binnwidError16,binnwidError17,binnwidError18,binnwidError19,binnwidError20,
             binnwidError21,binnwidError22,binnwidError23,binnwidError24,binnwidError25,binnwidError26,binnwidError27};
-    public boolean mandatory1, mandatory2,mandatory3,mandatory4,mandatory5,mandatory6,mandatory7,mandatory8,mandatory9;
+    public boolean mandatory1, mandatory2,mandatory3,mandatory4,mandatory5,mandatory6,mandatory7,mandatory8,mandatory9,mandatory10;
     public boolean isValid;
 
     public void initialize() {
@@ -297,7 +297,7 @@ public class MyController{
         MID.setTooltip(tooltipMID_1);
 
         final Tooltip tooltipBIN_NWID_1 = new Tooltip();
-        tooltipBIN_NWID_1.setText("Enter A BIN Network ID");
+        tooltipBIN_NWID_1.setText("Enter A BIN Network ID e.g. 41,E");
         BINNWID_10.setTooltip(tooltipBIN_NWID_1);
 
         final Tooltip tooltipClear = new Tooltip();
@@ -323,7 +323,6 @@ public class MyController{
         final Tooltip tooltipBUCKETMIN1 = new Tooltip();
         tooltipBUCKETMIN1.setText("Enter Bucket Lower Boundary");
         BUCKET_MIN_1.setTooltip(tooltipBUCKETMIN1);
-
 
     }
     @FXML
@@ -382,15 +381,15 @@ public class MyController{
             }
 
             checkBuckets();
-            checkBucketNWIDs();
+            mandatory10 = checkBucketNWIDs();
             ArrayList<Bucket> finalBucketsBuild = bucketLogic();
 
             boolean mandatoryFields = false;
-            if(mandatory1||mandatory2||mandatory3||mandatory4||mandatory5||mandatory6||mandatory7||mandatory8||mandatory9){
+            if(mandatory1||mandatory2||mandatory3||mandatory4||mandatory5||mandatory6||mandatory7||mandatory8||mandatory9||mandatory10){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Missing Required Fields");
                 alert.setHeaderText(null);
-                alert.setContentText("Please enter valid values in the highlighted fields!");
+                alert.setContentText("Please enter valid values in the highlighted fields");
                 alert.showAndWait();
 
             } else {
@@ -414,7 +413,7 @@ public class MyController{
                     Alert hostFailed = new Alert(Alert.AlertType.CONFIRMATION);
                     hostFailed.setTitle("Confirmation");
                     hostFailed.setHeaderText(null);
-                    hostFailed.setContentText("Query Was Sent To DRD");
+                    hostFailed.setContentText("Query was sent to DRD");
                     hostFailed.showAndWait();
                 } catch (IOException ioException) {
                     Alert hostFailed = new Alert(Alert.AlertType.ERROR);
@@ -430,12 +429,17 @@ public class MyController{
 
         }
         if(event.getSource() == CLEAR) {
-            clearFields();
             try{
                 run("clear");
             } catch (IOException ioException) {
                 ioException.printStackTrace();
+                Alert hostFailed = new Alert(Alert.AlertType.ERROR);
+                hostFailed.setTitle("Connection Error");
+                hostFailed.setHeaderText(null);
+                hostFailed.setContentText("Unable to Send Clear Response to DRD");
+                hostFailed.showAndWait();
             }
+            clearFields();
             new File("C:/Users/" + userName + "/Desktop/file.txt").delete();
         }
         if(event.getSource() == MIDNWID_ADD ) {
@@ -626,9 +630,9 @@ public class MyController{
         String bucketNwid11="";
         ArrayList<String> finalString = new ArrayList<>();
         int mySize = finalBucketsBuild.size();
-        if( 0 < mySize && finalBucketsBuild.get(0) != null ) {
+        if( 0 < mySize && finalBucketsBuild.get(0).getMin() != -1) {
             for(int i = 0; i < 4 ; i++){
-                if(finalBucketsBuild.get(0).getNWIDS().get(i) != null) {
+                if(finalBucketsBuild.get(0).getNWIDS() != null && finalBucketsBuild.get(0).getNWIDS().get(i) != null) {
                     bucketNwid0 = bucketNwid0 + "<ntwk>"+"<id>" + finalBucketsBuild.get(0).getNWIDS().get(i) + "</id>" + "</ntwk>";
                 }
             }
@@ -636,9 +640,9 @@ public class MyController{
             int len = bucket0.length();
             bucket0 = "00" + len + bucket0;
         }
-        if(1 < mySize && finalBucketsBuild.get(1) != null ) {
+        if(1 < mySize && finalBucketsBuild.get(1).getMin() != -1) {
             for(int i = 0; i < 4 ; i++){
-                if(finalBucketsBuild.get(1).getNWIDS().get(i) != null) {
+                if(finalBucketsBuild.get(1).getNWIDS() != null && finalBucketsBuild.get(1).getNWIDS().get(i) != null) {
                     bucketNwid1 = bucketNwid1 + "<ntwk>" + "<id>" + finalBucketsBuild.get(1).getNWIDS().get(i) + "</id>" + "</ntwk>";
                 }
             }
@@ -647,9 +651,9 @@ public class MyController{
             bucket1 = "00" + len + bucket1;
 
         }
-        if( 2 < mySize && finalBucketsBuild.get(2) != null) {
+        if(2 < mySize && finalBucketsBuild.get(2).getMin() != -1) {
             for(int i = 0; i < 4 ; i++){
-                if(finalBucketsBuild.get(2).getNWIDS().get(i) != null) {
+                if(finalBucketsBuild.get(2).getNWIDS() != null && finalBucketsBuild.get(2).getNWIDS().get(i) != null) {
                     bucketNwid2 = bucketNwid2 + "<ntwk>" + "<id>"  + finalBucketsBuild.get(2).getNWIDS().get(i) + "</id>" + "</ntwk>";
                 }
             }
@@ -658,9 +662,9 @@ public class MyController{
             bucket2 = "00" + len + bucket2;
 
         }
-        if( 3 < mySize && finalBucketsBuild.get(3) != null ) {
+        if( 3 < mySize && finalBucketsBuild.get(3).getMin() != -1) {
             for(int i = 0; i < 4 ; i++){
-                if(finalBucketsBuild.get(3).getNWIDS().get(i) != null) {
+                if(finalBucketsBuild.get(3).getNWIDS() != null && finalBucketsBuild.get(3).getNWIDS().get(i) != null) {
                     bucketNwid3 = bucketNwid3 +  "<ntwk>" + "<id>" + finalBucketsBuild.get(3).getNWIDS().get(i) + "</id>" + "</ntwk>";
                 }
             }
@@ -669,9 +673,9 @@ public class MyController{
             bucket3 = "00" + len + bucket3;
 
         }
-        if( 4 < mySize && finalBucketsBuild.get(4) != null ) {
+        if( 4 < mySize && finalBucketsBuild.get(4).getMin() != -1) {
             for(int i = 0; i < 4 ; i++){
-                if(finalBucketsBuild.get(4).getNWIDS().get(i) != null) {
+                if(finalBucketsBuild.get(4).getNWIDS() != null && finalBucketsBuild.get(4).getNWIDS().get(i) != null) {
                     bucketNwid4 = bucketNwid4 +  "<ntwk>" + "<id>" + finalBucketsBuild.get(4).getNWIDS().get(i) + "</id>" + "</ntwk>";
                 }
             }
@@ -680,9 +684,9 @@ public class MyController{
             bucket4 = "00" + len + bucket4;
         }
 
-        if(5 < mySize && finalBucketsBuild.get(5) != null) {
+        if(5 < mySize && finalBucketsBuild.get(5).getMin() != -1) {
             for(int i = 0; i < 4 ; i++){
-                if(finalBucketsBuild.get(5).getNWIDS().get(i) != null) {
+                if(finalBucketsBuild.get(5).getNWIDS() != null && finalBucketsBuild.get(5).getNWIDS().get(i) != null) {
                     bucketNwid5 = bucketNwid5 + "<ntwk>" + "<id>" + finalBucketsBuild.get(5).getNWIDS().get(i) + "</id>" + "</ntwk>";
                 }
             }
@@ -690,9 +694,9 @@ public class MyController{
             int len = bucket5.length();
             bucket5 = "00" + len + bucket5;
         }
-        if(6 < mySize && finalBucketsBuild.get(6) != null) {
+        if(6 < mySize && finalBucketsBuild.get(6).getMin() != -1) {
             for(int i = 0; i < 4 ; i++){
-                if(finalBucketsBuild.get(6).getNWIDS().get(i) != null) {
+                if(finalBucketsBuild.get(6).getNWIDS() != null && finalBucketsBuild.get(6).getNWIDS().get(i) != null) {
                     bucketNwid6 = bucketNwid6 + "<ntwk>" + "<id>" + finalBucketsBuild.get(6).getNWIDS().get(i) + "</id>" + "</ntwk>";
                 }
             }
@@ -700,9 +704,9 @@ public class MyController{
             int len = bucket6.length();
             bucket6 = "00" + len + bucket6;
         }
-        if(7 < mySize && finalBucketsBuild.get(7) != null) {
+        if(7 < mySize && finalBucketsBuild.get(7).getMin() != -1) {
             for(int i = 0; i < 4 ; i++){
-                if(finalBucketsBuild.get(7).getNWIDS().get(i) != null) {
+                if(finalBucketsBuild.get(7).getNWIDS() != null && finalBucketsBuild.get(7).getNWIDS().get(i) != null) {
                     bucketNwid7 = bucketNwid7 + "<ntwk>" + "<id>" + finalBucketsBuild.get(7).getNWIDS().get(i) + "</id>" + "</ntwk>";
                 }
             }
@@ -710,9 +714,9 @@ public class MyController{
             int len = bucket7.length();
             bucket7 = "00" + len + bucket7;
         }
-        if( 8 < mySize && finalBucketsBuild.get(8) != null) {
+        if( 8 < mySize && finalBucketsBuild.get(8).getMin() != -1) {
             for(int i = 0; i < 4 ; i++){
-                if(finalBucketsBuild.get(8).getNWIDS().get(i) != null) {
+                if(finalBucketsBuild.get(8).getNWIDS() != null && finalBucketsBuild.get(8).getNWIDS().get(i) != null) {
                     bucketNwid8 = bucketNwid8 + "<ntwk>" + "<id>" + finalBucketsBuild.get(8).getNWIDS().get(i) + "</id>" + "</ntwk>";
                 }
             }
@@ -720,9 +724,9 @@ public class MyController{
             int len = bucket8.length();
             bucket8 = "00" + len + bucket8;
         }
-        if(9 < mySize && finalBucketsBuild.get(9) != null ) {
+        if(9 < mySize && finalBucketsBuild.get(9).getMin() != -1) {
             for(int i = 0; i < 4 ; i++){
-                if(finalBucketsBuild.get(9).getNWIDS().get(i) != null) {
+                if(finalBucketsBuild.get(9).getNWIDS() != null && finalBucketsBuild.get(9).getNWIDS().get(i) != null) {
                     bucketNwid9 = bucketNwid9 + "<ntwk>" + "<id>" + finalBucketsBuild.get(9).getNWIDS().get(i) + "</id>" + "</ntwk>";
                 }
             }
@@ -730,9 +734,9 @@ public class MyController{
             int len = bucket9.length();
             bucket9 = "00" + len + bucket9;
         }
-        if( 10 < mySize && finalBucketsBuild.get(10) != null) {
+        if( 10 < mySize && finalBucketsBuild.get(10).getMin() != -1) {
             for(int i = 0; i < 4 ; i++){
-                if(finalBucketsBuild.get(10).getNWIDS().get(i) != null) {
+                if(finalBucketsBuild.get(10).getNWIDS() != null && finalBucketsBuild.get(10).getNWIDS().get(i) != null) {
                     bucketNwid10 = bucketNwid10 + "<ntwk>" + "<id>" + finalBucketsBuild.get(10).getNWIDS().get(i) + "</id>" + "</ntwk>";
                 }
             }
@@ -740,9 +744,9 @@ public class MyController{
             int len = bucket10.length();
             bucket10 = "00" + len + bucket10;
         }
-        if(11 < mySize && finalBucketsBuild.get(11) != null ) {
+        if(11 < mySize && finalBucketsBuild.get(11).getMin() != -1) {
             for(int i = 0; i < 4 ; i++){
-                if(finalBucketsBuild.get(11).getNWIDS().get(i) != null) {
+                if(finalBucketsBuild.get(11).getNWIDS() != null && finalBucketsBuild.get(11).getNWIDS().get(i) != null) {
                     bucketNwid11 = bucketNwid11 + "<ntwk>" + "<id>" + finalBucketsBuild.get(11).getNWIDS().get(i) + "</id>" + "</ntwk>";
                 }
             }
@@ -807,7 +811,7 @@ public class MyController{
             throw new IOException();
         }
         //System.out.print("DRD RESPONSE: ");
-       // System.out.print(c);
+        // System.out.print(c);
 
 
         System.out.println();
@@ -1100,7 +1104,7 @@ public class MyController{
                 MIDNWID3 = (MIDNWID_3.getText());
                 MIDNWID_3.setStyle("");
                 midError5 = false;
-               //System.out.println(MIDNWID3);
+                //System.out.println(MIDNWID3);
             }else {
                 //System.out.println("Invalid MID NWID4");
                 MIDNWID_3.setStyle("-fx-text-inner-color: red");
@@ -2137,7 +2141,7 @@ public class MyController{
                 BUCKETNWID2 = Integer.parseInt(BUCKET_NWID_2.getText());
                 //System.out.println(BUCKETNWID2);
             }else{
-               // System.out.println("Enter a Valid NWID1 for Bucket 2");
+                // System.out.println("Enter a Valid NWID1 for Bucket 2");
             }
         }
 
@@ -2253,7 +2257,7 @@ public class MyController{
         if(!(BUCKET_NWID_4.getText().isEmpty())) {
             if(isBucketNWID(BUCKET_NWID_4)) {
                 BUCKETNWID4 = Integer.parseInt(BUCKET_NWID_4.getText());
-               // System.out.println(BUCKETNWID4);
+                // System.out.println(BUCKETNWID4);
             }else{
                 //System.out.println("Enter a Valid NWID1 for Bucket 4");
             }
@@ -2294,9 +2298,9 @@ public class MyController{
         if(!(BUCKET_MIN_5.getText().isEmpty())) {
             if(isBucketBound(BUCKET_MIN_5)) {
                 BUCKETMIN5 = Integer.parseInt(BUCKET_MIN_5.getText());
-               //System.out.println(BUCKETMIN5);
+                //System.out.println(BUCKETMIN5);
             }else{
-               // System.out.println("Enter a Valid Min for Bucket 5");
+                // System.out.println("Enter a Valid Min for Bucket 5");
             }
         }
 
@@ -2305,7 +2309,7 @@ public class MyController{
                 BUCKETMAX5 = Integer.parseInt(BUCKET_MAX_5.getText());
                 //System.out.println(BUCKETMAX5);
             }else{
-               // System.out.println("Enter a Valid Max for Bucket 5");
+                // System.out.println("Enter a Valid Max for Bucket 5");
             }
         }
 
@@ -2333,7 +2337,7 @@ public class MyController{
                 BUCKETNWID555 = Integer.parseInt(BUCKET_NWID_555.getText());
                 //System.out.println(BUCKETNWID555);
             }else{
-               // System.out.println("Enter a Valid NWID3 for Bucket 5");
+                // System.out.println("Enter a Valid NWID3 for Bucket 5");
             }
         }
 
@@ -2374,7 +2378,7 @@ public class MyController{
                 BUCKETNWID6 = Integer.parseInt(BUCKET_NWID_6.getText());
                 //System.out.println(BUCKETNWID6);
             }else{
-               // System.out.println("Enter a Valid NWID1 for Bucket 6");
+                // System.out.println("Enter a Valid NWID1 for Bucket 6");
             }
         }
 
@@ -2518,129 +2522,129 @@ public class MyController{
 
         if (bucket_Counter >= 2
                 && !checkBucketsHelper(BUCKETMIN1, BUCKETMAX1, BUCKETMIN2, BUCKETMAX2)) {
-            BUCKET_MIN_1.setStyle("-fx-text-inner-color: red");
-            BUCKET_MAX_1.setStyle("-fx-text-inner-color: red");
-            BUCKET_MIN_2.setStyle("-fx-text-inner-color: red");
-            BUCKET_MAX_2.setStyle("-fx-text-inner-color: red");
+            BUCKET_MIN_1.setStyle("-fx-text-inner-color: orange");
+            BUCKET_MAX_1.setStyle("-fx-text-inner-color: orange");
+            BUCKET_MIN_2.setStyle("-fx-text-inner-color: orange");
+            BUCKET_MAX_2.setStyle("-fx-text-inner-color: orange");
             i++;
         }
         if (bucket_Counter >= 3
                 && !checkBucketsHelper(BUCKETMIN1, BUCKETMAX1, BUCKETMIN3, BUCKETMAX3)) {
-            BUCKET_MIN_1.setStyle("-fx-text-inner-color: red");
-            BUCKET_MAX_1.setStyle("-fx-text-inner-color: red");
-            BUCKET_MIN_3.setStyle("-fx-text-inner-color: red");
-            BUCKET_MAX_3.setStyle("-fx-text-inner-color: red");
+            BUCKET_MIN_1.setStyle("-fx-text-inner-color: orange");
+            BUCKET_MAX_1.setStyle("-fx-text-inner-color: orange");
+            BUCKET_MIN_3.setStyle("-fx-text-inner-color: orange");
+            BUCKET_MAX_3.setStyle("-fx-text-inner-color: orange");
             i++;
         }
         if (bucket_Counter >= 4
                 && !checkBucketsHelper(BUCKETMIN1, BUCKETMAX1, BUCKETMIN4, BUCKETMAX4)) {
-            BUCKET_MIN_1.setStyle("-fx-text-inner-color: red");
-            BUCKET_MAX_1.setStyle("-fx-text-inner-color: red");
-            BUCKET_MIN_4.setStyle("-fx-text-inner-color: red");
-            BUCKET_MAX_4.setStyle("-fx-text-inner-color: red");
+            BUCKET_MIN_1.setStyle("-fx-text-inner-color: orange");
+            BUCKET_MAX_1.setStyle("-fx-text-inner-color: orange");
+            BUCKET_MIN_4.setStyle("-fx-text-inner-color: orange");
+            BUCKET_MAX_4.setStyle("-fx-text-inner-color: orange");
             i++;
         }
         if (bucket_Counter >= 5
                 && !checkBucketsHelper(BUCKETMIN1, BUCKETMAX1, BUCKETMIN5, BUCKETMAX5)) {
-            BUCKET_MIN_1.setStyle("-fx-text-inner-color: red");
-            BUCKET_MAX_1.setStyle("-fx-text-inner-color: red");
-            BUCKET_MIN_5.setStyle("-fx-text-inner-color: red");
-            BUCKET_MAX_5.setStyle("-fx-text-inner-color: red");
+            BUCKET_MIN_1.setStyle("-fx-text-inner-color: orange");
+            BUCKET_MAX_1.setStyle("-fx-text-inner-color: orange");
+            BUCKET_MIN_5.setStyle("-fx-text-inner-color: orange");
+            BUCKET_MAX_5.setStyle("-fx-text-inner-color: orange");
             i++;
         }
         if (bucket_Counter == 6
                 && !checkBucketsHelper(BUCKETMIN1, BUCKETMAX1, BUCKETMIN6, BUCKETMAX6)) {
-            BUCKET_MIN_1.setStyle("-fx-text-inner-color: red");
-            BUCKET_MAX_1.setStyle("-fx-text-inner-color: red");
-            BUCKET_MIN_6.setStyle("-fx-text-inner-color: red");
-            BUCKET_MAX_6.setStyle("-fx-text-inner-color: red");
+            BUCKET_MIN_1.setStyle("-fx-text-inner-color: orange");
+            BUCKET_MAX_1.setStyle("-fx-text-inner-color: orange");
+            BUCKET_MIN_6.setStyle("-fx-text-inner-color: orange");
+            BUCKET_MAX_6.setStyle("-fx-text-inner-color: orange");
             i++;
         }
         if (bucket_Counter >= 2) {
             if (bucket_Counter >= 3
                     && !checkBucketsHelper(BUCKETMIN2, BUCKETMAX2, BUCKETMIN3, BUCKETMAX3)) {
-                BUCKET_MIN_2.setStyle("-fx-text-inner-color: red");
-                BUCKET_MAX_2.setStyle("-fx-text-inner-color: red");
-                BUCKET_MIN_3.setStyle("-fx-text-inner-color: red");
-                BUCKET_MAX_3.setStyle("-fx-text-inner-color: red");
+                BUCKET_MIN_2.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MAX_2.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MIN_3.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MAX_3.setStyle("-fx-text-inner-color: orange");
                 i++;
             }
             if (bucket_Counter >= 4
                     && !checkBucketsHelper(BUCKETMIN2, BUCKETMAX2, BUCKETMIN4, BUCKETMAX4)) {
-                BUCKET_MIN_2.setStyle("-fx-text-inner-color: red");
-                BUCKET_MAX_2.setStyle("-fx-text-inner-color: red");
-                BUCKET_MIN_4.setStyle("-fx-text-inner-color: red");
-                BUCKET_MAX_4.setStyle("-fx-text-inner-color: red");
+                BUCKET_MIN_2.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MAX_2.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MIN_4.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MAX_4.setStyle("-fx-text-inner-color: orange");
                 i++;
             }
             if (bucket_Counter >= 5
                     && !checkBucketsHelper(BUCKETMIN2, BUCKETMAX2, BUCKETMIN5, BUCKETMAX5)) {
-                BUCKET_MIN_2.setStyle("-fx-text-inner-color: red");
-                BUCKET_MAX_2.setStyle("-fx-text-inner-color: red");
-                BUCKET_MIN_5.setStyle("-fx-text-inner-color: red");
-                BUCKET_MAX_5.setStyle("-fx-text-inner-color: red");
+                BUCKET_MIN_2.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MAX_2.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MIN_5.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MAX_5.setStyle("-fx-text-inner-color: orange");
                 i++;
             }
             if (bucket_Counter == 6
                     && !checkBucketsHelper(BUCKETMIN2, BUCKETMAX2, BUCKETMIN6, BUCKETMAX6)) {
-                BUCKET_MIN_2.setStyle("-fx-text-inner-color: red");
-                BUCKET_MAX_2.setStyle("-fx-text-inner-color: red");
-                BUCKET_MIN_6.setStyle("-fx-text-inner-color: red");
-                BUCKET_MAX_6.setStyle("-fx-text-inner-color: red");
+                BUCKET_MIN_2.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MAX_2.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MIN_6.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MAX_6.setStyle("-fx-text-inner-color: orange");
                 i++;
             }
         }
         if (bucket_Counter >= 3) {
             if (bucket_Counter >= 4
                     && !checkBucketsHelper(BUCKETMIN3, BUCKETMAX3, BUCKETMIN4, BUCKETMAX4)) {
-                BUCKET_MIN_3.setStyle("-fx-text-inner-color: red");
-                BUCKET_MAX_3.setStyle("-fx-text-inner-color: red");
-                BUCKET_MIN_4.setStyle("-fx-text-inner-color: red");
-                BUCKET_MAX_4.setStyle("-fx-text-inner-color: red");
+                BUCKET_MIN_3.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MAX_3.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MIN_4.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MAX_4.setStyle("-fx-text-inner-color: orange");
                 i++;
             }
             if (bucket_Counter >= 5
                     && !checkBucketsHelper(BUCKETMIN3, BUCKETMAX3, BUCKETMIN5, BUCKETMAX5)) {
-                BUCKET_MIN_3.setStyle("-fx-text-inner-color: red");
-                BUCKET_MAX_3.setStyle("-fx-text-inner-color: red");
-                BUCKET_MIN_5.setStyle("-fx-text-inner-color: red");
-                BUCKET_MAX_5.setStyle("-fx-text-inner-color: red");
+                BUCKET_MIN_3.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MAX_3.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MIN_5.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MAX_5.setStyle("-fx-text-inner-color: orange");
                 i++;
             }
             if (bucket_Counter == 6
                     && !checkBucketsHelper(BUCKETMIN3, BUCKETMAX3, BUCKETMIN6, BUCKETMAX6)) {
-                BUCKET_MIN_3.setStyle("-fx-text-inner-color: red");
-                BUCKET_MAX_3.setStyle("-fx-text-inner-color: red");
-                BUCKET_MIN_6.setStyle("-fx-text-inner-color: red");
-                BUCKET_MAX_6.setStyle("-fx-text-inner-color: red");
+                BUCKET_MIN_3.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MAX_3.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MIN_6.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MAX_6.setStyle("-fx-text-inner-color: orange");
                 i++;
             }
         }
         if (bucket_Counter >= 4) {
             if (bucket_Counter >= 5
                     && !checkBucketsHelper(BUCKETMIN4, BUCKETMAX4, BUCKETMIN5, BUCKETMAX5)) {
-                BUCKET_MIN_4.setStyle("-fx-text-inner-color: red");
-                BUCKET_MAX_4.setStyle("-fx-text-inner-color: red");
-                BUCKET_MIN_5.setStyle("-fx-text-inner-color: red");
-                BUCKET_MAX_5.setStyle("-fx-text-inner-color: red");
+                BUCKET_MIN_4.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MAX_4.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MIN_5.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MAX_5.setStyle("-fx-text-inner-color: orange");
                 i++;
             }
             if (bucket_Counter == 6
                     && !checkBucketsHelper(BUCKETMIN4, BUCKETMAX4, BUCKETMIN6, BUCKETMAX6)) {
-                BUCKET_MIN_4.setStyle("-fx-text-inner-color: red");
-                BUCKET_MAX_4.setStyle("-fx-text-inner-color: red");
-                BUCKET_MIN_6.setStyle("-fx-text-inner-color: red");
-                BUCKET_MAX_6.setStyle("-fx-text-inner-color: red");
+                BUCKET_MIN_4.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MAX_4.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MIN_6.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MAX_6.setStyle("-fx-text-inner-color: orange");
                 i++;
             }
         }
         if (bucket_Counter >= 5) {
             if (bucket_Counter == 6
                     && !checkBucketsHelper(BUCKETMIN4, BUCKETMAX4, BUCKETMIN6, BUCKETMAX6)) {
-                BUCKET_MIN_4.setStyle("-fx-text-inner-color: red");
-                BUCKET_MAX_4.setStyle("-fx-text-inner-color: red");
-                BUCKET_MIN_6.setStyle("-fx-text-inner-color: red");
-                BUCKET_MAX_6.setStyle("-fx-text-inner-color: red");
+                BUCKET_MIN_4.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MAX_4.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MIN_6.setStyle("-fx-text-inner-color: orange");
+                BUCKET_MAX_6.setStyle("-fx-text-inner-color: orange");
                 i++;
             }
         }
@@ -2672,7 +2676,7 @@ public class MyController{
 
     }
 
-    private void checkBucketNWIDs() {
+    private boolean checkBucketNWIDs() {
         TextField[] NWIDS = {BUCKET_NWID_1, BUCKET_NWID_11, BUCKET_NWID_111, BUCKET_NWID_1111,
                 BUCKET_NWID_2, BUCKET_NWID_22, BUCKET_NWID_222, BUCKET_NWID_2222,
                 BUCKET_NWID_3, BUCKET_NWID_33, BUCKET_NWID_333, BUCKET_NWID_3333,
@@ -2681,19 +2685,25 @@ public class MyController{
                 BUCKET_NWID_6, BUCKET_NWID_66, BUCKET_NWID_666, BUCKET_NWID_6666};
 
         int k = 0;
+        int j = 0;
         for (int i = 0; i < NWIDS.length; i++) {
-            if (!isBucketNWID(NWIDS[i]) && !NWIDS[i].getText().isEmpty()) {
-                    NWIDS[i].setStyle("-fx-text-inner-color: red");
-                    k++;
-            } else {
-                NWIDS[i].setStyle("");
+            if (!NWIDS[i].getText().isEmpty() && !isBucketNWID(NWIDS[i])) {
+                NWIDS[i].setStyle("-fx-text-inner-color: red");
+                k++;
+            } else if (NWIDS[i].getText().isEmpty() && (i == 0 || i == 4 || i == 8 || i == 12 || i == 16 || i == 20) && ((i / 4) + 1 <= bucket_Counter)) {
+                NWIDS[i].setStyle("-fx-control-inner-background: red");
+                j++;
             }
         }
 
         if (k > 0) {
             BucketNWIDBoundLabel.setVisible(true);
+            return true;
+        } else if (j > 0){
+            return true;
         } else {
             BucketNWIDBoundLabel.setVisible(false);
+            return false;
         }
     }
 
@@ -3049,6 +3059,17 @@ public class MyController{
             BINNWID_ADD_2.setVisible(false);
             BINNWID_REMOVE_2.setVisible(false);
             BINLEN_2.setVisible(false);
+            BIN20.clear();
+            BINLEN_2.clear();
+            BINNWID_20.clear();
+            BINNWID_21.clear();
+            BINNWID_22.clear();
+            BINNWID_23.clear();
+            BINNWID_24.clear();
+            BINNWID_25.clear();
+            BINNWID_26.clear();
+
+
             i = 0;
         }
         if(bin_Counter - 1 == 2) {
@@ -3057,15 +3078,33 @@ public class MyController{
             BINNWID_ADD_3.setVisible(false);
             BINNWID_REMOVE_3.setVisible(false);
             BINLEN_3.setVisible(false);
-
-            i = 0;
+            BIN30.clear();
+            BINLEN_3.clear();
+            BINNWID_30.clear();
+            BINNWID_31.clear();
+            BINNWID_32.clear();
+            BINNWID_33.clear();
+            BINNWID_34.clear();
+            BINNWID_35.clear();
+            BINNWID_36.clear();
+            i=0;
         }
         if(bin_Counter - 1  == 3) {
             BIN40.setVisible(false);
+
             BINPANE1111.setVisible(false);
             BINNWID_ADD_4.setVisible(false);
             BINNWID_REMOVE_4.setVisible(false);
             BINLEN_4.setVisible(false);
+            BIN40.clear();
+            BINLEN_4.clear();
+            BINNWID_40.clear();
+            BINNWID_41.clear();
+            BINNWID_42.clear();
+            BINNWID_43.clear();
+            BINNWID_44.clear();
+            BINNWID_45.clear();
+            BINNWID_46.clear();
 
             i = 0;
         }
