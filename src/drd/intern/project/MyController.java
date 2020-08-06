@@ -12,7 +12,6 @@ import java.util.Scanner;
 
 public class MyController{
 
-
     public String merchantNumber;
     public int bin_Counter = 1;
     public int midnwid_Counter = 1;
@@ -21,7 +20,6 @@ public class MyController{
     public int binnwid_Counter30 = 1;
     public int binnwid_Counter40 = 1;
     public int bucket_Counter = 1;
-
     //Bin row 1 parsed values
     public int BIN1;
     public int BINLEN1;
@@ -39,7 +37,6 @@ public class MyController{
     public String BINNWID15_L;
     public String BINNWID16;
     public String BINNWID16_L;
-
     //Bin Row 1 FXML Values
     @FXML TextField BIN10;
     @FXML TextField BINLEN_1;
@@ -50,9 +47,6 @@ public class MyController{
     @FXML TextField BINNWID_14;
     @FXML TextField BINNWID_15;
     @FXML TextField BINNWID_16;
-
-
-
     //Bin Row 2 parsed values
     public int BIN2;
     public int BINLEN2;
@@ -70,7 +64,6 @@ public class MyController{
     public String BINNWID25_L;
     public String BINNWID26;
     public String BINNWID26_L;
-
     //Bin Row 2 FXML Values
     @FXML TextField BIN20;
     @FXML TextField BINLEN_2;
@@ -81,7 +74,6 @@ public class MyController{
     @FXML TextField BINNWID_24;
     @FXML TextField BINNWID_25;
     @FXML TextField BINNWID_26;
-
     //Bin Row 3 parsed values
     public int BIN3;
     public int BINLEN3;
@@ -99,7 +91,6 @@ public class MyController{
     public String BINNWID35_L;
     public String BINNWID36;
     public String BINNWID36_L;
-
     //Bin Row 3 FXML Values
     @FXML TextField BIN30;
     @FXML TextField BINLEN_3;
@@ -110,7 +101,6 @@ public class MyController{
     @FXML TextField BINNWID_34;
     @FXML TextField BINNWID_35;
     @FXML TextField BINNWID_36;
-
     //Bin Row 4 parsed values
     public int BIN4;
     public int BINLEN4;
@@ -128,7 +118,6 @@ public class MyController{
     public String BINNWID45_L;
     public String BINNWID46;
     public String BINNWID46_L;
-
     //Bin Row 4 FXML Values
     @FXML TextField BIN40;
     @FXML TextField BINLEN_4;
@@ -139,7 +128,6 @@ public class MyController{
     @FXML TextField BINNWID_44;
     @FXML TextField BINNWID_45;
     @FXML TextField BINNWID_46;
-
     //Merchant NWIDID and MID FXML Values
     @FXML TextField MID;
     @FXML TextField MIDNWID_0;
@@ -149,7 +137,6 @@ public class MyController{
     @FXML TextField MIDNWID_4;
     @FXML TextField MIDNWID_5;
     @FXML TextField MIDNWID_6;
-
     //Merchant NWIDID parsed values
     public String MIDNWID0;
     public String MIDNWID1;
@@ -158,7 +145,6 @@ public class MyController{
     public String MIDNWID4;
     public String MIDNWID5;
     public String MIDNWID6;
-
     @FXML Button BIN_ADD;
     @FXML Button BIN_REMOVE;
     @FXML Button MIDNWID_ADD;
@@ -178,7 +164,6 @@ public class MyController{
     @FXML GridPane BINPANE1111;
     @FXML Button BUCKET_ADD;
     @FXML Button BUCKET_REMOVE;
-
     //Buckets
     @FXML GridPane BUCKET1;
     @FXML GridPane BUCKET2;
@@ -186,8 +171,7 @@ public class MyController{
     @FXML GridPane BUCKET4;
     @FXML GridPane BUCKET5;
     @FXML GridPane BUCKET6;
-
-    //BUCKET SET 1 FXML
+    //BUCKET SET 1
     @FXML TextField BUCKET_MIN_1;
     @FXML TextField BUCKET_MAX_1;
     @FXML TextField BUCKET_NWID_1;
@@ -200,7 +184,7 @@ public class MyController{
     public int BUCKETNWID11;
     public int BUCKETNWID111;
     public int BUCKETNWID1111;
-
+    //BUCKET SET 2
     @FXML TextField BUCKET_MIN_2;
     @FXML TextField BUCKET_MAX_2;
     @FXML TextField BUCKET_NWID_2;
@@ -213,8 +197,7 @@ public class MyController{
     public int BUCKETNWID22;
     public int BUCKETNWID222;
     public int BUCKETNWID2222;
-
-
+    //BUCKET SET 3
     @FXML TextField BUCKET_MIN_3;
     @FXML TextField BUCKET_MAX_3;
     @FXML TextField BUCKET_NWID_3;
@@ -227,8 +210,7 @@ public class MyController{
     public int BUCKETNWID33;
     public int BUCKETNWID333;
     public int BUCKETNWID3333;
-
-
+    //BUCKET SET 4
     @FXML TextField BUCKET_MIN_4;
     @FXML TextField BUCKET_MAX_4;
     @FXML TextField BUCKET_NWID_4;
@@ -241,7 +223,7 @@ public class MyController{
     public int BUCKETNWID44;
     public int BUCKETNWID444;
     public int BUCKETNWID4444;
-
+    //BUCKET SET 5
     @FXML TextField BUCKET_MIN_5;
     @FXML TextField BUCKET_MAX_5;
     @FXML TextField BUCKET_NWID_5;
@@ -254,8 +236,7 @@ public class MyController{
     public int BUCKETNWID55;
     public int BUCKETNWID555;
     public int BUCKETNWID5555;
-
-
+    //BUCKET SET 6
     @FXML TextField BUCKET_MIN_6;
     @FXML TextField BUCKET_MAX_6;
     @FXML TextField BUCKET_NWID_6;
@@ -268,12 +249,12 @@ public class MyController{
     public int BUCKETNWID66;
     public int BUCKETNWID666;
     public int BUCKETNWID6666;
-
+    //Host and Port
     @FXML TextField HOST;
     @FXML TextField PORT;
     public String host;
     public int port;
-
+    //Errors
     @FXML Label MID_ERROR;
     @FXML Label BIN_ERROR;
     @FXML Label BINLENGTH_ERROR;
@@ -296,6 +277,7 @@ public class MyController{
             binnwidError14,binnwidError15,binnwidError16,binnwidError17,binnwidError18,binnwidError19,binnwidError20,
             binnwidError21,binnwidError22,binnwidError23,binnwidError24,binnwidError25,binnwidError26,binnwidError27};
     public boolean mandatory1, mandatory2,mandatory3,mandatory4,mandatory5,mandatory6,mandatory7,mandatory8,mandatory9;
+    public boolean isValid;
 
     public void initialize() {
         if(new File("C:/Users/" + userName + "/Desktop/file.txt").isFile()) {
@@ -361,10 +343,10 @@ public class MyController{
             if(BIN40.isVisible())
                 setFieldsBin4();
 
-             setFieldsBuckets1();
-             if(BUCKET2.isVisible()) {
-                 setFieldsBuckets2();
-             }
+            setFieldsBuckets1();
+            if(BUCKET2.isVisible()) {
+                setFieldsBuckets2();
+            }
             if(BUCKET3.isVisible()) {
                 setFieldsBuckets3();
             }
@@ -415,7 +397,6 @@ public class MyController{
                 mandatoryFields = true;
             }
             if(!(BINNWID_ERROR.isVisible() || BIN_ERROR.isVisible() || BINLENGTH_ERROR.isVisible() || BucketBoundLabel.isVisible() || BucketNWIDBoundLabel.isVisible()) && mandatoryFields) {
-                //System.out.println(buildBucket(finalBucketsBuild));
                 try{
                     run("enable");
                     run("Mid");
@@ -430,6 +411,11 @@ public class MyController{
                     for(int i = 0; i < list.size(); i++ ){
                         run(list.get(i));
                     }
+                    Alert hostFailed = new Alert(Alert.AlertType.CONFIRMATION);
+                    hostFailed.setTitle("Confirmation");
+                    hostFailed.setHeaderText(null);
+                    hostFailed.setContentText("Query Was Sent To DRD");
+                    hostFailed.showAndWait();
                 } catch (IOException ioException) {
                     Alert hostFailed = new Alert(Alert.AlertType.ERROR);
                     hostFailed.setTitle("Connection Error");
@@ -437,6 +423,7 @@ public class MyController{
                     hostFailed.setContentText("Invalid Host and Port, ensure that the Host and Port provided are active!");
                     hostFailed.showAndWait();
                 }
+
                 saveData();
 
             }
@@ -775,6 +762,7 @@ public class MyController{
     }
     //<drd><rti>00000070</rti><echo>drd_sim_routing</echo><sim_routes><set_bucket><amount><min>1001</min><max>100000000</max></amount><mtid>23437736627</mtid><ntwks><ntwk_id>30</ntwk_id><ntwk_id>41</ntwk_id></ntwks></set_bucket></sim_routes></drd>
     public void run(String input) throws IOException {
+        String confirmation = "00090<drd><echo>"+userName+"_drd_sim_routing</echo><rti>00000070</rti><respCode>000</respCode></drd>";
         String Response="";
         if(input.equals("enable")){
             Response = enable();
@@ -810,10 +798,17 @@ public class MyController{
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
         out.println(Response);
 
-        System.out.print("DRD RESPONSE: ");
-        char[] c = new char[1000];
-        int test = in.read(c, 0, 1000);
-        System.out.print(c);
+        char[] c = new char[95];
+        int test = in.read(c, 0, 95);
+        if(confirmation.equals(new String(c))) {
+            System.out.print("DRD RESPONSE: ");
+            System.out.print(c);
+        } else{
+            throw new IOException();
+        }
+        //System.out.print("DRD RESPONSE: ");
+       // System.out.print(c);
+
 
         System.out.println();
         in.close();
