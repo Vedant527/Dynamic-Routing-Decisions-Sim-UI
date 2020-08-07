@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/DRD-GUI.iml" filepath="$PROJECT_DIR$/DRD-GUI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Fiserv-DRDGUI-Final.iml" filepath="$PROJECT_DIR$/Fiserv-DRDGUI-Final.iml" />
     </modules>
   </component>
 </project>

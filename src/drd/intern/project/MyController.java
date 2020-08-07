@@ -9,6 +9,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class MyController{
 
@@ -21,7 +22,7 @@ public class MyController{
     public int binnwid_Counter40 = 1;
     public int bucket_Counter = 1;
     //Bin row 1 parsed values
-    public int BIN1;
+    public long BIN1;
     public int BINLEN1;
     public String BINNWID10;
     public String BINNWID1_L;
@@ -48,7 +49,7 @@ public class MyController{
     @FXML TextField BINNWID_15;
     @FXML TextField BINNWID_16;
     //Bin Row 2 parsed values
-    public int BIN2;
+    public long BIN2;
     public int BINLEN2;
     public String BINNWID20;
     public String BINNWID2_L;
@@ -75,7 +76,7 @@ public class MyController{
     @FXML TextField BINNWID_25;
     @FXML TextField BINNWID_26;
     //Bin Row 3 parsed values
-    public int BIN3;
+    public long BIN3;
     public int BINLEN3;
     public String BINNWID30;
     public String BINNWID3_L;
@@ -102,7 +103,7 @@ public class MyController{
     @FXML TextField BINNWID_35;
     @FXML TextField BINNWID_36;
     //Bin Row 4 parsed values
-    public int BIN4;
+    public long BIN4;
     public int BINLEN4;
     public String BINNWID40;
     public String BINNWID4_L;
@@ -280,7 +281,7 @@ public class MyController{
     public boolean isValid;
 
     public void initialize() {
-        if(new File("C:/Users/" + userName + "/Desktop/file.txt").isFile()) {
+        if(new File("C:/Users/" + userName + "/Desktop/drd-gui-data.txt").isFile()) {
             readData();
         }
 
@@ -291,6 +292,10 @@ public class MyController{
         final Tooltip tooltipBin_1 = new Tooltip();
         tooltipBin_1.setText("Enter A Bin Number");
         BIN10.setTooltip(tooltipBin_1);
+
+        final Tooltip tooltipBin_2 = new Tooltip();
+        tooltipBin_1.setText("Enter A Bin Number");
+        BIN20.setTooltip(tooltipBin_2);
 
         final Tooltip tooltipMID_1 = new Tooltip();
         tooltipMID_1.setText("Enter Merchant ID Number");
@@ -415,7 +420,7 @@ public class MyController{
                     hostFailed.setHeaderText(null);
                     hostFailed.setContentText("Query was sent to DRD");
                     hostFailed.showAndWait();
-                } catch (IOException ioException) {
+                } catch (IOException | InterruptedException ioException) {
                     Alert hostFailed = new Alert(Alert.AlertType.ERROR);
                     hostFailed.setTitle("Connection Error");
                     hostFailed.setHeaderText(null);
@@ -431,7 +436,7 @@ public class MyController{
         if(event.getSource() == CLEAR) {
             try{
                 run("clear");
-            } catch (IOException ioException) {
+            } catch (IOException | InterruptedException ioException) {
                 ioException.printStackTrace();
                 Alert hostFailed = new Alert(Alert.AlertType.ERROR);
                 hostFailed.setTitle("Connection Error");
@@ -440,7 +445,7 @@ public class MyController{
                 hostFailed.showAndWait();
             }
             clearFields();
-            new File("C:/Users/" + userName + "/Desktop/file.txt").delete();
+            new File("C:/Users/" + userName + "/Desktop/drd-gui-data.txt").delete();
         }
         if(event.getSource() == MIDNWID_ADD ) {
             addMIDNWID();
@@ -765,20 +770,24 @@ public class MyController{
         return finalString;
     }
     //<drd><rti>00000070</rti><echo>drd_sim_routing</echo><sim_routes><set_bucket><amount><min>1001</min><max>100000000</max></amount><mtid>23437736627</mtid><ntwks><ntwk_id>30</ntwk_id><ntwk_id>41</ntwk_id></ntwks></set_bucket></sim_routes></drd>
-    public void run(String input) throws IOException {
+    public void run(String input) throws IOException, InterruptedException {
         String confirmation = "00090<drd><echo>"+userName+"_drd_sim_routing</echo><rti>00000070</rti><respCode>000</respCode></drd>";
         String Response="";
+        int len1 = 0;
         if(input.equals("enable")){
             Response = enable();
+            len1 = 117;
             System.out.println("ENABLE RESPONSE: " + Response);
         } else if(input.equals("clear")){
             Response = clear();
             System.out.println("CLEAR RESPONSE: " + Response);
         } else if(input.equals("Mid")){
             Response = buildMid();
+            len1= 178;
             System.out.println("MID RESPONSE: " + Response);
         } else if(input.equals("Bin1")){
             Response = buildBin1();
+            len1 = 201;
             System.out.println("BIN1 RESPONSE: " + Response);
         } else if(input.equals("Bin2")){
             Response = buildBin2();
@@ -792,6 +801,7 @@ public class MyController{
         }else{
             //Response = "00197<drd><rti>00000070</rti><echo>drd_sim_routing</echo><sim_routes><set_bucket><amount><min>100</min><max>200</max></amount><mtid>11111</mtid><ntwks><id>10</id></ntwks></set_bucket></sim_routes></drd>";
             Response = input;
+            len1 = 227;
             System.out.println("BUCKET RESPONSE: " + Response);
 
         }
@@ -802,6 +812,9 @@ public class MyController{
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
         out.println(Response);
 
+        //char[] outResponse = Response.toCharArray();
+        //out.write(outResponse,0,len1);
+
         char[] c = new char[95];
         int test = in.read(c, 0, 95);
         if(confirmation.equals(new String(c))) {
@@ -810,13 +823,13 @@ public class MyController{
         } else{
             throw new IOException();
         }
-        //System.out.print("DRD RESPONSE: ");
-        // System.out.print(c);
-
-
         System.out.println();
-        in.close();
+
+        TimeUnit.MILLISECONDS.sleep(200);
         out.close();
+        TimeUnit.MILLISECONDS.sleep(200);
+        in.close();
+        TimeUnit.MILLISECONDS.sleep(200);
         socket.close();
 
 
@@ -1177,7 +1190,8 @@ public class MyController{
     private void setFieldsBin1() {
         //Validate and set Bin Number 1
         if (!(BIN10.getText().isEmpty()) && validateNumber(BIN10.getText())) {
-            BIN1 = Integer.parseInt(BIN10.getText());
+
+            BIN1 = Long.parseLong(BIN10.getText());
             BIN10.setStyle("");
             binError1 = false;
             mandatory3 = false;
@@ -1399,7 +1413,7 @@ public class MyController{
     private void setFieldsBin2() {
         //Validate and set Bin Number 2
         if (!(BIN20.getText().isEmpty()) && validateNumber(BIN20.getText())) {
-            BIN2 = Integer.parseInt(BIN20.getText());
+            BIN2 =  Long.parseLong(BIN20.getText());
             BIN20.setStyle("");
             binError2 = false;
             //System.out.println(BIN2);
@@ -1601,7 +1615,7 @@ public class MyController{
     private void setFieldsBin3() {
         //Validate and set Bin Number 3
         if (!(BIN30.getText().isEmpty()) && validateNumber(BIN30.getText())) {
-            BIN3 = Integer.parseInt(BIN30.getText());
+            BIN3 =  Long.parseLong(BIN30.getText());
             BIN30.setStyle("");
             binError3 = false;
             //System.out.println(BIN3);
@@ -1802,7 +1816,7 @@ public class MyController{
     private void setFieldsBin4() {
         //Validate and set Bin Number 4
         if (!(BIN40.getText().isEmpty()) && validateNumber(BIN40.getText())) {
-            BIN4 = Integer.parseInt(BIN40.getText());
+            BIN4 =  Long.parseLong(BIN40.getText());
             BIN40.setStyle("");
             binError4 = false;
             //System.out.println(BIN4);
@@ -2722,7 +2736,6 @@ public class MyController{
         Bucket b5 = null;
         Bucket b6 = null;
 
-
         if (!(BUCKET_1[0].getText().isEmpty() && BUCKET_1[1].getText().isEmpty())) {
             b1 = new Bucket(Integer.parseInt(BUCKET_MIN_1.getText()),
                     Integer.parseInt(BUCKET_MAX_1.getText()));
@@ -2750,7 +2763,6 @@ public class MyController{
             }
             b2.setNWIDS(NWIDS2);
         }
-
         if (!(BUCKET_3[0].getText().isEmpty() && BUCKET_3[3].getText().isEmpty())) {
             b3 = new Bucket(Integer.parseInt(BUCKET_MIN_3.getText()),
                     Integer.parseInt(BUCKET_MAX_3.getText()));
@@ -2764,7 +2776,6 @@ public class MyController{
             }
             b3.setNWIDS(NWIDS3);
         }
-
         if (!(BUCKET_4[0].getText().isEmpty() && BUCKET_4[4].getText().isEmpty())) {
             b4 = new Bucket(Integer.parseInt(BUCKET_MIN_4.getText()),
                     Integer.parseInt(BUCKET_MAX_4.getText()));
@@ -2778,7 +2789,6 @@ public class MyController{
             }
             b4.setNWIDS(NWIDS4);
         }
-
         if (!(BUCKET_5[0].getText().isEmpty() && BUCKET_5[5].getText().isEmpty())) {
             b5 = new Bucket(Integer.parseInt(BUCKET_MIN_5.getText()),
                     Integer.parseInt(BUCKET_MAX_5.getText()));
@@ -2792,7 +2802,6 @@ public class MyController{
             }
             b5.setNWIDS(NWIDS5);
         }
-
         if (!(BUCKET_6[0].getText().isEmpty() && BUCKET_6[1].getText().isEmpty())) {
             b6 = new Bucket(Integer.parseInt(BUCKET_MIN_6.getText()),
                     Integer.parseInt(BUCKET_MAX_6.getText()));
@@ -2825,16 +2834,19 @@ public class MyController{
         if(b6 != null) {
             finalBuckets.add(b6);
         }
-
-
-        for (int i = 5; i > 0; i--) {
-            if (i < bucket_Counter) {
-                for (int j = i - 1; j >= 0; j--) {
-                    checkOverlap(finalBuckets.get(i), finalBuckets.get(j), finalBuckets);
+        boolean split;
+        int splitCount = bucket_Counter - 1;
+        for (int i = bucket_Counter - 1; i > 0; i--) {
+            for (int j = i - 1; j >= 0; j--) {
+                split = checkOverlap(finalBuckets.get(i), finalBuckets.get(j), finalBuckets, j);
+                if (split) {
+                    splitCount++;
+                    i = splitCount;
+                    j = splitCount - 1;
+                    break;
                 }
             }
         }
-
         for (Bucket b : finalBuckets) {
             if (b != null) {
                 System.out.println("Min: " + b.getMin() + " Max: " + b.getMax() + "nwid :" + b.getNWIDS());
@@ -2842,26 +2854,50 @@ public class MyController{
         }
         return finalBuckets;
     }
-
-    public void checkOverlap(Bucket newest, Bucket older, ArrayList<Bucket> arr) {
+    public boolean checkOverlap(Bucket newest, Bucket older, ArrayList<Bucket> arr, int position) {
         if (older.getMin() >= newest.getMin() && older.getMax() <= newest.getMax()) {
             older.setNWIDS(null);
             older.setMax(-1);
             older.setMin(-1);
+            return false;
         } else if (newest.getMin() > older.getMin() && newest.getMax() < older.getMax()) {
-            Bucket newBucket = new Bucket(newest.getMax() + 1, older.getMax());
-            older.setMax(newest.getMin() - 1);
-            arr.add(newBucket);
-            newBucket.setNWIDS(older.getNWIDS());
+//            Bucket newBucket = new Bucket(newest.getMax() + 1, older.getMax());
+//            older.setMax(newest.getMin() - 1);
+//            arr.add(newBucket);
+//            newBucket.setNWIDS(older.getNWIDS());
+            if (!older.getSplit()) {
+                int minSplit = newest.getMin();
+                int maxSplit = newest.getMax();
+                for (int i = position + 1; i < arr.size(); i++) {
+                    if (older.getMin() < arr.get(i).getMin() && older.getMax() > arr.get(i).getMax()) {
+                        if (minSplit > arr.get(i).getMin()) {
+                            minSplit = arr.get(i).getMin();
+                        }
+                        if (maxSplit < arr.get(i).getMax()) {
+                            maxSplit = arr.get(i).getMax();
+                        }
+                    }
+                }
+                Bucket newBucket = new Bucket(maxSplit + 1, older.getMax());
+                newBucket.setNWIDS(older.getNWIDS());
+                arr.add(position, newBucket);
+                older.setMax(minSplit - 1);
+                older.setSplit(true);
+                newBucket.setSplit(true);
+                return true;
+            }
         } else if (older.getMin() > newest.getMin() &&
                 older.getMin() < newest.getMax() &&
                 older.getMax() > newest.getMax()) {
             older.setMin(newest.getMax() + 1);
+            return false;
         } else if (older.getMax() > newest.getMin() &&
                 older.getMax() < newest.getMax() &&
                 older.getMin() < newest.getMin()) {
             older.setMax(newest.getMin() - 1);
+            return false;
         }
+        return false;
     }
 
 
@@ -2888,12 +2924,31 @@ public class MyController{
 
     private void whiteoutBucketNWIDS() {
         BUCKET_NWID_1.setStyle("");
+        BUCKET_NWID_11.setStyle("");
+        BUCKET_NWID_111.setStyle("");
+        BUCKET_NWID_1111.setStyle("");
         BUCKET_NWID_2.setStyle("");
+        BUCKET_NWID_22.setStyle("");
+        BUCKET_NWID_222.setStyle("");
+        BUCKET_NWID_2222.setStyle("");
         BUCKET_NWID_3.setStyle("");
+        BUCKET_NWID_33.setStyle("");
+        BUCKET_NWID_333.setStyle("");
+        BUCKET_NWID_3333.setStyle("");
         BUCKET_NWID_4.setStyle("");
+        BUCKET_NWID_44.setStyle("");
+        BUCKET_NWID_444.setStyle("");
+        BUCKET_NWID_4444.setStyle("");
         BUCKET_NWID_5.setStyle("");
+        BUCKET_NWID_55.setStyle("");
+        BUCKET_NWID_555.setStyle("");
+        BUCKET_NWID_5555.setStyle("");
         BUCKET_NWID_6.setStyle("");
+        BUCKET_NWID_66.setStyle("");
+        BUCKET_NWID_666.setStyle("");
+        BUCKET_NWID_6666.setStyle("");
     }
+
 
     private void addMIDNWID() {
         if(midnwid_Counter <= 6) {
@@ -3314,7 +3369,7 @@ public class MyController{
                 BUCKET_MIN_5,BUCKET_MAX_5,BUCKET_NWID_5,BUCKET_NWID_55,BUCKET_NWID_555,BUCKET_NWID_5555,
                 BUCKET_MIN_6,BUCKET_MAX_6,BUCKET_NWID_6,BUCKET_NWID_66,BUCKET_NWID_666,BUCKET_NWID_6666, HOST, PORT};
         try {
-            File file = new File("C:/Users/" + userName + "/Desktop/file.txt");
+            File file = new File("C:/Users/" + userName + "/Desktop/drd-gui-data.txt");
             FileWriter fw = new FileWriter(file);
             PrintWriter pw = new PrintWriter(fw);
             for(int i = 0; i < row1.length; i++) {
@@ -3357,7 +3412,7 @@ public class MyController{
                 bucket_Counter};
 
         try {
-            File file = new File("C:/Users/" + userName + "/Desktop/file.txt");
+            File file = new File("C:/Users/" + userName + "/Desktop/drd-gui-data.txt");
             Scanner scan = new Scanner(file);
             int i =0;
             int j = 1;

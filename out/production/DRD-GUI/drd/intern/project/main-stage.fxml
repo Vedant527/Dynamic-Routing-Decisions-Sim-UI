@@ -27,12 +27,12 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <TextField fx:id="BINNWID_11" layoutX="10.0" layoutY="16.0" prefHeight="25.0" prefWidth="54.0" visible="false" />
-                        <TextField fx:id="BINNWID_12" layoutX="64.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="1" />
-                        <TextField fx:id="BINNWID_13" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="2" />
-                        <TextField fx:id="BINNWID_14" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="3" />
-                        <TextField fx:id="BINNWID_15" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="4" />
-                        <TextField fx:id="BINNWID_16" layoutX="10.0" layoutY="16.0" prefHeight="25.0" prefWidth="46.0" visible="false" GridPane.columnIndex="5" />
+                        <TextField fx:id="BINNWID_11" layoutX="10.0" layoutY="16.0" prefHeight="25.0" prefWidth="54.0" promptText="NWID" visible="false" />
+                        <TextField fx:id="BINNWID_12" layoutX="64.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="1" />
+                        <TextField fx:id="BINNWID_13" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="2" />
+                        <TextField fx:id="BINNWID_14" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="3" />
+                        <TextField fx:id="BINNWID_15" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="4" />
+                        <TextField fx:id="BINNWID_16" layoutX="10.0" layoutY="16.0" prefHeight="25.0" prefWidth="46.0" promptText="NWID" visible="false" GridPane.columnIndex="5" />
                      </children>
                   </GridPane>
                   <Button fx:id="MIDNWID_ADD" layoutX="549.0" layoutY="-2.0" mnemonicParsing="false" onAction="#handleButtonClick" text="+">
@@ -58,12 +58,12 @@
                      </rowConstraints>
                      <children>
                         <TextField fx:id="MIDNWID_0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" />
-                        <TextField fx:id="MIDNWID_1" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="1" />
-                        <TextField fx:id="MIDNWID_2" layoutX="64.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="2" />
-                        <TextField fx:id="MIDNWID_3" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="3" />
-                        <TextField fx:id="MIDNWID_4" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="4" />
-                        <TextField fx:id="MIDNWID_5" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="5" />
-                        <TextField fx:id="MIDNWID_6" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="6" />
+                        <TextField fx:id="MIDNWID_1" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="1" />
+                        <TextField fx:id="MIDNWID_2" layoutX="64.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="2" />
+                        <TextField fx:id="MIDNWID_3" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="3" />
+                        <TextField fx:id="MIDNWID_4" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="4" />
+                        <TextField fx:id="MIDNWID_5" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="5" />
+                        <TextField fx:id="MIDNWID_6" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="6" />
                      </children>
                   </GridPane>
                   <TextField fx:id="BINNWID_10" layoutX="183.0" layoutY="79.0" prefHeight="25.0" prefWidth="54.0" promptText="NWID" />
@@ -106,12 +106,12 @@
                      </rowConstraints>
                      <children>
                         <TextField fx:id="BINNWID_20" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" />
-                        <TextField fx:id="BINNWID_21" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="1" />
-                        <TextField fx:id="BINNWID_22" layoutX="64.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="2" />
-                        <TextField fx:id="BINNWID_23" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="3" />
-                        <TextField fx:id="BINNWID_24" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="4" />
-                        <TextField fx:id="BINNWID_25" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="5" />
-                        <TextField fx:id="BINNWID_26" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="6" />
+                        <TextField fx:id="BINNWID_21" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="1" />
+                        <TextField fx:id="BINNWID_22" layoutX="64.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="2" />
+                        <TextField fx:id="BINNWID_23" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="3" />
+                        <TextField fx:id="BINNWID_24" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="4" />
+                        <TextField fx:id="BINNWID_25" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="5" />
+                        <TextField fx:id="BINNWID_26" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="6" />
                      </children>
                   </GridPane>
                   <GridPane fx:id="BINPANE111" layoutX="183.0" layoutY="134.0" prefHeight="33.0" prefWidth="387.0">
@@ -129,12 +129,12 @@
                      </rowConstraints>
                      <children>
                         <TextField fx:id="BINNWID_30" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" />
-                        <TextField fx:id="BINNWID_31" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="1" />
-                        <TextField fx:id="BINNWID_32" layoutX="64.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="2" />
-                        <TextField fx:id="BINNWID_33" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="3" />
-                        <TextField fx:id="BINNWID_34" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="4" />
-                        <TextField fx:id="BINNWID_35" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="5" />
-                        <TextField fx:id="BINNWID_36" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="6" />
+                        <TextField fx:id="BINNWID_31" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="1" />
+                        <TextField fx:id="BINNWID_32" layoutX="64.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="2" />
+                        <TextField fx:id="BINNWID_33" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="3" />
+                        <TextField fx:id="BINNWID_34" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="4" />
+                        <TextField fx:id="BINNWID_35" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="5" />
+                        <TextField fx:id="BINNWID_36" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="6" />
                      </children>
                   </GridPane>
                   <GridPane fx:id="BINPANE1111" layoutX="183.0" layoutY="164.0" prefHeight="33.0" prefWidth="387.0">
@@ -152,12 +152,12 @@
                      </rowConstraints>
                      <children>
                         <TextField fx:id="BINNWID_40" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" />
-                        <TextField fx:id="BINNWID_41" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="1" />
-                        <TextField fx:id="BINNWID_42" layoutX="64.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="2" />
-                        <TextField fx:id="BINNWID_43" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="3" />
-                        <TextField fx:id="BINNWID_44" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="4" />
-                        <TextField fx:id="BINNWID_45" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="5" />
-                        <TextField fx:id="BINNWID_46" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" visible="false" GridPane.columnIndex="6" />
+                        <TextField fx:id="BINNWID_41" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="1" />
+                        <TextField fx:id="BINNWID_42" layoutX="64.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="2" />
+                        <TextField fx:id="BINNWID_43" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="3" />
+                        <TextField fx:id="BINNWID_44" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="4" />
+                        <TextField fx:id="BINNWID_45" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="5" />
+                        <TextField fx:id="BINNWID_46" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="6" />
                      </children>
                   </GridPane>
                   <Button fx:id="BINNWID_ADD_2" layoutX="570.0" layoutY="108.0" mnemonicParsing="false" onAction="#handleButtonClick" text="+" visible="false">
@@ -323,9 +323,9 @@
                      </children>
                   </GridPane>
                   <TextField fx:id="BINLEN_1" layoutX="141.0" layoutY="79.0" prefHeight="25.0" prefWidth="42.0" promptText="Len" />
-                  <TextField fx:id="BINLEN_2" layoutX="141.0" layoutY="108.0" prefHeight="25.0" prefWidth="42.0" visible="false" />
-                  <TextField fx:id="BINLEN_3" layoutX="141.0" layoutY="138.0" prefHeight="25.0" prefWidth="42.0" visible="false" />
-                  <TextField fx:id="BINLEN_4" layoutX="141.0" layoutY="168.0" prefHeight="25.0" prefWidth="42.0" visible="false" />
+                  <TextField fx:id="BINLEN_2" layoutX="141.0" layoutY="108.0" prefHeight="25.0" prefWidth="42.0" promptText="Len" visible="false" />
+                  <TextField fx:id="BINLEN_3" layoutX="141.0" layoutY="138.0" prefHeight="25.0" prefWidth="42.0" promptText="Len" visible="false" />
+                  <TextField fx:id="BINLEN_4" layoutX="141.0" layoutY="168.0" prefHeight="25.0" prefWidth="42.0" promptText="Len" visible="false" />
                   <Button fx:id="BUCKET_ADD" layoutX="-10.0" layoutY="342.0" mnemonicParsing="false" onAction="#handleButtonClick" text="+">
                      <font>
                         <Font size="10.0" />
