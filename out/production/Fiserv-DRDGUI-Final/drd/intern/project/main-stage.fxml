@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="779.0" text="DRD-InternProject" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="drd.intern.project.MyController">
+   <content>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="462.0" prefWidth="753.0">
+         <children>
+            <AnchorPane fx:id="PANE" layoutX="14.0" layoutY="18.0" prefHeight="508.0" prefWidth="779.0">
+               <children>
+                  <TextField fx:id="MID" layoutX="13.0" layoutY="-2.0" promptText="MID#" />
+                  <GridPane fx:id="BINPANE1" layoutX="162.0" layoutY="-6.0" prefHeight="33.0" prefWidth="387.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <TextField fx:id="MIDNWID_0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" />
+                        <TextField fx:id="MIDNWID_1" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="1" />
+                        <TextField fx:id="MIDNWID_2" layoutX="64.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="2" />
+                        <TextField fx:id="MIDNWID_3" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="3" />
+                        <TextField fx:id="MIDNWID_4" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="4" />
+                        <TextField fx:id="MIDNWID_5" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="5" />
+                        <TextField fx:id="MIDNWID_6" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="6" />
+                     </children>
+                  </GridPane>
+                  <Button fx:id="MIDNWID_ADD" layoutX="549.0" layoutY="-2.0" mnemonicParsing="false" onAction="#handleButtonClick" text="+">
+                     <font>
+                        <Font size="10.0" />
+                     </font></Button>
+                  <Button fx:id="MIDNWID_REMOVE" layoutX="570.0" layoutY="-2.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="23.0" prefWidth="21.0" text="-">
+                     <font>
+                        <Font size="10.0" />
+                     </font></Button>
+                  <Button fx:id="BIN_ADD" layoutX="-8.0" layoutY="79.0" mnemonicParsing="false" onAction="#handleButtonClick" text="+">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="BIN_REMOVE" layoutX="-8.0" layoutY="103.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="23.0" prefWidth="21.0" text="-">
+                     <font>
+                        <Font size="10.0" />
+                     </font></Button>
+                  <TextField fx:id="BIN10" layoutX="14.0" layoutY="79.0" prefHeight="25.0" prefWidth="127.0" promptText="Bin#" />
+                  <TextField fx:id="BINLEN_1" layoutX="141.0" layoutY="79.0" prefHeight="25.0" prefWidth="42.0" promptText="Len" />
+                  <TextField fx:id="BINNWID_10" layoutX="183.0" layoutY="79.0" prefHeight="25.0" prefWidth="54.0" promptText="NWID" />
+                  <GridPane fx:id="BINPANE" layoutX="237.0" layoutY="75.0" prefHeight="33.0" prefWidth="333.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <TextField fx:id="BINNWID_11" layoutX="10.0" layoutY="16.0" prefHeight="25.0" prefWidth="54.0" promptText="NWID" visible="false" />
+                        <TextField fx:id="BINNWID_12" layoutX="64.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="1" />
+                        <TextField fx:id="BINNWID_13" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="2" />
+                        <TextField fx:id="BINNWID_14" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="3" />
+                        <TextField fx:id="BINNWID_15" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="4" />
+                        <TextField fx:id="BINNWID_16" layoutX="10.0" layoutY="16.0" prefHeight="25.0" prefWidth="46.0" promptText="NWID" visible="false" GridPane.columnIndex="5" />
+                     </children>
+                  </GridPane>
+                  <Button fx:id="BINNWID_ADD_1" layoutX="570.0" layoutY="79.0" mnemonicParsing="false" onAction="#handleButtonClick" text="+">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="BINNWID_REMOVE_1" layoutX="591.0" layoutY="79.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="23.0" prefWidth="21.0" text="-">
+                     <font>
+                        <Font size="10.0" />
+                     </font></Button>
+                  <GridPane layoutX="14.0" layoutY="105.0" prefHeight="90.0" prefWidth="127.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <TextField fx:id="BIN20" promptText="Bin#" visible="false" />
+                        <TextField fx:id="BIN30" promptText="Bin#" visible="false" GridPane.rowIndex="1" />
+                        <TextField fx:id="BIN40" promptText="Bin#" visible="false" GridPane.rowIndex="2" />
+                     </children>
+                  </GridPane>
+                  <TextField fx:id="BINLEN_2" layoutX="141.0" layoutY="108.0" prefHeight="25.0" prefWidth="42.0" promptText="Len" visible="false" />
+                  <GridPane fx:id="BINPANE11" layoutX="183.0" layoutY="104.0" prefHeight="33.0" prefWidth="387.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <TextField fx:id="BINNWID_20" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" />
+                        <TextField fx:id="BINNWID_21" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="1" />
+                        <TextField fx:id="BINNWID_22" layoutX="64.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="2" />
+                        <TextField fx:id="BINNWID_23" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="3" />
+                        <TextField fx:id="BINNWID_24" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="4" />
+                        <TextField fx:id="BINNWID_25" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="5" />
+                        <TextField fx:id="BINNWID_26" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="6" />
+                     </children>
+                  </GridPane>
+                  <Button fx:id="BINNWID_ADD_2" layoutX="570.0" layoutY="108.0" mnemonicParsing="false" onAction="#handleButtonClick" text="+" visible="false">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="BINNWID_REMOVE_2" layoutX="591.0" layoutY="108.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="23.0" prefWidth="21.0" text="-" visible="false">
+                     <font>
+                        <Font size="10.0" />
+                     </font></Button>
+                  <TextField fx:id="BINLEN_3" layoutX="141.0" layoutY="138.0" prefHeight="25.0" prefWidth="42.0" promptText="Len" visible="false" />
+                  <GridPane fx:id="BINPANE111" layoutX="183.0" layoutY="134.0" prefHeight="33.0" prefWidth="387.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <TextField fx:id="BINNWID_30" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" />
+                        <TextField fx:id="BINNWID_31" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="1" />
+                        <TextField fx:id="BINNWID_32" layoutX="64.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="2" />
+                        <TextField fx:id="BINNWID_33" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="3" />
+                        <TextField fx:id="BINNWID_34" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="4" />
+                        <TextField fx:id="BINNWID_35" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="5" />
+                        <TextField fx:id="BINNWID_36" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="6" />
+                     </children>
+                  </GridPane>
+                  <Button fx:id="BINNWID_ADD_3" layoutX="570.0" layoutY="138.0" mnemonicParsing="false" onAction="#handleButtonClick" text="+" visible="false">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="BINNWID_REMOVE_3" layoutX="591.0" layoutY="138.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="23.0" prefWidth="21.0" text="-" visible="false">
+                     <font>
+                        <Font size="10.0" />
+                     </font></Button>
+                  <TextField fx:id="BINLEN_4" layoutX="141.0" layoutY="168.0" prefHeight="25.0" prefWidth="42.0" promptText="Len" visible="false" />
+                  <GridPane fx:id="BINPANE1111" layoutX="183.0" layoutY="164.0" prefHeight="33.0" prefWidth="387.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <TextField fx:id="BINNWID_40" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" />
+                        <TextField fx:id="BINNWID_41" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="1" />
+                        <TextField fx:id="BINNWID_42" layoutX="64.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="2" />
+                        <TextField fx:id="BINNWID_43" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="3" />
+                        <TextField fx:id="BINNWID_44" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="4" />
+                        <TextField fx:id="BINNWID_45" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="5" />
+                        <TextField fx:id="BINNWID_46" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="6" />
+                     </children>
+                  </GridPane>
+                  <Button fx:id="BINNWID_ADD_4" layoutX="570.0" layoutY="168.0" mnemonicParsing="false" onAction="#handleButtonClick" text="+" visible="false">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="BINNWID_REMOVE_4" layoutX="591.0" layoutY="168.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="23.0" prefWidth="21.0" text="-" visible="false">
+                     <font>
+                        <Font size="10.0" />
+                     </font></Button>
+                  <Label layoutX="15.0" layoutY="61.0" prefHeight="19.0" prefWidth="190.0" text="Enter BIN#, BIN Length, NWID(s)">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="13.0" layoutY="320.0" text="Enter Bucket Attributes">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Separator layoutX="-22.0" layoutY="45.0" prefHeight="23.0" prefWidth="786.0" />
+                  <Separator layoutX="-16.0" layoutY="297.0" prefHeight="23.0" prefWidth="786.0" />
+                  <Button fx:id="BUCKET_ADD" layoutX="-10.0" layoutY="342.0" mnemonicParsing="false" onAction="#handleButtonClick" text="+">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="BUCKET_REMOVE" layoutX="-10.0" layoutY="365.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="20.0" prefWidth="21.0" text="-">
+                     <font>
+                        <Font size="10.0" />
+                     </font></Button>
+                  <GridPane fx:id="BUCKET1" layoutX="12.0" layoutY="339.0" prefHeight="90.0" prefWidth="110.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <TextField fx:id="BUCKET_MIN_1" prefHeight="25.0" prefWidth="43.0" promptText="Min" />
+                        <TextField fx:id="BUCKET_MAX_1" prefHeight="25.0" prefWidth="43.0" promptText="Max" GridPane.columnIndex="1" />
+                        <TextField fx:id="BUCKET_NWID_1" prefHeight="25.0" prefWidth="48.0" promptText="NWID1" GridPane.rowIndex="1" />
+                        <TextField fx:id="BUCKET_NWID_11" layoutX="10.0" layoutY="43.0" prefHeight="25.0" prefWidth="48.0" promptText="NWID2" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="BUCKET_NWID_111" layoutX="56.0" layoutY="43.0" prefHeight="25.0" prefWidth="48.0" promptText="NWID3" GridPane.rowIndex="2" />
+                        <TextField fx:id="BUCKET_NWID_1111" layoutX="56.0" layoutY="43.0" prefHeight="25.0" prefWidth="48.0" promptText="NWID4" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     </children>
+                  </GridPane>
+                  <GridPane fx:id="BUCKET2" layoutX="139.0" layoutY="339.0" prefHeight="90.0" prefWidth="110.0" visible="false">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <TextField fx:id="BUCKET_MIN_2" promptText="Min" />
+                        <TextField fx:id="BUCKET_MAX_2" promptText="Max" GridPane.columnIndex="1" />
+                        <TextField fx:id="BUCKET_NWID_2" promptText="NWID1" GridPane.rowIndex="1" />
+                        <TextField fx:id="BUCKET_NWID_22" promptText="NWID2" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="BUCKET_NWID_222" promptText="NWID3" GridPane.rowIndex="2" />
+                        <TextField fx:id="BUCKET_NWID_2222" promptText="NWID4" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     </children>
+                  </GridPane>
+                  <GridPane fx:id="BUCKET3" layoutX="261.0" layoutY="339.0" prefHeight="90.0" prefWidth="110.0" visible="false">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <TextField fx:id="BUCKET_MIN_3" promptText="Min" />
+                        <TextField fx:id="BUCKET_MAX_3" promptText="Max" GridPane.columnIndex="1" />
+                        <TextField fx:id="BUCKET_NWID_3" promptText="NWID1" GridPane.rowIndex="1" />
+                        <TextField fx:id="BUCKET_NWID_33" promptText="NWID2" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="BUCKET_NWID_333" promptText="NWID3" GridPane.rowIndex="2" />
+                        <TextField fx:id="BUCKET_NWID_3333" promptText="NWID4" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     </children>
+                  </GridPane>
+                  <GridPane fx:id="BUCKET4" layoutX="384.0" layoutY="339.0" prefHeight="90.0" prefWidth="110.0" visible="false">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <TextField fx:id="BUCKET_MIN_4" promptText="Min" />
+                        <TextField fx:id="BUCKET_MAX_4" promptText="Max" GridPane.columnIndex="1" />
+                        <TextField fx:id="BUCKET_NWID_4" promptText="NWID1" GridPane.rowIndex="1" />
+                        <TextField fx:id="BUCKET_NWID_44" promptText="NWID2" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="BUCKET_NWID_444" promptText="NWID3" GridPane.rowIndex="2" />
+                        <TextField fx:id="BUCKET_NWID_4444" promptText="NWID4" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     </children>
+                  </GridPane>
+                  <GridPane fx:id="BUCKET5" layoutX="505.0" layoutY="339.0" prefHeight="90.0" prefWidth="110.0" visible="false">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <TextField fx:id="BUCKET_MIN_5" promptText="Min" />
+                        <TextField fx:id="BUCKET_MAX_5" promptText="Max" GridPane.columnIndex="1" />
+                        <TextField fx:id="BUCKET_NWID_5" promptText="NWID1" GridPane.rowIndex="1" />
+                        <TextField fx:id="BUCKET_NWID_55" promptText="NWID2" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="BUCKET_NWID_555" promptText="NWID3" GridPane.rowIndex="2" />
+                        <TextField fx:id="BUCKET_NWID_5555" promptText="NWID4" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     </children>
+                  </GridPane>
+                  <GridPane fx:id="BUCKET6" layoutX="627.0" layoutY="339.0" prefHeight="90.0" prefWidth="110.0" visible="false">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <TextField fx:id="BUCKET_MIN_6" promptText="Min" />
+                        <TextField fx:id="BUCKET_MAX_6" promptText="Max" GridPane.columnIndex="1" />
+                        <TextField fx:id="BUCKET_NWID_6" promptText="NWID1" GridPane.rowIndex="1" />
+                        <TextField fx:id="BUCKET_NWID_66" promptText="NWID2" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="BUCKET_NWID_666" promptText="NWID3" GridPane.rowIndex="2" />
+                        <TextField fx:id="BUCKET_NWID_6666" promptText="NWID4" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     </children>
+                  </GridPane>
+                  <Label fx:id="MID_ERROR" layoutX="15.0" layoutY="27.0" prefHeight="17.0" prefWidth="544.0" text="*Merchant ID &amp; NWID: Must be a numerical value (ex:1234...)*" textFill="RED" visible="false" />
+                  <Label fx:id="BIN_ERROR" layoutX="14.0" layoutY="196.0" text="BIN#: Must be a numberical value(ex:1234...)" textFill="RED" visible="false" />
+                  <Label fx:id="BINLENGTH_ERROR" layoutX="14.0" layoutY="213.0" text="BIN Length: Must be a numberical value(ex:1234...)" textFill="RED" visible="false" />
+                  <Label fx:id="BINNWID_ERROR" layoutX="14.0" layoutY="230.0" text="BIN NWID: Must be a numerical value and letter seperated by a comma, with no spaces(ex:12,A)" textFill="RED" visible="false" />
+                  <Label fx:id="BUCKET_ERROR" layoutX="4.0" layoutY="464.0" prefHeight="43.0" prefWidth="620.0" text="Warning: Bucket Attributes highlighted in red are overlapping. Buckets further right will take precedence over buckets on left. To remove this error, ensure the range between any of the buckets min and max do not overlap." textFill="#ff9a00e8" visible="false" wrapText="true" />
+                  <Label fx:id="BucketBoundLabel" layoutX="5.0" layoutY="434.0" prefHeight="17.0" prefWidth="587.0" text="Bucket Min and Max must be Integers between 00 and 1000000000, with the Min being less than the Max" textFill="RED" visible="false" />
+                  <Label fx:id="BucketNWIDBoundLabel" layoutX="5.0" layoutY="450.0" prefHeight="17.0" prefWidth="587.0" text="Bucket NWIDs must be Integers between 0 and 74" textFill="RED" visible="false" />
+               </children>
+            </AnchorPane>
+            <Label layoutX="261.0" layoutY="517.0" prefHeight="56.0" prefWidth="256.0" text="For Assistance : Hover over input fields" />
+            <Label layoutX="28.0" prefHeight="19.0" prefWidth="202.0" text="Enter Merchant ID &amp; NWID(s) ID">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <TextField fx:id="HOST" layoutX="512.0" layoutY="532.0" prefHeight="25.0" prefWidth="97.0" promptText="Host" />
+            <TextField fx:id="PORT" layoutX="609.0" layoutY="532.0" prefHeight="25.0" prefWidth="97.0" promptText="Port" />
+            <Button fx:id="BUILD" layoutX="718.0" layoutY="528.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="33.0" prefWidth="52.0" text="Build" />
+            <Button fx:id="CLEAR" layoutX="14.0" layoutY="528.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="33.0" prefWidth="52.0" text="Clear" />
+         </children></AnchorPane>
+   </content>
+</TitledPane>
