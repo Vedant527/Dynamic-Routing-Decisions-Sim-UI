@@ -198,16 +198,8 @@
                      <font>
                         <Font size="10.0" />
                      </font></Button>
-                  <Label layoutX="15.0" layoutY="61.0" prefHeight="19.0" prefWidth="190.0" text="Enter BIN#, BIN Length, NWID(s)">
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="13.0" layoutY="320.0" text="Enter Bucket Attributes">
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                  </Label>
+                  <Label layoutX="15.0" layoutY="61.0" prefHeight="19.0" prefWidth="249.0" text="Enter BIN#, PAN Length, NWID(ID,CAPABILITY)" />
+                  <Label layoutX="12.0" layoutY="320.0" text="Enter Bucket Attributes" />
                   <Separator layoutX="-22.0" layoutY="45.0" prefHeight="23.0" prefWidth="786.0" />
                   <Separator layoutX="-16.0" layoutY="297.0" prefHeight="23.0" prefWidth="786.0" />
                   <Button fx:id="BUCKET_ADD" layoutX="-10.0" layoutY="342.0" mnemonicParsing="false" onAction="#handleButtonClick" text="+">
@@ -343,11 +335,7 @@
                </children>
             </AnchorPane>
             <Label layoutX="261.0" layoutY="517.0" prefHeight="56.0" prefWidth="256.0" text="For Assistance : Hover over input fields" />
-            <Label layoutX="28.0" prefHeight="19.0" prefWidth="202.0" text="Enter Merchant ID &amp; NWID(s) ID">
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </Label>
+            <Label layoutX="28.0" prefHeight="19.0" prefWidth="202.0" text="Enter Merchant ID &amp; NWID(s) ID" />
             <TextField fx:id="HOST" layoutX="512.0" layoutY="532.0" prefHeight="25.0" prefWidth="97.0" promptText="Host" />
             <TextField fx:id="PORT" layoutX="609.0" layoutY="532.0" prefHeight="25.0" prefWidth="97.0" promptText="Port" />
             <Button fx:id="BUILD" layoutX="718.0" layoutY="528.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="33.0" prefWidth="52.0" text="Build" />

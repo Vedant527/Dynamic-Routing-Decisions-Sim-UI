@@ -773,21 +773,17 @@ public class MyController{
     public void run(String input) throws IOException, InterruptedException {
         String confirmation = "00090<drd><echo>"+userName+"_drd_sim_routing</echo><rti>00000070</rti><respCode>000</respCode></drd>";
         String Response="";
-        int len1 = 0;
         if(input.equals("enable")){
             Response = enable();
-            len1 = 117;
             System.out.println("ENABLE RESPONSE: " + Response);
         } else if(input.equals("clear")){
             Response = clear();
             System.out.println("CLEAR RESPONSE: " + Response);
         } else if(input.equals("Mid")){
             Response = buildMid();
-            len1= 178;
             System.out.println("MID RESPONSE: " + Response);
         } else if(input.equals("Bin1")){
             Response = buildBin1();
-            len1 = 201;
             System.out.println("BIN1 RESPONSE: " + Response);
         } else if(input.equals("Bin2")){
             Response = buildBin2();
@@ -799,9 +795,7 @@ public class MyController{
             Response = buildBin4();
             System.out.println("BIN4 RESPONSE: " + Response);
         }else{
-            //Response = "00197<drd><rti>00000070</rti><echo>drd_sim_routing</echo><sim_routes><set_bucket><amount><min>100</min><max>200</max></amount><mtid>11111</mtid><ntwks><id>10</id></ntwks></set_bucket></sim_routes></drd>";
             Response = input;
-            len1 = 227;
             System.out.println("BUCKET RESPONSE: " + Response);
 
         }
@@ -811,9 +805,6 @@ public class MyController{
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
         out.println(Response);
-
-        //char[] outResponse = Response.toCharArray();
-        //out.write(outResponse,0,len1);
 
         char[] c = new char[95];
         int test = in.read(c, 0, 95);
@@ -1032,7 +1023,7 @@ public class MyController{
             //System.out.println(merchantNumber);
         }else if(MID.getText().isEmpty()){
             //System.out.println("Error MID is Empty");
-            MID.setStyle("-fx-control-inner-background: red");
+            MID.setStyle("-fx-control-inner-background: #ff000099");
             mandatory1 = true;
             midError1 = false;
         } else if(!(validateNumber(MID.getText()))) {
@@ -1044,7 +1035,7 @@ public class MyController{
         int k = 0;
         if (HOST.getText().isEmpty()) {
             mandatory9 = true;
-            HOST.setStyle("-fx-control-inner-background: red");
+            HOST.setStyle("-fx-control-inner-background: #ff000099");
             k++;
         } else {
             host =  HOST.getText();
@@ -1053,7 +1044,7 @@ public class MyController{
         }
         if (PORT.getText().isEmpty() || !validateNumber(PORT.getText())) {
             mandatory9 = true;
-            PORT.setStyle("-fx-control-inner-background: red");
+            PORT.setStyle("-fx-control-inner-background: #ff000099");
             k++;
         } else if (validateNumber(PORT.getText()) && !(Integer.parseInt(PORT.getText()) >= 0 && Integer.parseInt(PORT.getText()) <= 65535)) {
             mandatory9 = true;
@@ -1083,7 +1074,7 @@ public class MyController{
         } else {
             //System.out.println("Error Required MID NWID1 is Empty");
             mandatory2 = true;
-            MIDNWID_0.setStyle("-fx-control-inner-background: red");
+            MIDNWID_0.setStyle("-fx-control-inner-background: #ff000099");
         }
 
         if(!(MIDNWID_1.getText().isEmpty()) && MIDNWID_1.isVisible()) {
@@ -1197,7 +1188,7 @@ public class MyController{
             mandatory3 = false;
             //System.out.println(BIN1);
         }else if(BIN10.getText().isEmpty()){
-            BIN10.setStyle("-fx-control-inner-background: red");
+            BIN10.setStyle("-fx-control-inner-background: #ff000099");
             //System.out.println("Error Bin 1 is Empty");
             mandatory3 = true;
             binError1 = false;
@@ -1214,7 +1205,7 @@ public class MyController{
             lengthError1 = false;
             //System.out.println(BINLEN1);
         } else if((BINLEN_1.getText().isEmpty())) {
-            BINLEN_1.setStyle("-fx-control-inner-background: red");
+            BINLEN_1.setStyle("-fx-control-inner-background: #ff000099");
             //System.out.println("Error Bin 1 Length is Empty");
             lengthError1 = false;
             mandatory4 = true;
@@ -1254,7 +1245,7 @@ public class MyController{
             }
         } else {
             //System.out.println("Error Required Bin NWID 10 is Empty");
-            BINNWID_10.setStyle("-fx-control-inner-background: red");
+            BINNWID_10.setStyle("-fx-control-inner-background: #ff000099");
             binnwidError1 = false;
             mandatory5 = true;
         }
@@ -2056,7 +2047,7 @@ public class MyController{
             }
         } else {
             //System.out.println("Missing Bucket 1 Min");
-            BUCKET_MIN_1.setStyle("-fx-control-inner-background: red");
+            BUCKET_MIN_1.setStyle("-fx-control-inner-background: #ff000099");
             mandatory6 = true;
         }
 
@@ -2074,7 +2065,7 @@ public class MyController{
 
         } else {
             //System.out.println("Missing Bucket 1 Max");
-            BUCKET_MAX_1.setStyle("-fx-control-inner-background: red");
+            BUCKET_MAX_1.setStyle("-fx-control-inner-background: #ff000099");
             mandatory7 = true;
         }
 
@@ -2090,7 +2081,7 @@ public class MyController{
             mandatory8 = false;
         } else {
             //System.out.println("Missing Bucket 1 NWID1");
-            BUCKET_NWID_1.setStyle("-fx-control-inner-background: red");
+            BUCKET_NWID_1.setStyle("-fx-control-inner-background: #ff000099");
             mandatory8 = true;
         }
 
@@ -2452,7 +2443,7 @@ public class MyController{
         }
         if (!BUCKET_MIN_2.getText().isEmpty() && !BUCKET_MAX_2.getText().isEmpty()) {
             if (BUCKET_NWID_2.getText().isEmpty()) {
-                BUCKET_NWID_2.setStyle("-fx-control-inner-background: red");
+                BUCKET_NWID_2.setStyle("-fx-control-inner-background: #ff000099");
             }
             if (!validBounds(BUCKET_MIN_2, BUCKET_MAX_2)) {
                 InvalidMinAndMax = true;
@@ -2463,7 +2454,7 @@ public class MyController{
         }
         if (!BUCKET_MIN_3.getText().isEmpty() && !BUCKET_MAX_3.getText().isEmpty()) {
             if (BUCKET_NWID_3.getText().isEmpty()) {
-                BUCKET_NWID_3.setStyle("-fx-control-inner-background: red");
+                BUCKET_NWID_3.setStyle("-fx-control-inner-background: #ff000099");
             }
             if (!validBounds(BUCKET_MIN_3, BUCKET_MAX_3)) {
                 InvalidMinAndMax = true;
@@ -2474,7 +2465,7 @@ public class MyController{
         }
         if (!BUCKET_MIN_4.getText().isEmpty() && !BUCKET_MAX_4.getText().isEmpty()) {
             if (BUCKET_NWID_4.getText().isEmpty()) {
-                BUCKET_NWID_4.setStyle("-fx-control-inner-background: red");
+                BUCKET_NWID_4.setStyle("-fx-control-inner-background: #ff000099");
             }
             if (!validBounds(BUCKET_MIN_4, BUCKET_MAX_4)) {
                 InvalidMinAndMax = true;
@@ -2485,7 +2476,7 @@ public class MyController{
         }
         if (!BUCKET_MIN_5.getText().isEmpty() && !BUCKET_MAX_5.getText().isEmpty()) {
             if (BUCKET_NWID_5.getText().isEmpty()) {
-                BUCKET_NWID_5.setStyle("-fx-control-inner-background: red");
+                BUCKET_NWID_5.setStyle("-fx-control-inner-background: #ff000099");
             }
             if (!validBounds(BUCKET_MIN_5, BUCKET_MAX_5)) {
                 InvalidMinAndMax = true;
@@ -2496,7 +2487,7 @@ public class MyController{
         }
         if (!BUCKET_MIN_6.getText().isEmpty() && !BUCKET_MAX_6.getText().isEmpty()) {
             if (BUCKET_NWID_6.getText().isEmpty()) {
-                BUCKET_NWID_6.setStyle("-fx-control-inner-background: red");
+                BUCKET_NWID_6.setStyle("-fx-control-inner-background: #ff000099");
             }
             if (!validBounds(BUCKET_MIN_6, BUCKET_MAX_6)) {
                 InvalidMinAndMax = true;
@@ -2667,8 +2658,8 @@ public class MyController{
             whiteoutBuckets();
 
             if(BUCKET_MIN_1.getText().isEmpty() || BUCKET_MAX_1.getText().isEmpty()){
-                BUCKET_MIN_1.setStyle("-fx-control-inner-background: red");
-                BUCKET_MAX_1.setStyle("-fx-control-inner-background: red");
+                BUCKET_MIN_1.setStyle("-fx-control-inner-background: #ff000099");
+                BUCKET_MAX_1.setStyle("-fx-control-inner-background: #ff000099");
             }
             bucketError = false;
         } else {
@@ -2705,7 +2696,7 @@ public class MyController{
                 NWIDS[i].setStyle("-fx-text-inner-color: red");
                 k++;
             } else if (NWIDS[i].getText().isEmpty() && (i == 0 || i == 4 || i == 8 || i == 12 || i == 16 || i == 20) && ((i / 4) + 1 <= bucket_Counter)) {
-                NWIDS[i].setStyle("-fx-control-inner-background: red");
+                NWIDS[i].setStyle("-fx-control-inner-background: #ff000099");
                 j++;
             }
         }
