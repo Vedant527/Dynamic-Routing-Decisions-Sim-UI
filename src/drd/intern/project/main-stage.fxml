@@ -348,10 +348,7 @@
             <TextField fx:id="PORT" layoutX="609.0" layoutY="532.0" prefHeight="25.0" prefWidth="97.0" promptText="Port" />
             <Button fx:id="BUILD" layoutX="718.0" layoutY="528.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="33.0" prefWidth="52.0" text="Build" />
             <Button fx:id="CLEAR" layoutX="14.0" layoutY="528.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="33.0" prefWidth="52.0" text="Clear" />
-            <Button fx:id="HELP" layoutX="366.0" layoutY="545.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="21.0" prefWidth="46.0" text="HELP">
-               <font>
-                  <Font name="System Bold Italic" size="12.0" />
-               </font></Button>
+            <Button fx:id="HELP" layoutX="66.0" layoutY="528.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="33.0" prefWidth="52.0" text="Help" />
          </children></AnchorPane>
    </content>
 </TitledPane>
