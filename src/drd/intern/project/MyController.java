@@ -3,10 +3,15 @@ package drd.intern.project;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
+import java.awt.*;
 import java.io.*;
 import java.net.Socket;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
@@ -253,6 +258,7 @@ public class MyController{
     //Host and Port
     @FXML TextField HOST;
     @FXML TextField PORT;
+    @FXML Button HELP;
     public String host;
     public int port;
     //Errors
@@ -281,7 +287,7 @@ public class MyController{
     public boolean isValid;
 
     public void initialize() {
-        if(new File("C:/Users/" + userName + "/Desktop/drd-gui-data.txt").isFile()) {
+        if(new File("C:/Users/" + userName + "/Documents/drd-gui-data.txt").isFile()) {
             readData();
         }
 
@@ -329,9 +335,11 @@ public class MyController{
         tooltipBUCKETMIN1.setText("Enter Bucket Lower Boundary");
         BUCKET_MIN_1.setTooltip(tooltipBUCKETMIN1);
 
+
+
     }
     @FXML
-    public void handleButtonClick(ActionEvent event) {
+    public void handleButtonClick(ActionEvent event) throws IOException {
 
         if(event.getSource() == BUILD){
             whiteoutBuckets();
@@ -415,10 +423,10 @@ public class MyController{
                     for(int i = 0; i < list.size(); i++ ){
                         run(list.get(i));
                     }
-                    Alert hostFailed = new Alert(Alert.AlertType.CONFIRMATION);
+                    Alert hostFailed = new Alert(Alert.AlertType.INFORMATION);
                     hostFailed.setTitle("Confirmation");
                     hostFailed.setHeaderText(null);
-                    hostFailed.setContentText("Query was sent to DRD");
+                    hostFailed.setContentText("Query was received by the DRD");
                     hostFailed.showAndWait();
                 } catch (IOException | InterruptedException ioException) {
                     Alert hostFailed = new Alert(Alert.AlertType.ERROR);
@@ -445,7 +453,7 @@ public class MyController{
                 hostFailed.showAndWait();
             }
             clearFields();
-            new File("C:/Users/" + userName + "/Desktop/drd-gui-data.txt").delete();
+            new File("C:/Users/" + userName + "/Documents/drd-gui-data.txt").delete();
         }
         if(event.getSource() == MIDNWID_ADD ) {
             addMIDNWID();
@@ -490,6 +498,16 @@ public class MyController{
 
         if(event.getSource() == BUCKET_REMOVE) {
             removeBucket();
+        }
+
+        if(event.getSource() == HELP) {
+            try {
+                File file = new File("readme.txt");
+                String path = file.getPath();
+                Desktop.getDesktop().open(new File(path));
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         }
 
 
@@ -3360,7 +3378,7 @@ public class MyController{
                 BUCKET_MIN_5,BUCKET_MAX_5,BUCKET_NWID_5,BUCKET_NWID_55,BUCKET_NWID_555,BUCKET_NWID_5555,
                 BUCKET_MIN_6,BUCKET_MAX_6,BUCKET_NWID_6,BUCKET_NWID_66,BUCKET_NWID_666,BUCKET_NWID_6666, HOST, PORT};
         try {
-            File file = new File("C:/Users/" + userName + "/Desktop/drd-gui-data.txt");
+            File file = new File("C:/Users/" + userName + "/Documents/drd-gui-data.txt");
             FileWriter fw = new FileWriter(file);
             PrintWriter pw = new PrintWriter(fw);
             for(int i = 0; i < row1.length; i++) {
@@ -3403,7 +3421,7 @@ public class MyController{
                 bucket_Counter};
 
         try {
-            File file = new File("C:/Users/" + userName + "/Desktop/drd-gui-data.txt");
+            File file = new File("C:/Users/" + userName + "/Documents/drd-gui-data.txt");
             Scanner scan = new Scanner(file);
             int i =0;
             int j = 1;
