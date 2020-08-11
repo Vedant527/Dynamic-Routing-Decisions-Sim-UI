@@ -13,6 +13,7 @@ import java.io.*;
 import java.net.Socket;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -275,7 +276,7 @@ public class MyController{
     public boolean binnwidError1,binnwidError2,binnwidError3,binnwidError4,binnwidError5,binnwidError6,
             binnwidError7,binnwidError8,binnwidError9,binnwidError10,binnwidError11,binnwidError12,binnwidError13,
             binnwidError14,binnwidError15,binnwidError16,binnwidError17,binnwidError18,binnwidError19,binnwidError20,
-            binnwidError21,binnwidError22,binnwidError23,binnwidError24,binnwidError25,binnwidError26,binnwidError27;
+            binnwidError21,binnwidError22,binnwidError23,binnwidError24,binnwidError25,binnwidError26,binnwidError27,binnwidError28;
     public boolean bucketError;
     public boolean[] clearAll = {midError1,midError2,midError3,midError4,midError5,midError6,midError7,midError8,
             binError1,binError2,binError3,binError4,lengthError1,lengthError2,lengthError3,lengthError4,
@@ -284,7 +285,6 @@ public class MyController{
             binnwidError14,binnwidError15,binnwidError16,binnwidError17,binnwidError18,binnwidError19,binnwidError20,
             binnwidError21,binnwidError22,binnwidError23,binnwidError24,binnwidError25,binnwidError26,binnwidError27};
     public boolean mandatory1, mandatory2,mandatory3,mandatory4,mandatory5,mandatory6,mandatory7,mandatory8,mandatory9,mandatory10;
-    public boolean isValid;
 
     public void initialize() {
         if(new File("C:/Users/" + userName + "/Documents/drd-gui-data.txt").isFile()) {
@@ -298,10 +298,6 @@ public class MyController{
         final Tooltip tooltipBin_1 = new Tooltip();
         tooltipBin_1.setText("Enter A Bin Number");
         BIN10.setTooltip(tooltipBin_1);
-
-        final Tooltip tooltipBin_2 = new Tooltip();
-        tooltipBin_1.setText("Enter A Bin Number");
-        BIN20.setTooltip(tooltipBin_2);
 
         final Tooltip tooltipMID_1 = new Tooltip();
         tooltipMID_1.setText("Enter Merchant ID Number");
@@ -339,7 +335,7 @@ public class MyController{
 
     }
     @FXML
-    public void handleButtonClick(ActionEvent event) throws IOException {
+    public void handleButtonClick(ActionEvent event) {
 
         if(event.getSource() == BUILD){
             whiteoutBuckets();
@@ -375,7 +371,7 @@ public class MyController{
             if(binnwidError1||binnwidError2||binnwidError3||binnwidError4||binnwidError5||binnwidError6||binnwidError7||
                     binnwidError8||binnwidError9||binnwidError10||binnwidError11||binnwidError12|binnwidError13||
                     binnwidError14||binnwidError15||binnwidError16||binnwidError17||binnwidError18||binnwidError19||binnwidError20||
-                    binnwidError21||binnwidError22||binnwidError23||binnwidError24||binnwidError25||binnwidError26||binnwidError27){
+                    binnwidError21||binnwidError22||binnwidError23||binnwidError24||binnwidError25||binnwidError26||binnwidError27||binnwidError28){
                 BINNWID_ERROR.setVisible(true);
             } else{
                 BINNWID_ERROR.setVisible(false);
@@ -444,6 +440,8 @@ public class MyController{
         if(event.getSource() == CLEAR) {
             try{
                 run("clear");
+                clearFields();
+                new File("C:/Users/" + userName + "/Documents/drd-gui-data.txt").delete();
             } catch (IOException | InterruptedException ioException) {
                 ioException.printStackTrace();
                 Alert hostFailed = new Alert(Alert.AlertType.ERROR);
@@ -452,8 +450,8 @@ public class MyController{
                 hostFailed.setContentText("Unable to Send Clear Response to DRD");
                 hostFailed.showAndWait();
             }
-            clearFields();
-            new File("C:/Users/" + userName + "/Documents/drd-gui-data.txt").delete();
+            //clearFields();
+            //new File("C:/Users/" + userName + "/Documents/drd-gui-data.txt").delete();
         }
         if(event.getSource() == MIDNWID_ADD ) {
             addMIDNWID();
@@ -501,79 +499,93 @@ public class MyController{
         }
 
         if(event.getSource() == HELP) {
-            if(new File("C:/Users/" + userName + "/Documents/drd-gui-instructions.txt").isFile()) {
-                new File("C:/Users/" + userName + "/Documents/drd-gui-instructions.txt").delete();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Opening External File");
+            alert.setHeaderText(null);
+            alert.setResizable(false);
+            alert.setContentText("Would you like to open the help file?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            ButtonType button = result.orElse(ButtonType.CANCEL);
+
+            if (button == ButtonType.OK) {
+                if(new File("C:/Users/" + userName + "/Documents/drd-gui-instructions.txt").isFile()) {
+                    new File("C:/Users/" + userName + "/Documents/drd-gui-instructions.txt").delete();
+                }
+                try {
+                    File file = new File("C:/Users/" + userName + "/Documents/drd-gui-instructions.txt");
+                    FileWriter fw = new FileWriter(file);
+                    PrintWriter pw = new PrintWriter(fw);
+
+                    pw.println("GBS Debit Routing Intern Project Summer 2020\n" +
+                            "Interns: Vedant Bhat & Rakesh Gorrepati\n" +
+                            "Mentor: Eric Poliashenko\n" +
+                            "\n" +
+                            "About: A simple gui tool which allows for queries to the DRD and provides capability for groups, who work with the DRD, \n" +
+                            "       to quickly receive a pseudo-response from DRD without having to do all the extra work/time to acquire it through\n" +
+                            "       its normally tedious process. The gui also allows for persistence, i.e. user's inputted values will save after\n" +
+                            "       closing the application, granted that \"clear\" was not used.\n" +
+                            "\n" +
+                            "Tech Stack: Java & JavaFX\n" +
+                            "\n" +
+                            "Instructions:\n" +
+                            "    *Merchant\n" +
+                            "        *Enter Merchant ID\n" +
+                            "        *Fill out NWID(s) from left to right, without leaving empty text fields in between NWIDs\n" +
+                            "    *Bin\n" +
+                            "        *Enter BIN#\n" +
+                            "        *Enter PAN Length\n" +
+                            "        *Enter NWID and Capability Tag\n" +
+                            "            *Capabilities include : P = Pinned\n" +
+                            "                                    L = Billpay-Pinless\n" +
+                            "                                    B = Pinned/Billpay-Pinless\n" +
+                            "                                    A = POS-Pinless\n" +
+                            "                                    C = Billpay-Pinless/POS-Pinless\n" +
+                            "                                    D = Pinned/POS-Pinless\n" +
+                            "                                    E = Pinned/Billpay-Pinless/POS-Pinless\n" +
+                            "                                    F = Signature Debit\n" +
+                            "                                    X = Ecommerce Only\n" +
+                            "            * Format : NWID+CAPA\n" +
+                            "                       41E\n" +
+                            "                       30L\n" +
+                            "    *Buckets\n" +
+                            "        *Enter Min and Max\n" +
+                            "        *Enter NWID(s) : In the order of NWID1, NWID2, NWID3, NWID4\n" +
+                            "\t*Minimum required fields:\n" +
+                            "\t    * Merchant ID and 1 associated NWID\n" +
+                            "\t    * 1 Bin# and 1 associated NWID\n" +
+                            "\t    * 1 Bucket and associated NWID\n" +
+                            "\t    * Host & Port\n" +
+                            "\n" +
+                            "Acronyms:\n" +
+                            "\t*MID# : Merchant ID number, a numerical value\n" +
+                            "\t*MID NWID : Network ID associated with the merchant id number\n" +
+                            "\t*PAN Length : Numerical value\n" +
+                            "\t*BIN# : Numerical value\n" +
+                            "\t*BIN NWID : Network ID and Capability Tag, e.g. 41,E\n" +
+                            "\t*Bucket Min : Numerical value, must be less than associated max\n" +
+                            "\t*Bucket Max : Numerical value, must be less than associated min\n" +
+                            "\t*Bucket NWID : Network ID associated with the Bucket\n" +
+                            "\t*Host & Port : DRD related information, where the query will be sent to form the GUI\n" +
+                            "\t*NWID(s) : Any integer between 0 - 74\n" +
+                            "\n" +
+                            "Buttons:\n" +
+                            "    *Clear : Sends clear request to DRD, clears all text fields in gui.\n" +
+                            "    *Build : Sends query to DRD. Given that there are no errors and minimum required fields are fill out.\n" +
+                            "    *Add(\"+\") : Adds text fields\n" +
+                            "    *Delete(\"-\") : Removes text fields\n" +
+                            "\n");
+
+
+                    pw.close();
+                    Desktop.getDesktop().open(file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("canceled");
             }
-            try {
-                File file = new File("C:/Users/" + userName + "/Documents/drd-gui-instructions.txt");
-                FileWriter fw = new FileWriter(file);
-                PrintWriter pw = new PrintWriter(fw);
 
-                pw.println("GBS Debit Routing Intern Project Summer 2020\n" +
-                        "Interns: Vedant Bhat & Rakesh Gorrepati\n" +
-                        "Mentor: Eric Poliashenko\n" +
-                        "\n" +
-                        "About: A simple gui tool which allows for queries to the DRD and provides capability for groups, who work with the DRD, \n" +
-                        "       to quickly receive a pseudo-response from DRD without having to do all the extra work/time to acquire it through\n" +
-                        "       its normally tedious process. The gui also allows for persistence, i.e. user's inputted values will save after\n" +
-                        "       closing the application, granted that \"clear\" was not used.\n" +
-                        "\n" +
-                        "Tech Stack: Java & JavaFX\n" +
-                        "\n" +
-                        "Instructions:\n" +
-                        "    *Merchant\n" +
-                        "        *Enter Merchant ID\n" +
-                        "        *Fill out NWID(s) from left to right, without leaving empty text fields in between NWIDs\n" +
-                        "    *Bin\n" +
-                        "        *Enter BIN#\n" +
-                        "        *Enter PAN Length\n" +
-                        "        *Enter NWID and Capability Tag\n" +
-                        "            *Capabilities include : P = Pinned\n" +
-                        "                                    L = Billpay-Pinless\n" +
-                        "                                    B = Pinned/Billpay-Pinless\n" +
-                        "                                    A = POS-Pinless\n" +
-                        "                                    C = Billpay-Pinless/POS-Pinless\n" +
-                        "                                    D = Pinned/POS-Pinless\n" +
-                        "                                    E = Pinned/Billpay-Pinless/POS-Pinless\n" +
-                        "                                    F = Signature Debit\n" +
-                        "                                    X = Ecommerce Only\n" +
-                        "            * Format : NWID,CAPA\n" +
-                        "                       41,E\n" +
-                        "                       30,L\n" +
-                        "    *Buckets\n" +
-                        "        *Enter Min and Max\n" +
-                        "        *Enter NWID(s) : In the order of NWID1, NWID2, NWID3, NWID4\n" +
-                        "\t*Minimum required fields:\n" +
-                        "\t    * Merchant ID and 1 associated NWID\n" +
-                        "\t    * 1 Bin# and 1 associated NWID\n" +
-                        "\t    * 1 Bucket and associated NWID\n" +
-                        "\t    * Host & Port\n" +
-                        "\n" +
-                        "Acronyms:\n" +
-                        "\t*MID# : Merchant ID number, a numerical value\n" +
-                        "\t*MID NWID : Network ID associated with the merchant id number\n" +
-                        "\t*PAN Length : Numerical value\n" +
-                        "\t*BIN# : Numerical value\n" +
-                        "\t*BIN NWID : Network ID and Capability Tag, e.g. 41,E\n" +
-                        "\t*Bucket Min : Numerical value, must be less than associated max\n" +
-                        "\t*Bucket Max : Numerical value, must be less than associated min\n" +
-                        "\t*Bucket NWID : Network ID associated with the Bucket\n" +
-                        "\t*Host & Port : DRD related information, where the query will be sent to form the GUI\n" +
-                        "\t*NWID(s) : Any integer between 0 - 74\n" +
-                        "\n" +
-                        "Buttons:\n" +
-                        "    *Clear : Sends clear request to DRD, clears all text fields in gui.\n" +
-                        "    *Build : Sends query to DRD. Given that there are no errors and minimum required fields are fill out.\n" +
-                        "    *Add(\"+\") : Adds text fields\n" +
-                        "    *Delete(\"-\") : Removes text fields\n" +
-                        "\n");
-
-
-                pw.close();
-                Desktop.getDesktop().open(file);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
 
 
@@ -607,6 +619,7 @@ public class MyController{
         return "00"+len + midResponse;
         //return midResponse;
     }
+
     public String buildBin1() {
         String bin1nwid = "";
         TextField[] binNwid = {BINNWID_10,BINNWID_11,BINNWID_12, BINNWID_13, BINNWID_14,BINNWID_15,BINNWID_16};
@@ -650,6 +663,7 @@ public class MyController{
         return "00"+length + binResponse2;
 
     }
+
     public String buildBin3() {
         String bin3nwid = "";
         TextField[] bin3Nwid = {BINNWID_30,BINNWID_31,BINNWID_32, BINNWID_33, BINNWID_34,BINNWID_35,BINNWID_36};
@@ -671,6 +685,7 @@ public class MyController{
         return "00"+length + binResponse3;
 
     }
+
     public String buildBin4() {
         String bin4nwid = "";
         TextField[] bin4Nwid = {BINNWID_40,BINNWID_41,BINNWID_42, BINNWID_43, BINNWID_44,BINNWID_45,BINNWID_46};
@@ -692,6 +707,7 @@ public class MyController{
         return "00"+length + binResponse4;
 
     }
+
     public ArrayList<String> buildBucket(ArrayList<Bucket> finalBucketsBuild) {
         String bucket0 = "";
         String bucketNwid0="";
@@ -884,7 +900,6 @@ public class MyController{
 
         }
         //Socket socket = new Socket("r3dvap1131" ,11121);
-
         Socket socket = new Socket(host, port);
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
@@ -909,6 +924,7 @@ public class MyController{
 
 
     }
+
     private void closeUnused() {
         TextField[] MID_Inputs = {MIDNWID_1, MIDNWID_2, MIDNWID_3,
                 MIDNWID_4, MIDNWID_5, MIDNWID_6};
@@ -1003,7 +1019,6 @@ public class MyController{
         binnwid_Counter40 = BINNWID4_count;
     }
 
-
     private void addBucket(){
         if (bucket_Counter <= 5) {
             if (bucket_Counter == 1) {
@@ -1081,6 +1096,7 @@ public class MyController{
     public boolean validateNumber(String text) {
         return text.matches("[0-9]*");
     }
+
     public boolean validateLetter(String text) {
         char[] arr = {'P','L','B','A','C','D','E','F','X'};
         boolean response = false;
@@ -1097,6 +1113,48 @@ public class MyController{
         //return text.matches("[a-zA-Z]+");
     }
 
+    public String[] validateBins(TextField bin, String num, String let, boolean error) {
+        String[] arr = new String[3];
+        int len = bin.getText().length();
+        if(len == 2){
+            if(validateNumber(bin.getText().substring(0,1))) {
+                num = (bin.getText());
+                num = num.substring(0, 1);
+                arr[0] = num;
+                bin.setStyle("");
+                error = false;
+                if(validateLetter(bin.getText().substring(1,2))) {
+                    let = bin.getText().substring(1,2);
+                    arr[1] = let;
+                }else {
+                    bin.setStyle("-fx-text-inner-color: red");
+                    error = true;
+                }
+            }
+
+        }else if(len == 3) {
+            num = bin.getText();
+            num = num.substring(0,2);
+            arr[0] = num;
+            bin.setStyle("");
+            error = false;
+            if(validateLetter(bin.getText().substring(2,3))) {
+                let = bin.getText().substring(2,3);
+                arr[1] = let;
+            } else {
+                bin.setStyle("-fx-text-inner-color: red");
+                error = true;
+            }
+        } else {
+            bin.setStyle("-fx-text-inner-color: red");
+            error = true;
+
+        }
+
+        arr[2] = String.valueOf(error);
+        return arr;
+
+    }
 
     private void setFieldsMid() {
         if(!(MID.getText().isEmpty()) && validateNumber(MID.getText())) {
@@ -1238,20 +1296,6 @@ public class MyController{
                 midError8 = true;
             }
         }
-
-//        if(!(HOST.getText().isEmpty()) {
-//            if() {
-//                MIDNWID6 = (MIDNWID_6.getText());
-//                MIDNWID_6.setStyle("");
-//                midError8 = false;
-//                //System.out.println(MIDNWID6);
-//            }else {
-//                //System.out.println("Invalid MID NWID7");
-//                MIDNWID_6.setStyle("-fx-text-inner-color: red");
-//                midError8 = true;
-//            }
-//        }
-
         if(midError1 || midError2 || midError3 || midError4 || midError5 || midError6 || midError7 || midError8    ){
             MID_ERROR.setVisible(true);
         } else{
@@ -1259,8 +1303,6 @@ public class MyController{
         }
 
     }
-
-
 
     private void setFieldsBin1() {
         //Validate and set Bin Number 1
@@ -1301,19 +1343,33 @@ public class MyController{
         }
         //Validate and set BINNWID1 & Letter
         if(!(BINNWID_10.getText().isEmpty())) {
-            int x;
-            if(BINNWID_10.getText().contains(",")) {
-                x = BINNWID_10.getText().indexOf(",");
-
-                if (validateNumber(BINNWID_10.getText().substring(0, x))) {
+            int len = BINNWID_10.getText().length();
+            if(len == 2) {
+                if (validateNumber(BINNWID_10.getText().substring(0, 1))) {
                     BINNWID10 = (BINNWID_10.getText());
-                    BINNWID10 = BINNWID10.substring(0, x);
+                    BINNWID10 = BINNWID10.substring(0, 1);
                     BINNWID_10.setStyle("");
                     binnwidError1 = false;
                     mandatory5 = false;
                     //System.out.println(BINNWID10);
-                    if (validateLetter(BINNWID_10.getText().substring(x + 1, x + 2))) {
-                        BINNWID1_L = BINNWID_10.getText().substring(x + 1, x + 2);
+                    if (validateLetter(BINNWID_10.getText().substring(1, 2))) {
+                        BINNWID1_L = BINNWID_10.getText().substring(1, 2);
+                        //System.out.println(BINNWID1_L);
+                    } else {
+                        BINNWID_10.setStyle("-fx-text-inner-color: red");
+                        binnwidError1 = true;
+                    }
+                }
+            } else if(len == 3) {
+                if (validateNumber(BINNWID_10.getText().substring(0, 2))) {
+                    BINNWID10 = (BINNWID_10.getText());
+                    BINNWID10 = BINNWID10.substring(0, 2);
+                    BINNWID_10.setStyle("");
+                    binnwidError1 = false;
+                    mandatory5 = false;
+                    //System.out.println(BINNWID10);
+                    if (validateLetter(BINNWID_10.getText().substring(2, 3))) {
+                        BINNWID1_L = BINNWID_10.getText().substring(2, 3);
                         //System.out.println(BINNWID1_L);
                     } else {
                         BINNWID_10.setStyle("-fx-text-inner-color: red");
@@ -1336,152 +1392,67 @@ public class MyController{
 
         //Validate and set BINNWID2 & Letter
         if(!(BINNWID_11.getText().isEmpty()) && BINNWID_11.isVisible() ) {
-            int x;
-            if(BINNWID_11.getText().contains(",")) {
-                x = BINNWID_11.getText().indexOf(",");
-                if (validateNumber(BINNWID_11.getText().substring(0, x))) {
-                    BINNWID11 = (BINNWID_11.getText());
-                    BINNWID11 = BINNWID11.substring(0, x);
-                    BINNWID_11.setStyle("");
-                    binnwidError2 = false;
-                    //System.out.println(BINNWID11);
-                    if (validateLetter(BINNWID_11.getText().substring(x + 1, x + 2))) {
-                        BINNWID11_L = BINNWID_11.getText().substring(x + 1, x + 2);
-                        //System.out.println(BINNWID11_L);
-                    } else {
-                        BINNWID_11.setStyle("-fx-text-inner-color: red");
-                        binnwidError2 = true;
-                    }
-                }
-            }
-            else {
-                //System.out.println("Invalid NWID11");
-                BINNWID_11.setStyle("-fx-text-inner-color: red");
+            String[] arr = validateBins(BINNWID_11,BINNWID11,BINNWID11_L,binnwidError2);
+            BINNWID11 = arr[0];
+            BINNWID11_L = arr[1];
+            if(arr[2].equals("true")) {
                 binnwidError2 = true;
+            } else {
+                binnwidError2 = false;
             }
         }
         //Validate and set BINNWID3 & Letter
         if(!(BINNWID_12.getText().isEmpty()) && BINNWID_12.isVisible() ) {
-            int x;
-            if(BINNWID_12.getText().contains(",")) {
-                x = BINNWID_12.getText().indexOf(",");
-                if (validateNumber(BINNWID_12.getText().substring(0, x))) {
-                    BINNWID12 = (BINNWID_12.getText());
-                    BINNWID12 = BINNWID12.substring(0, x);
-                    BINNWID_12.setStyle("");
-                    binnwidError3 = false;
-                    //System.out.println(BINNWID12);
-                    if (validateLetter(BINNWID_12.getText().substring(x + 1, x + 2))) {
-                        BINNWID12_L = BINNWID_12.getText().substring(x + 1, x + 2);
-                        //System.out.println(BINNWID12_L);
-                    }else {
-                        BINNWID_12.setStyle("-fx-text-inner-color: red");
-                        binnwidError3 = true;
-                    }
-                }
-            }else {
-                //System.out.println("Invalid NWID12");
-                BINNWID_12.setStyle("-fx-text-inner-color: red");
+            String[] arr = validateBins(BINNWID_12,BINNWID12,BINNWID12_L,binnwidError3);
+            BINNWID12 = arr[0];
+            BINNWID12_L = arr[1];
+            if(arr[2].equals("true")) {
                 binnwidError3 = true;
+            } else {
+                binnwidError3 = false;
             }
         }
         if(!(BINNWID_13.getText().isEmpty()) && BINNWID_13.isVisible()) {
-            int x;
-            if(BINNWID_13.getText().contains(",")) {
-                x = BINNWID_13.getText().indexOf(",");
-                if (validateNumber(BINNWID_13.getText().substring(0, x))) {
-                    BINNWID13 = (BINNWID_13.getText());
-                    BINNWID13 = BINNWID13.substring(0, x);
-                    BINNWID_13.setStyle("");
-                    binnwidError4 = false;
-                    //System.out.println(BINNWID13);
-                    if (validateLetter(BINNWID_13.getText().substring(x + 1, x + 2))) {
-                        BINNWID13_L = BINNWID_13.getText().substring(x + 1, x + 2);
-                        //System.out.println(BINNWID13_L);
-                    }else {
-                        BINNWID_13.setStyle("-fx-text-inner-color: red");
-                        binnwidError4 = true;
-                    }
-                }
-            }else {
-                //System.out.println("Invalid NWID13");
-                BINNWID_13.setStyle("-fx-text-inner-color: red");
+            String[] arr = validateBins(BINNWID_13,BINNWID13,BINNWID13_L,binnwidError4);
+            BINNWID13 = arr[0];
+            BINNWID13_L = arr[1];
+            if(arr[2].equals("true")) {
                 binnwidError4 = true;
+            } else {
+                binnwidError4 = false;
             }
         }
         if(!(BINNWID_14.getText().isEmpty()) && BINNWID_14.isVisible()) {
-            int x;
-            if(BINNWID_14.getText().contains(",")) {
-                x = BINNWID_14.getText().indexOf(",");
-                if (validateNumber(BINNWID_14.getText().substring(0, x))) {
-                    BINNWID14 = (BINNWID_14.getText());
-                    BINNWID14 = BINNWID14.substring(0, x);
-                    BINNWID_14.setStyle("");
-                    binnwidError5 = false;
-                    //System.out.println(BINNWID14);
-                    if (validateLetter(BINNWID_14.getText().substring(x + 1, x + 2))) {
-                        BINNWID14_L = BINNWID_14.getText().substring(x + 1, x + 2);
-                        //System.out.println(BINNWID14_L);
-                    }else {
-                        BINNWID_14.setStyle("-fx-text-inner-color: red");
-                        binnwidError5 = true;
-                    }
-                }
-            }else {
-                //System.out.println("Invalid NWID14");
-                BINNWID_14.setStyle("-fx-text-inner-color: red");
+            String[] arr = validateBins(BINNWID_14,BINNWID14,BINNWID14_L,binnwidError5);
+            BINNWID14 = arr[0];
+            BINNWID14_L = arr[1];
+            if(arr[2].equals("true")) {
                 binnwidError5 = true;
+            } else {
+                binnwidError5 = false;
             }
         }
         if(!(BINNWID_15.getText().isEmpty()) && BINNWID_15.isVisible()) {
-            int x;
-            if(BINNWID_15.getText().contains(",")) {
-                x = BINNWID_15.getText().indexOf(",");
-                if (validateNumber(BINNWID_15.getText().substring(0, x))) {
-                    BINNWID15 = (BINNWID_15.getText());
-                    BINNWID15 = BINNWID15.substring(0, x);
-                    BINNWID_15.setStyle("");
-                    binnwidError6 = false;
-                    //System.out.println(BINNWID15);
-                    if (validateLetter(BINNWID_15.getText().substring(x + 1, x + 2))) {
-                        BINNWID15_L = BINNWID_15.getText().substring(x + 1, x + 2);
-                        //System.out.println(BINNWID15_L);
-                    }else {
-                        BINNWID_15.setStyle("-fx-text-inner-color: red");
-                        binnwidError6 = true;
-                    }
-                }
-            }else {
-                //System.out.println("Invalid NWID15");
-                BINNWID_15.setStyle("-fx-text-inner-color: red");
+            String[] arr = validateBins(BINNWID_15,BINNWID15,BINNWID15_L,binnwidError6);
+            BINNWID15 = arr[0];
+            BINNWID15_L = arr[1];
+            if(arr[2].equals("true")) {
                 binnwidError6 = true;
+            } else {
+                binnwidError6 = false;
             }
         }
         if(!(BINNWID_16.getText().isEmpty()) && BINNWID_16.isVisible()) {
-            int x;
-            if(BINNWID_16.getText().contains(",")) {
-                x = BINNWID_16.getText().indexOf(",");
-                if (validateNumber(BINNWID_16.getText().substring(0, x))) {
-                    BINNWID16 = (BINNWID_16.getText());
-                    BINNWID16 = BINNWID16.substring(0, x);
-                    BINNWID_16.setStyle("");
-                    binnwidError7 = false;
-                    //System.out.println(BINNWID16);
-                    if (validateLetter(BINNWID_16.getText().substring(x + 1, x + 2))) {
-                        BINNWID16_L = BINNWID_16.getText().substring(x + 1, x + 2);
-                        //System.out.println(BINNWID16_L);
-                    } else {
-                        BINNWID_16.setStyle("-fx-text-inner-color: red");
-                        binnwidError7 = true;
-                    }
-                }
-            }else {
-                //System.out.println("Invalid NWID16");
-                BINNWID_16.setStyle("-fx-text-inner-color: red");
+            String[] arr = validateBins(BINNWID_16,BINNWID16,BINNWID16_L,binnwidError7);
+            BINNWID16 = arr[0];
+            BINNWID16_L = arr[1];
+            if(arr[2].equals("true")) {
                 binnwidError7 = true;
+            } else {
+                binnwidError7 = false;
             }
-        }
 
+        }
 
     }
 
@@ -1512,179 +1483,77 @@ public class MyController{
 
         //Validate and set BINNWID20 & Letter
         if(!(BINNWID_20.getText().isEmpty())) {
-            int x;
-            if(BINNWID_20.getText().contains(",")) {
-                x = BINNWID_20.getText().indexOf(",");
-                if (validateNumber(BINNWID_20.getText().substring(0, x))) {
-                    BINNWID20 = (BINNWID_20.getText());
-                    BINNWID20 = BINNWID20.substring(0, x);
-                    BINNWID_20.setStyle("");
-                    binnwidError8 = false;
-                    //System.out.println(BINNWID20);
-                    if (validateLetter(BINNWID_20.getText().substring(x + 1, x + 2))) {
-                        BINNWID2_L = BINNWID_20.getText().substring(x + 1, x + 2);
-                        //System.out.println(BINNWID2_L);
-                    } else {
-                        BINNWID_20.setStyle("-fx-text-inner-color: red");
-                        binnwidError8 = true;
-                    }
-                }
-            }else {
-                //System.out.println("Invalid NWID20");
-                BINNWID_20.setStyle("-fx-text-inner-color: red");
+            String[] arr = validateBins(BINNWID_20,BINNWID20,BINNWID2_L,binnwidError8);
+            BINNWID20 = arr[0];
+            BINNWID2_L = arr[1];
+            if(arr[2].equals("true")) {
                 binnwidError8 = true;
+            } else {
+                binnwidError8 = false;
             }
         }
-
         //Validate and set BINNWID21 & Letter
         if(!(BINNWID_21.getText().isEmpty()) && BINNWID_21.isVisible()) {
-            int x;
-            if(BINNWID_21.getText().contains(",")) {
-                x = BINNWID_21.getText().indexOf(",");
-                if (validateNumber(BINNWID_21.getText().substring(0, x))) {
-                    BINNWID21 = (BINNWID_21.getText());
-                    BINNWID21 = BINNWID21.substring(0, x);
-                    BINNWID_21.setStyle("");
-                    binnwidError9 = false;
-                    //System.out.println(BINNWID21);
-                    if (validateLetter(BINNWID_21.getText().substring(x + 1, x + 2))) {
-                        BINNWID21_L = BINNWID_21.getText().substring(x + 1, x + 2);
-                        //System.out.println(BINNWID21_L);
-                    } else {
-                        BINNWID_21.setStyle("-fx-text-inner-color: red");
-                        binnwidError9 = true;
-                    }
-                }
-            }else {
-                //System.out.println("Invalid NWID21");
-                BINNWID_21.setStyle("-fx-text-inner-color: red");
+            String[] arr = validateBins(BINNWID_21,BINNWID21,BINNWID21_L,binnwidError9);
+            BINNWID21 = arr[0];
+            BINNWID21_L = arr[1];
+            if(arr[2].equals("true")) {
                 binnwidError9 = true;
+            } else {
+                binnwidError9 = false;
             }
         }
-
         //Validate and set BINNWID22 & Letter
         if(!(BINNWID_22.getText().isEmpty()) && BINNWID_22.isVisible() ) {
-            int x;
-            if(BINNWID_22.getText().contains(",")) {
-                x = BINNWID_22.getText().indexOf(",");
-                if (validateNumber(BINNWID_22.getText().substring(0, x))) {
-                    BINNWID22 = (BINNWID_22.getText());
-                    BINNWID22 = BINNWID22.substring(0, x);
-                    BINNWID_22.setStyle("");
-                    binnwidError10 = false;
-                    //System.out.println(BINNWID22);
-                    if (validateLetter(BINNWID_22.getText().substring(x + 1, x + 2))) {
-                        BINNWID22_L = BINNWID_22.getText().substring(x + 1, x + 2);
-                        //System.out.println(BINNWID22_L);
-                    } else {
-                        BINNWID_22.setStyle("-fx-text-inner-color: red");
-                        binnwidError10 = true;
-                    }
-                }
-            }else {
-                //System.out.println("Invalid NWID22");
-                BINNWID_22.setStyle("-fx-text-inner-color: red");
+            String[] arr = validateBins(BINNWID_22,BINNWID22,BINNWID22_L,binnwidError10);
+            BINNWID22 = arr[0];
+            BINNWID22_L = arr[1];
+            if(arr[2].equals("true")) {
                 binnwidError10 = true;
+            } else {
+                binnwidError10 = false;
             }
         }
         if(!(BINNWID_23.getText().isEmpty()) && BINNWID_23.isVisible()) {
-            int x;
-            if(BINNWID_23.getText().contains(",")) {
-                x = BINNWID_23.getText().indexOf(",");
-                if (validateNumber(BINNWID_23.getText().substring(0, x))) {
-                    BINNWID23 = (BINNWID_23.getText());
-                    BINNWID23 = BINNWID23.substring(0, x);
-                    BINNWID_23.setStyle("");
-                    binnwidError10 = false;
-                    //System.out.println(BINNWID23);
-                    if (validateLetter(BINNWID_23.getText().substring(x + 1, x + 2))) {
-                        BINNWID23_L = BINNWID_23.getText().substring(x + 1, x + 2);
-                        //System.out.println(BINNWID23_L);
-                    } else {
-                        BINNWID_23.setStyle("-fx-text-inner-color: red");
-                        binnwidError10 = true;
-                    }
-                }
-            }else {
-                //System.out.println("Invalid NWID23");
-                BINNWID_23.setStyle("-fx-text-inner-color: red");
-                binnwidError10 = true;
+            String[] arr = validateBins(BINNWID_23,BINNWID23,BINNWID23_L,binnwidError11);
+            BINNWID23 = arr[0];
+            BINNWID23_L = arr[1];
+            if(arr[2].equals("true")) {
+                binnwidError11 = true;
+            } else {
+                binnwidError11 = false;
             }
         }
         if(!(BINNWID_24.getText().isEmpty()) && BINNWID_24.isVisible()) {
-            int x;
-            if(BINNWID_24.getText().contains(",")) {
-                x = BINNWID_24.getText().indexOf(",");
-                if (validateNumber(BINNWID_24.getText().substring(0, x))) {
-                    BINNWID24 = (BINNWID_24.getText());
-                    BINNWID24 = BINNWID24.substring(0, x);
-                    BINNWID_24.setStyle("");
-                    binnwidError11 = false;
-                    //System.out.println(BINNWID24);
-                    if (validateLetter(BINNWID_24.getText().substring(x + 1, x + 2))) {
-                        BINNWID24_L = BINNWID_24.getText().substring(x + 1, x + 2);
-                        //System.out.println(BINNWID24_L);
-                    } else {
-                        BINNWID_24.setStyle("-fx-text-inner-color: red");
-                        binnwidError11 = true;
-                    }
-                }
-            }else {
-                //System.out.println("Invalid NWID24");
-                BINNWID_24.setStyle("-fx-text-inner-color: red");
-                binnwidError11 = true;
+            String[] arr = validateBins(BINNWID_24,BINNWID24,BINNWID24_L,binnwidError12);
+            BINNWID24 = arr[0];
+            BINNWID24_L = arr[1];
+            if(arr[2].equals("true")) {
+                binnwidError12 = true;
+            } else {
+                binnwidError12 = false;
             }
         }
         if(!(BINNWID_25.getText().isEmpty()) && BINNWID_25.isVisible()) {
-            int x;
-            if(BINNWID_25.getText().contains(",")) {
-                x = BINNWID_25.getText().indexOf(",");
-                if (validateNumber(BINNWID_25.getText().substring(0, x))) {
-                    BINNWID25 = (BINNWID_25.getText());
-                    BINNWID25 = BINNWID25.substring(0, x);
-                    BINNWID_25.setStyle("");
-                    binnwidError12 = false;
-                    //System.out.println(BINNWID25);
-                    if (validateLetter(BINNWID_25.getText().substring(x + 1, x + 2))) {
-                        BINNWID25_L = BINNWID_25.getText().substring(x + 1, x + 2);
-                        //System.out.println(BINNWID25_L);
-                    } else {
-                        BINNWID_25.setStyle("-fx-text-inner-color: red");
-                        binnwidError12 = true;
-                    }
-                }
-            }else {
-                //System.out.println("Invalid NWID25");
-                BINNWID_25.setStyle("-fx-text-inner-color: red");
-                binnwidError12 = true;
+            String[] arr = validateBins(BINNWID_25,BINNWID25,BINNWID25_L,binnwidError13);
+            BINNWID25 = arr[0];
+            BINNWID25_L = arr[1];
+            if(arr[2].equals("true")) {
+                binnwidError13 = true;
+            } else {
+                binnwidError13 = false;
             }
         }
         if(!(BINNWID_26.getText().isEmpty()) && BINNWID_26.isVisible()) {
-            int x;
-            if(BINNWID_26.getText().contains(",")) {
-                x = BINNWID_26.getText().indexOf(",");
-                if (validateNumber(BINNWID_26.getText().substring(0, x))) {
-                    BINNWID26 = (BINNWID_26.getText());
-                    BINNWID26 = BINNWID26.substring(0, x);
-                    BINNWID_26.setStyle("");
-                    binnwidError13 = false;
-                    //System.out.println(BINNWID26);
-                    if (validateLetter(BINNWID_26.getText().substring(x + 1, x + 2))) {
-                        BINNWID26_L = BINNWID_26.getText().substring(x + 1, x + 2);
-                        //System.out.println(BINNWID26_L);
-                    } else {
-                        BINNWID_26.setStyle("-fx-text-inner-color: red");
-                        binnwidError13 = true;
-                    }
-                }
-            }else {
-                //System.out.println("Invalid NWID26");
-                BINNWID_26.setStyle("-fx-text-inner-color: red");
-                binnwidError13 = true;
+            String[] arr = validateBins(BINNWID_26,BINNWID26,BINNWID26_L,binnwidError14);
+            BINNWID26 = arr[0];
+            BINNWID26_L = arr[1];
+            if(arr[2].equals("true")) {
+                binnwidError14 = true;
+            } else {
+                binnwidError14 = false;
             }
         }
-
-
     }
 
     private void setFieldsBin3() {
@@ -1714,180 +1583,78 @@ public class MyController{
 
         //Validate and set BINNWID30 & Letter
         if(!(BINNWID_30.getText().isEmpty())) {
-            int x;
-            if(BINNWID_30.getText().contains(",")) {
-                x = BINNWID_30.getText().indexOf(",");
-                if (validateNumber(BINNWID_30.getText().substring(0, x))) {
-                    BINNWID30 = (BINNWID_30.getText());
-                    BINNWID30 = BINNWID30.substring(0, x);
-                    BINNWID_30.setStyle("");
-                    binnwidError14 = false;
-                    //System.out.println(BINNWID30);
-                    if (validateLetter(BINNWID_30.getText().substring(x + 1, x + 2))) {
-                        BINNWID3_L = BINNWID_30.getText().substring(x + 1, x + 2);
-                        //System.out.println(BINNWID3_L);
-                    }else {
-                        BINNWID_30.setStyle("-fx-text-inner-color: red");
-                        binnwidError14 = true;
-                    }
-                }
-            }else {
-                //System.out.println("Invalid NWID30");
-                BINNWID_30.setStyle("-fx-text-inner-color: red");
-                binnwidError14 = true;
+            String[] arr = validateBins(BINNWID_30,BINNWID30,BINNWID3_L,binnwidError15);
+            BINNWID30 = arr[0];
+            BINNWID3_L = arr[1];
+            if(arr[2].equals("true")) {
+                binnwidError15 = true;
+            } else {
+                binnwidError15 = false;
             }
         }
-
         //Validate and set BINNWID31 & Letter
         if(!(BINNWID_31.getText().isEmpty()) && BINNWID_31.isVisible()) {
-            int x;
-            if(BINNWID_31.getText().contains(",")) {
-                x = BINNWID_31.getText().indexOf(",");
-                if (validateNumber(BINNWID_31.getText().substring(0, x))) {
-                    BINNWID31 = (BINNWID_31.getText());
-                    BINNWID31 = BINNWID31.substring(0, x);
-                    BINNWID_31.setStyle("");
-                    binnwidError15 = false;
-                    //System.out.println(BINNWID31);
-                    if (validateLetter(BINNWID_31.getText().substring(x + 1, x + 2))) {
-                        BINNWID31_L = BINNWID_31.getText().substring(x + 1, x + 2);
-                        //System.out.println(BINNWID31_L);
-                    } else {
-                        BINNWID_31.setStyle("-fx-text-inner-color: red");
-                        binnwidError15 = true;
-                    }
-                }
-            }else {
-                //System.out.println("Invalid NWID31");
-                BINNWID_31.setStyle("-fx-text-inner-color: red");
-                binnwidError15 = true;
+            String[] arr = validateBins(BINNWID_31,BINNWID31,BINNWID31_L,binnwidError16);
+            BINNWID26 = arr[0];
+            BINNWID26_L = arr[1];
+            if(arr[2].equals("true")) {
+                binnwidError16 = true;
+            } else {
+                binnwidError16 = false;
             }
         }
-
         //Validate and set BINNWID22 & Letter
         if(!(BINNWID_32.getText().isEmpty()) && BINNWID_32.isVisible() ) {
-            int x;
-            if(BINNWID_32.getText().contains(",")) {
-                x = BINNWID_32.getText().indexOf(",");
-                if (validateNumber(BINNWID_32.getText().substring(0, x))) {
-                    BINNWID32 = (BINNWID_32.getText());
-                    BINNWID32 = BINNWID32.substring(0, x);
-                    BINNWID_32.setStyle("");
-                    binnwidError16 = false;
-                    //System.out.println(BINNWID32);
-                    if (validateLetter(BINNWID_32.getText().substring(x + 1, x + 2))) {
-                        BINNWID32_L = BINNWID_32.getText().substring(x + 1, x + 2);
-                        //System.out.println(BINNWID32_L);
-                    } else {
-                        BINNWID_32.setStyle("-fx-text-inner-color: red");
-                        binnwidError16 = true;
-                    }
-                }
-            }else {
-                //System.out.println("Invalid NWID32");
-                BINNWID_32.setStyle("-fx-text-inner-color: red");
-                binnwidError16 = true;
-
+            String[] arr = validateBins(BINNWID_32,BINNWID32,BINNWID32_L,binnwidError17);
+            BINNWID32 = arr[0];
+            BINNWID32_L = arr[1];
+            if(arr[2].equals("true")) {
+                binnwidError17 = true;
+            } else {
+                binnwidError17 = false;
             }
         }
         if(!(BINNWID_33.getText().isEmpty()) && BINNWID_33.isVisible()) {
-            int x;
-            if(BINNWID_33.getText().contains(",")) {
-                x = BINNWID_33.getText().indexOf(",");
-                if (validateNumber(BINNWID_33.getText().substring(0, x))) {
-                    BINNWID33 = (BINNWID_33.getText());
-                    BINNWID33 = BINNWID33.substring(0, x);
-                    BINNWID_33.setStyle("");
-                    binnwidError17 = false;
-                    //System.out.println(BINNWID33);
-                    if (validateLetter(BINNWID_33.getText().substring(x + 1, x + 2))) {
-                        BINNWID33_L = BINNWID_33.getText().substring(x + 1, x + 2);
-                        //System.out.println(BINNWID33_L);
-                    } else {
-                        BINNWID_33.setStyle("-fx-text-inner-color: red");
-                        binnwidError17 = true;
-                    }
-                }
-            }else {
-                //System.out.println("Invalid NWID33");
-                BINNWID_33.setStyle("-fx-text-inner-color: red");
-                binnwidError17 = true;
+            String[] arr = validateBins(BINNWID_33,BINNWID33,BINNWID33_L,binnwidError18);
+            BINNWID33 = arr[0];
+            BINNWID33_L = arr[1];
+            if(arr[2].equals("true")) {
+                binnwidError18 = true;
+            } else {
+                binnwidError18 = false;
             }
         }
         if(!(BINNWID_34.getText().isEmpty()) && BINNWID_34.isVisible()) {
-            int x;
-            if(BINNWID_34.getText().contains(",")) {
-                x = BINNWID_34.getText().indexOf(",");
-                if (validateNumber(BINNWID_34.getText().substring(0, x))) {
-                    BINNWID34 = (BINNWID_34.getText());
-                    BINNWID34 = BINNWID34.substring(0, x);
-                    BINNWID_34.setStyle("");
-                    binnwidError18 = false;
-                    //System.out.println(BINNWID34);
-                    if (validateLetter(BINNWID_34.getText().substring(x + 1, x + 2))) {
-                        BINNWID34_L = BINNWID_34.getText().substring(x + 1, x + 2);
-                        //System.out.println(BINNWID34_L);
-                    } else {
-                        BINNWID_34.setStyle("-fx-text-inner-color: red");
-                        binnwidError18 = true;
-                    }
-                }
-            }else {
-                //System.out.println("Invalid NWID34");
-                BINNWID_34.setStyle("-fx-text-inner-color: red");
-                binnwidError18 = true;
+            String[] arr = validateBins(BINNWID_34,BINNWID34,BINNWID34_L,binnwidError19);
+            BINNWID34 = arr[0];
+            BINNWID34_L = arr[1];
+            if(arr[2].equals("true")) {
+                binnwidError19 = true;
+            } else {
+                binnwidError19 = false;
             }
         }
         if(!(BINNWID_35.getText().isEmpty()) && BINNWID_35.isVisible()) {
-            int x;
-            if(BINNWID_35.getText().contains(",")) {
-                x = BINNWID_35.getText().indexOf(",");
-                if (validateNumber(BINNWID_35.getText().substring(0, x))) {
-                    BINNWID35 = (BINNWID_35.getText());
-                    BINNWID35 = BINNWID35.substring(0, x);
-                    BINNWID_35.setStyle("");
-                    binnwidError19 = false;
-                    //System.out.println(BINNWID35);
-                    if (validateLetter(BINNWID_35.getText().substring(x + 1, x + 2))) {
-                        BINNWID35_L = BINNWID_35.getText().substring(x + 1, x + 2);
-                        //System.out.println(BINNWID35_L);
-                    } else {
-                        BINNWID_35.setStyle("-fx-text-inner-color: red");
-                        binnwidError19 = true;
-                    }
-                }
-            }else {
-                //System.out.println("Invalid NWID35");
-                BINNWID_35.setStyle("-fx-text-inner-color: red");
-                binnwidError19 = true;
+            String[] arr = validateBins(BINNWID_35,BINNWID35,BINNWID35_L,binnwidError20);
+            BINNWID35 = arr[0];
+            BINNWID35_L = arr[1];
+            if(arr[2].equals("true")) {
+                binnwidError20 = true;
+            } else {
+                binnwidError20 = false;
             }
         }
         if(!(BINNWID_36.getText().isEmpty()) && BINNWID_36.isVisible()) {
-            int x;
-            if(BINNWID_36.getText().contains(",")) {
-                x = BINNWID_36.getText().indexOf(",");
-                if (validateNumber(BINNWID_36.getText().substring(0, x))) {
-                    BINNWID36 = (BINNWID_36.getText());
-                    BINNWID36 = BINNWID36.substring(0, x);
-                    BINNWID_36.setStyle("");
-                    binnwidError20 = false;
-                    //System.out.println(BINNWID36);
-                    if (validateLetter(BINNWID_36.getText().substring(x + 1, x + 2))) {
-                        BINNWID36_L = BINNWID_36.getText().substring(x + 1, x + 2);
-                        //System.out.println(BINNWID36_L);
-                    } else {
-                        BINNWID_36.setStyle("-fx-text-inner-color: red");
-                        binnwidError20 = true;
-                    }
-                }
-            }else {
-                //System.out.println("Invalid NWID36");
-                BINNWID_36.setStyle("-fx-text-inner-color: red");
-                binnwidError20 = true;
+            String[] arr = validateBins(BINNWID_36,BINNWID36,BINNWID36_L,binnwidError21);
+            BINNWID36 = arr[0];
+            BINNWID36_L = arr[1];
+            if(arr[2].equals("true")) {
+                binnwidError21 = true;
+            } else {
+                binnwidError21 = false;
             }
         }
     }
-
     private void setFieldsBin4() {
         //Validate and set Bin Number 4
         if (!(BIN40.getText().isEmpty()) && validateNumber(BIN40.getText())) {
@@ -1915,177 +1682,77 @@ public class MyController{
 
         //Validate and set BINNWID40 & Letter
         if(!(BINNWID_40.getText().isEmpty())) {
-            int x;
-            if(BINNWID_40.getText().contains(",")) {
-                x = BINNWID_40.getText().indexOf(",");
-                if (validateNumber(BINNWID_40.getText().substring(0, x))) {
-                    BINNWID40 = (BINNWID_40.getText());
-                    BINNWID40 = BINNWID40.substring(0, x);
-                    BINNWID_40.setStyle("");
-                    binnwidError21 = false;
-                    //System.out.println(BINNWID40);
-                    if (validateLetter(BINNWID_40.getText().substring(x + 1, x + 2))) {
-                        BINNWID4_L = BINNWID_40.getText().substring(x + 1, x + 2);
-                        //System.out.println(BINNWID4_L);
-                    } else {
-                        BINNWID_40.setStyle("-fx-text-inner-color: red");
-                        binnwidError21 = true;
-                    }
-                }
-            }else {
-                //System.out.println("Invalid NWID40");
-                BINNWID_40.setStyle("-fx-text-inner-color: red");
-                binnwidError21 = true;
+            String[] arr = validateBins(BINNWID_40,BINNWID40,BINNWID4_L,binnwidError22);
+            BINNWID40 = arr[0];
+            BINNWID4_L = arr[1];
+            if(arr[2].equals("true")) {
+                binnwidError22 = true;
+            } else {
+                binnwidError22 = false;
             }
         }
 
         //Validate and set BINNWID41 & Letter
         if(!(BINNWID_41.getText().isEmpty()) && BINNWID_41.isVisible()) {
-            int x;
-            if(BINNWID_41.getText().contains(",")) {
-                x = BINNWID_41.getText().indexOf(",");
-                if (validateNumber(BINNWID_41.getText().substring(0, x))) {
-                    BINNWID41 = (BINNWID_41.getText());
-                    BINNWID41 = BINNWID41.substring(0, x);
-                    BINNWID_41.setStyle("");
-                    binnwidError22 = false;
-                    //System.out.println(BINNWID41);
-                    if (validateLetter(BINNWID_41.getText().substring(x + 1, x + 2))) {
-                        BINNWID41_L = BINNWID_41.getText().substring(x + 1, x + 2);
-                        //System.out.println(BINNWID41_L);
-                    } else {
-                        BINNWID_41.setStyle("-fx-text-inner-color: red");
-                        binnwidError22 = true;
-                    }
-                }
-            }else {
-                //System.out.println("Invalid NWID41");
-                BINNWID_41.setStyle("-fx-text-inner-color: red");
-                binnwidError22 = true;
+            String[] arr = validateBins(BINNWID_41,BINNWID41,BINNWID41_L,binnwidError23);
+            BINNWID41 = arr[0];
+            BINNWID41_L = arr[1];
+            if(arr[2].equals("true")) {
+                binnwidError23 = true;
+            } else {
+                binnwidError23 = false;
             }
         }
 
         //Validate and set BINNWID42 & Letter
         if(!(BINNWID_42.getText().isEmpty()) && BINNWID_42.isVisible() ) {
-            int x;
-            if(BINNWID_42.getText().contains(",")) {
-                x = BINNWID_42.getText().indexOf(",");
-                if (validateNumber(BINNWID_42.getText().substring(0, x))) {
-                    BINNWID42 = (BINNWID_42.getText());
-                    BINNWID42 = BINNWID42.substring(0, x);
-                    BINNWID_42.setStyle("");
-                    binnwidError23 = false;
-                    //System.out.println(BINNWID42);
-                    if (validateLetter(BINNWID_42.getText().substring(x + 1, x + 2))) {
-                        BINNWID42_L = BINNWID_42.getText().substring(x + 1, x + 2);
-                        //System.out.println(BINNWID42_L);
-                    } else {
-                        BINNWID_42.setStyle("-fx-text-inner-color: red");
-                        binnwidError23 = true;
-                    }
-                }
-            }else {
-                //System.out.println("Invalid NWID42");
-                BINNWID_42.setStyle("-fx-text-inner-color: red");
-                binnwidError23 = true;
-
+            String[] arr = validateBins(BINNWID_42,BINNWID42,BINNWID42_L,binnwidError24);
+            BINNWID42 = arr[0];
+            BINNWID42_L = arr[1];
+            if(arr[2].equals("true")) {
+                binnwidError24 = true;
+            } else {
+                binnwidError24 = false;
             }
         }
         if(!(BINNWID_43.getText().isEmpty()) && BINNWID_43.isVisible()) {
-            int x;
-            if(BINNWID_43.getText().contains(",")) {
-                x = BINNWID_43.getText().indexOf(",");
-                if (validateNumber(BINNWID_43.getText().substring(0, x))) {
-                    BINNWID43 = (BINNWID_43.getText());
-                    BINNWID43 = BINNWID43.substring(0, x);
-                    BINNWID_43.setStyle("");
-                    binnwidError24 = false;
-                    //System.out.println(BINNWID43);
-                    if (validateLetter(BINNWID_43.getText().substring(x + 1, x + 2))) {
-                        BINNWID43_L = BINNWID_43.getText().substring(x + 1, x + 2);
-                        //System.out.println(BINNWID43_L);
-                    } else {
-                        BINNWID_43.setStyle("-fx-text-inner-color: red");
-                        binnwidError24 = true;
-                    }
-                }
-            }else {
-                //System.out.println("Invalid NWID43");
-                BINNWID_43.setStyle("-fx-text-inner-color: red");
-                binnwidError24 = true;
+            String[] arr = validateBins(BINNWID_43,BINNWID43,BINNWID43_L,binnwidError25);
+            BINNWID43 = arr[0];
+            BINNWID43_L = arr[1];
+            if(arr[2].equals("true")) {
+                binnwidError25 = true;
+            } else {
+                binnwidError25 = false;
             }
         }
         if(!(BINNWID_44.getText().isEmpty()) && BINNWID_44.isVisible()) {
-            int x;
-            if(BINNWID_44.getText().contains(",")) {
-                x = BINNWID_44.getText().indexOf(",");
-                if (validateNumber(BINNWID_44.getText().substring(0, x))) {
-                    BINNWID44 = (BINNWID_44.getText());
-                    BINNWID44 = BINNWID44.substring(0, x);
-                    BINNWID_44.setStyle("");
-                    binnwidError25 = false;
-                    //System.out.println(BINNWID44);
-                    if (validateLetter(BINNWID_44.getText().substring(x + 1, x + 2))) {
-                        BINNWID44_L = BINNWID_44.getText().substring(x + 1, x + 2);
-                        //System.out.println(BINNWID44_L);
-                    } else {
-                        BINNWID_44.setStyle("-fx-text-inner-color: red");
-                        binnwidError25 = true;
-                    }
-                }
-            }else {
-                //System.out.println("Invalid NWID44");
-                BINNWID_44.setStyle("-fx-text-inner-color: red");
-                binnwidError25 = true;
+            String[] arr = validateBins(BINNWID_44,BINNWID44,BINNWID44_L,binnwidError26);
+            BINNWID44 = arr[0];
+            BINNWID44_L = arr[1];
+            if(arr[2].equals("true")) {
+                binnwidError26 = true;
+            } else {
+                binnwidError26 = false;
             }
         }
         if(!(BINNWID_45.getText().isEmpty()) && BINNWID_45.isVisible()) {
-            int x;
-            if(BINNWID_45.getText().contains(",")) {
-                x = BINNWID_45.getText().indexOf(",");
-                if (validateNumber(BINNWID_45.getText().substring(0, x))) {
-                    BINNWID45 = (BINNWID_45.getText());
-                    BINNWID45 = BINNWID45.substring(0, x);
-                    BINNWID_45.setStyle("");
-                    binnwidError26 = false;
-                    //System.out.println(BINNWID45);
-                    if (validateLetter(BINNWID_45.getText().substring(x + 1, x + 2))) {
-                        BINNWID45_L = BINNWID_45.getText().substring(x + 1, x + 2);
-                        //System.out.println(BINNWID45_L);
-                    } else{
-                        BINNWID_45.setStyle("-fx-text-inner-color: red");
-                        binnwidError26 = true;
-                    }
-                }
-            }else {
-                //System.out.println("Invalid NWID45");
-                BINNWID_45.setStyle("-fx-text-inner-color: red");
-                binnwidError26 = true;
+            String[] arr = validateBins(BINNWID_45,BINNWID45,BINNWID45_L,binnwidError27);
+            BINNWID45 = arr[0];
+            BINNWID45_L = arr[1];
+            if(arr[2].equals("true")) {
+                binnwidError27 = true;
+            } else {
+                binnwidError27 = false;
             }
         }
         if(!(BINNWID_46.getText().isEmpty()) && BINNWID_46.isVisible()) {
-            int x;
-            if(BINNWID_46.getText().contains(",")) {
-                x = BINNWID_46.getText().indexOf(",");
-                if (validateNumber(BINNWID_46.getText().substring(0, x))) {
-                    BINNWID46 = (BINNWID_46.getText());
-                    BINNWID46 = BINNWID46.substring(0, x);
-                    BINNWID_46.setStyle("");
-                    binnwidError27 = false;
-                    //System.out.println(BINNWID46);
-                    if (validateLetter(BINNWID_46.getText().substring(x + 1, x + 2))) {
-                        BINNWID46_L = BINNWID_46.getText().substring(x + 1, x + 2);
-                        //System.out.println(BINNWID46_L);
-                    } else {
-                        BINNWID_46.setStyle("-fx-text-inner-color: red");
-                        binnwidError27 = true;
-                    }
-                }
-            }else {
-                //System.out.println("Invalid NWID46");
-                BINNWID_46.setStyle("-fx-text-inner-color: red");
-                binnwidError27 = true;
-
+            String[] arr = validateBins(BINNWID_46,BINNWID46,BINNWID46_L,binnwidError28);
+            BINNWID46 = arr[0];
+            BINNWID46_L = arr[1];
+            if(arr[2].equals("true")) {
+                binnwidError28 = true;
+            } else {
+                binnwidError28 = false;
             }
         }
     }
@@ -3024,7 +2691,6 @@ public class MyController{
         BUCKET_NWID_6666.setStyle("");
     }
 
-
     private void addMIDNWID() {
         if(midnwid_Counter <= 6) {
             if (midnwid_Counter == 1)
@@ -3180,6 +2846,7 @@ public class MyController{
 
 
     }
+
     private void removeColBin() {
         int i = 1;
 
@@ -3398,7 +3065,6 @@ public class MyController{
         }
     }
 
-
     private void clearFields() {
         TextField[] row1 = {MID,MIDNWID_0,MIDNWID_1,MIDNWID_2,MIDNWID_3,MIDNWID_4,MIDNWID_5,MIDNWID_6,
                 BIN10,BINLEN_1,BINNWID_10,BINNWID_11,BINNWID_12,BINNWID_13,BINNWID_14,BINNWID_15,BINNWID_16,
@@ -3427,9 +3093,6 @@ public class MyController{
         BucketBoundLabel.setVisible(false);
 
     }
-
-
-
     String userName = System.getProperty("user.name");
     public void saveData(){
         TextField[] row1 = {MID,MIDNWID_0,MIDNWID_1,MIDNWID_2,MIDNWID_3,MIDNWID_4,MIDNWID_5,MIDNWID_6,
@@ -3485,6 +3148,7 @@ public class MyController{
                 BUCKET_MIN_6,BUCKET_MAX_6,BUCKET_NWID_6,BUCKET_NWID_66,BUCKET_NWID_666,BUCKET_NWID_6666, HOST, PORT};
         int[] num = {bin_Counter, midnwid_Counter,binnwid_Counter10,binnwid_Counter20,binnwid_Counter30,binnwid_Counter40,
                 bucket_Counter};
+        //String[] arr = {host, port};
 
         try {
             File file = new File("C:/Users/" + userName + "/Documents/drd-gui-data.txt");
@@ -3498,7 +3162,7 @@ public class MyController{
                     if(j > 82 ) {
                         num[k] = Integer.parseInt(line);
                         k++;
-                    } else {
+                    }else {
                         row1[i].appendText(line);
                         row1[i].setVisible(true);
                         if(row1[i] == BIN20 && row1[i].isVisible() ){
@@ -3525,6 +3189,8 @@ public class MyController{
             binnwid_Counter30 = num[4];
             binnwid_Counter40 = num[5];
             bucket_Counter = num[6];
+            port = Integer.parseInt(PORT.getText());
+            host = HOST.getText();
             if(!(BUCKET_MIN_2.getText().isEmpty())){
                 BUCKET2.setVisible(true);
             }
