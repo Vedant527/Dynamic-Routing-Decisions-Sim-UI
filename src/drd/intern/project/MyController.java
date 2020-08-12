@@ -442,6 +442,11 @@ public class MyController{
                 run("clear");
                 clearFields();
                 new File("C:/Users/" + userName + "/Documents/drd-gui-data.txt").delete();
+                Alert hostFailed = new Alert(Alert.AlertType.INFORMATION);
+                hostFailed.setTitle("Confirmation");
+                hostFailed.setHeaderText(null);
+                hostFailed.setContentText("Query was received by the DRD");
+                hostFailed.showAndWait();
             } catch (IOException | InterruptedException ioException) {
                 ioException.printStackTrace();
                 Alert hostFailed = new Alert(Alert.AlertType.ERROR);
@@ -450,8 +455,7 @@ public class MyController{
                 hostFailed.setContentText("Unable to Send Clear Response to DRD");
                 hostFailed.showAndWait();
             }
-            //clearFields();
-            //new File("C:/Users/" + userName + "/Documents/drd-gui-data.txt").delete();
+
         }
         if(event.getSource() == MIDNWID_ADD ) {
             addMIDNWID();
@@ -489,7 +493,6 @@ public class MyController{
         if(event.getSource() == BINNWID_REMOVE_4) {
             removeBINNWID4();
         }
-
         if(event.getSource() == BUCKET_ADD) {
             addBucket();
         }
@@ -582,12 +585,9 @@ public class MyController{
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            } else {
-                System.out.println("canceled");
             }
 
         }
-
 
     }
     public String enable() {

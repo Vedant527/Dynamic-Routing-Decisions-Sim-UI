@@ -53,7 +53,7 @@
                      </font></Button>
                   <TextField fx:id="BIN10" layoutX="14.0" layoutY="79.0" prefHeight="25.0" prefWidth="127.0" promptText="Bin#" />
                   <TextField fx:id="BINLEN_1" layoutX="141.0" layoutY="79.0" prefHeight="25.0" prefWidth="42.0" promptText="Len" />
-                  <TextField fx:id="BINNWID_10" layoutX="183.0" layoutY="79.0" prefHeight="25.0" prefWidth="54.0" promptText="ID,CAPA">
+                  <TextField fx:id="BINNWID_10" layoutX="183.0" layoutY="79.0" prefHeight="25.0" prefWidth="54.0" promptText="ID+CAPA">
                      <font>
                         <Font size="10.0" />
                      </font></TextField>
@@ -70,18 +70,30 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <TextField fx:id="BINNWID_11" layoutX="10.0" layoutY="16.0" prefHeight="25.0" prefWidth="54.0" promptText="ID,CAPA" visible="false">
+                        <TextField fx:id="BINNWID_11" layoutX="10.0" layoutY="16.0" prefHeight="25.0" prefWidth="54.0" promptText="ID+CAPA" visible="false">
                            <font>
                               <Font size="10.0" />
                            </font></TextField>
-                        <TextField fx:id="BINNWID_12" layoutX="64.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="ID,CAPA" visible="false" GridPane.columnIndex="1">
+                        <TextField fx:id="BINNWID_12" layoutX="64.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="ID+CAPA" visible="false" GridPane.columnIndex="1">
                            <font>
                               <Font size="10.0" />
                            </font></TextField>
-                        <TextField fx:id="BINNWID_13" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="2" />
-                        <TextField fx:id="BINNWID_14" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="3" />
-                        <TextField fx:id="BINNWID_15" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="4" />
-                        <TextField fx:id="BINNWID_16" layoutX="10.0" layoutY="16.0" prefHeight="25.0" prefWidth="46.0" promptText="NWID" visible="false" GridPane.columnIndex="5" />
+                        <TextField fx:id="BINNWID_13" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="ID+CAPA" visible="false" GridPane.columnIndex="2">
+                           <font>
+                              <Font size="10.0" />
+                           </font></TextField>
+                        <TextField fx:id="BINNWID_14" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="ID+CAPA" visible="false" GridPane.columnIndex="3">
+                           <font>
+                              <Font size="10.0" />
+                           </font></TextField>
+                        <TextField fx:id="BINNWID_15" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="ID+CAPA" visible="false" GridPane.columnIndex="4">
+                           <font>
+                              <Font size="10.0" />
+                           </font></TextField>
+                        <TextField fx:id="BINNWID_16" layoutX="10.0" layoutY="16.0" prefHeight="25.0" prefWidth="46.0" promptText="ID+CAPA" visible="false" GridPane.columnIndex="5">
+                           <font>
+                              <Font size="10.0" />
+                           </font></TextField>
                      </children>
                   </GridPane>
                   <Button fx:id="BINNWID_ADD_1" layoutX="570.0" layoutY="79.0" mnemonicParsing="false" onAction="#handleButtonClick" text="+">
@@ -123,13 +135,34 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <TextField fx:id="BINNWID_20" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" />
-                        <TextField fx:id="BINNWID_21" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="1" />
-                        <TextField fx:id="BINNWID_22" layoutX="64.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="2" />
-                        <TextField fx:id="BINNWID_23" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="3" />
-                        <TextField fx:id="BINNWID_24" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="4" />
-                        <TextField fx:id="BINNWID_25" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="5" />
-                        <TextField fx:id="BINNWID_26" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="6" />
+                        <TextField fx:id="BINNWID_20" prefHeight="6.0" prefWidth="63.0" promptText="ID+CAPA" visible="false">
+                           <font>
+                              <Font size="10.0" />
+                           </font></TextField>
+                        <TextField fx:id="BINNWID_21" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="ID+CAPA" visible="false" GridPane.columnIndex="1">
+                           <font>
+                              <Font size="10.0" />
+                           </font></TextField>
+                        <TextField fx:id="BINNWID_22" layoutX="64.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="ID+CAPA" visible="false" GridPane.columnIndex="2">
+                           <font>
+                              <Font size="10.0" />
+                           </font></TextField>
+                        <TextField fx:id="BINNWID_23" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="ID+CAPA" visible="false" GridPane.columnIndex="3">
+                           <font>
+                              <Font size="10.0" />
+                           </font></TextField>
+                        <TextField fx:id="BINNWID_24" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="ID+CAPA" visible="false" GridPane.columnIndex="4">
+                           <font>
+                              <Font size="10.0" />
+                           </font></TextField>
+                        <TextField fx:id="BINNWID_25" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="ID+CAPA" visible="false" GridPane.columnIndex="5">
+                           <font>
+                              <Font size="10.0" />
+                           </font></TextField>
+                        <TextField fx:id="BINNWID_26" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="ID+CAPA" visible="false" GridPane.columnIndex="6">
+                           <font>
+                              <Font size="10.0" />
+                           </font></TextField>
                      </children>
                   </GridPane>
                   <Button fx:id="BINNWID_ADD_2" layoutX="570.0" layoutY="108.0" mnemonicParsing="false" onAction="#handleButtonClick" text="+" visible="false">
@@ -156,13 +189,34 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <TextField fx:id="BINNWID_30" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" />
-                        <TextField fx:id="BINNWID_31" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="1" />
-                        <TextField fx:id="BINNWID_32" layoutX="64.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="2" />
-                        <TextField fx:id="BINNWID_33" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="3" />
-                        <TextField fx:id="BINNWID_34" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="4" />
-                        <TextField fx:id="BINNWID_35" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="5" />
-                        <TextField fx:id="BINNWID_36" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="6" />
+                        <TextField fx:id="BINNWID_30" prefHeight="6.0" prefWidth="63.0" promptText="ID+CAPA" visible="false">
+                           <font>
+                              <Font size="10.0" />
+                           </font></TextField>
+                        <TextField fx:id="BINNWID_31" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="ID+CAPA" visible="false" GridPane.columnIndex="1">
+                           <font>
+                              <Font size="10.0" />
+                           </font></TextField>
+                        <TextField fx:id="BINNWID_32" layoutX="64.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="ID+CAPA" visible="false" GridPane.columnIndex="2">
+                           <font>
+                              <Font size="10.0" />
+                           </font></TextField>
+                        <TextField fx:id="BINNWID_33" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="ID+CAPA" visible="false" GridPane.columnIndex="3">
+                           <font>
+                              <Font size="10.0" />
+                           </font></TextField>
+                        <TextField fx:id="BINNWID_34" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="ID+CAPA" visible="false" GridPane.columnIndex="4">
+                           <font>
+                              <Font size="10.0" />
+                           </font></TextField>
+                        <TextField fx:id="BINNWID_35" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="ID+CAPA" visible="false" GridPane.columnIndex="5">
+                           <font>
+                              <Font size="10.0" />
+                           </font></TextField>
+                        <TextField fx:id="BINNWID_36" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="ID+CAPA" visible="false" GridPane.columnIndex="6">
+                           <font>
+                              <Font size="10.0" />
+                           </font></TextField>
                      </children>
                   </GridPane>
                   <Button fx:id="BINNWID_ADD_3" layoutX="570.0" layoutY="138.0" mnemonicParsing="false" onAction="#handleButtonClick" text="+" visible="false">
@@ -189,13 +243,34 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <TextField fx:id="BINNWID_40" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" />
-                        <TextField fx:id="BINNWID_41" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="1" />
-                        <TextField fx:id="BINNWID_42" layoutX="64.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="2" />
-                        <TextField fx:id="BINNWID_43" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="3" />
-                        <TextField fx:id="BINNWID_44" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="4" />
-                        <TextField fx:id="BINNWID_45" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="5" />
-                        <TextField fx:id="BINNWID_46" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="NWID" visible="false" GridPane.columnIndex="6" />
+                        <TextField fx:id="BINNWID_40" prefHeight="6.0" prefWidth="63.0" promptText="ID+CAPA" visible="false">
+                           <font>
+                              <Font size="10.0" />
+                           </font></TextField>
+                        <TextField fx:id="BINNWID_41" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="ID+CAPA" visible="false" GridPane.columnIndex="1">
+                           <font>
+                              <Font size="10.0" />
+                           </font></TextField>
+                        <TextField fx:id="BINNWID_42" layoutX="64.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="ID+CAPA" visible="false" GridPane.columnIndex="2">
+                           <font>
+                              <Font size="10.0" />
+                           </font></TextField>
+                        <TextField fx:id="BINNWID_43" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="ID+CAPA" visible="false" GridPane.columnIndex="3">
+                           <font>
+                              <Font size="10.0" />
+                           </font></TextField>
+                        <TextField fx:id="BINNWID_44" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="ID+CAPA" visible="false" GridPane.columnIndex="4">
+                           <font>
+                              <Font size="10.0" />
+                           </font></TextField>
+                        <TextField fx:id="BINNWID_45" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="ID+CAPA" visible="false" GridPane.columnIndex="5">
+                           <font>
+                              <Font size="10.0" />
+                           </font></TextField>
+                        <TextField fx:id="BINNWID_46" layoutX="10.0" layoutY="16.0" prefHeight="6.0" prefWidth="63.0" promptText="ID+CAPA" visible="false" GridPane.columnIndex="6">
+                           <font>
+                              <Font size="10.0" />
+                           </font></TextField>
                      </children>
                   </GridPane>
                   <Button fx:id="BINNWID_ADD_4" layoutX="570.0" layoutY="168.0" mnemonicParsing="false" onAction="#handleButtonClick" text="+" visible="false">
@@ -207,7 +282,7 @@
                      <font>
                         <Font size="10.0" />
                      </font></Button>
-                  <Label layoutX="15.0" layoutY="61.0" prefHeight="19.0" prefWidth="256.0" text="Enter BIN#, PAN Length, NWID (ID,CAPABILITY)" />
+                  <Label layoutX="15.0" layoutY="61.0" prefHeight="19.0" prefWidth="349.0" text="Enter BIN#, PAN Length, NWID (ID+CAPABILITY, ex: 73P or 51E)" />
                   <Label layoutX="12.0" layoutY="320.0" text="Enter Bucket Attributes" />
                   <Separator layoutX="-22.0" layoutY="45.0" prefHeight="23.0" prefWidth="786.0" />
                   <Separator layoutX="-16.0" layoutY="297.0" prefHeight="23.0" prefWidth="786.0" />
@@ -337,7 +412,7 @@
                   <Label fx:id="MID_ERROR" layoutX="15.0" layoutY="27.0" prefHeight="17.0" prefWidth="544.0" text="*Merchant ID &amp; NWID: Must be a numerical value (ex:1234...)*" textFill="RED" visible="false" />
                   <Label fx:id="BIN_ERROR" layoutX="14.0" layoutY="196.0" text="BIN#: Must be a numberical value(ex:1234...)" textFill="RED" visible="false" />
                   <Label fx:id="BINLENGTH_ERROR" layoutX="14.0" layoutY="213.0" text="PAN Length: Must be a numberical value(ex:1234...)" textFill="RED" visible="false" />
-                  <Label fx:id="BINNWID_ERROR" layoutX="14.0" layoutY="230.0" text="BIN NWID: Must be a numerical value and letter seperated by a comma (ex:12,A)" textFill="RED" visible="false" />
+                  <Label fx:id="BINNWID_ERROR" layoutX="14.0" layoutY="230.0" text="Must be a numerical value (0 - 74) followed by a capital capability letter (See help for valid capability letters)" textFill="RED" visible="false" />
                   <Label fx:id="BUCKET_ERROR" layoutX="4.0" layoutY="464.0" prefHeight="43.0" prefWidth="620.0" text="Warning: Bucket Attributes highlighted in red are overlapping. Buckets further right will take precedence over buckets on left. To remove this error, ensure the range between any of the buckets min and max do not overlap." textFill="#ff9a00e8" visible="false" wrapText="true" />
                   <Label fx:id="BucketBoundLabel" layoutX="5.0" layoutY="434.0" prefHeight="17.0" prefWidth="587.0" text="Bucket Min and Max must be Integers between 00 and 1000000000, with the Min being less than the Max" textFill="RED" visible="false" />
                   <Label fx:id="BucketNWIDBoundLabel" layoutX="5.0" layoutY="450.0" prefHeight="17.0" prefWidth="587.0" text="Bucket NWIDs must be Integers between 0 and 74" textFill="RED" visible="false" />
