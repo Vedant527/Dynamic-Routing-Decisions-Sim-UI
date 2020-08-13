@@ -6,6 +6,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+
+/**
+ * Class that loads fxml and starts app
+ */
 public class Main extends Application {
 
     @Override

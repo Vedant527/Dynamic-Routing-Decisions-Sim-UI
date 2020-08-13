@@ -7,16 +7,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-
 import java.awt.*;
 import java.io.*;
 import java.net.Socket;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 
+/**
+ * Controller class for main-stage.fxml
+ */
 public class MyController{
 
     public String merchantNumber;
@@ -28,8 +28,8 @@ public class MyController{
     public int binnwid_Counter40 = 1;
     public int bucket_Counter = 1;
     //Bin row 1 parsed values
-    public long BIN1;
-    public int BINLEN1;
+    public String BIN1;
+    public String BINLEN1;
     public String BINNWID10;
     public String BINNWID1_L;
     public String BINNWID11;
@@ -55,8 +55,8 @@ public class MyController{
     @FXML TextField BINNWID_15;
     @FXML TextField BINNWID_16;
     //Bin Row 2 parsed values
-    public long BIN2;
-    public int BINLEN2;
+    public String BIN2;
+    public String BINLEN2;
     public String BINNWID20;
     public String BINNWID2_L;
     public String BINNWID21;
@@ -82,8 +82,8 @@ public class MyController{
     @FXML TextField BINNWID_25;
     @FXML TextField BINNWID_26;
     //Bin Row 3 parsed values
-    public long BIN3;
-    public int BINLEN3;
+    public String BIN3;
+    public String BINLEN3;
     public String BINNWID30;
     public String BINNWID3_L;
     public String BINNWID31;
@@ -109,8 +109,8 @@ public class MyController{
     @FXML TextField BINNWID_35;
     @FXML TextField BINNWID_36;
     //Bin Row 4 parsed values
-    public long BIN4;
-    public int BINLEN4;
+    public String BIN4;
+    public String BINLEN4;
     public String BINNWID40;
     public String BINNWID4_L;
     public String BINNWID41;
@@ -286,6 +286,9 @@ public class MyController{
             binnwidError21,binnwidError22,binnwidError23,binnwidError24,binnwidError25,binnwidError26,binnwidError27};
     public boolean mandatory1, mandatory2,mandatory3,mandatory4,mandatory5,mandatory6,mandatory7,mandatory8,mandatory9,mandatory10;
 
+    /**
+     * Initialize function, handles persistence upon open and generates tooltips
+     */
     public void initialize() {
         if(new File("C:/Users/" + userName + "/Documents/drd-gui-data.txt").isFile()) {
             readData();
@@ -331,16 +334,17 @@ public class MyController{
         tooltipBUCKETMIN1.setText("Enter Bucket Lower Boundary");
         BUCKET_MIN_1.setTooltip(tooltipBUCKETMIN1);
 
-
-
     }
+    /**
+     * Main method to handle all button clicks
+     * @param event the button that triggered the method
+     */
     @FXML
     public void handleButtonClick(ActionEvent event) {
 
         if(event.getSource() == BUILD){
             whiteoutBuckets();
             whiteoutBucketNWIDS();
-
             closeUnused();
             setFieldsMid();
             setFieldsBin1();
@@ -350,24 +354,7 @@ public class MyController{
                 setFieldsBin3();
             if(BIN40.isVisible())
                 setFieldsBin4();
-
             setFieldsBuckets1();
-            if(BUCKET2.isVisible()) {
-                setFieldsBuckets2();
-            }
-            if(BUCKET3.isVisible()) {
-                setFieldsBuckets3();
-            }
-            if(BUCKET4.isVisible()) {
-                setFieldsBuckets4();
-            }
-            if(BUCKET5.isVisible()) {
-                setFieldsBuckets5();
-            }
-            if(BUCKET6.isVisible()) {
-                setFieldsBuckets6();
-            }
-
             if(binnwidError1||binnwidError2||binnwidError3||binnwidError4||binnwidError5||binnwidError6||binnwidError7||
                     binnwidError8||binnwidError9||binnwidError10||binnwidError11||binnwidError12|binnwidError13||
                     binnwidError14||binnwidError15||binnwidError16||binnwidError17||binnwidError18||binnwidError19||binnwidError20||
@@ -391,7 +378,11 @@ public class MyController{
 
             checkBuckets();
             mandatory10 = checkBucketNWIDs();
-            ArrayList<Bucket> finalBucketsBuild = bucketLogic();
+            ArrayList<Bucket> finalBucketsBuild = new ArrayList<>();
+            if(!(BucketBoundLabel.isVisible())) {
+                finalBucketsBuild = bucketLogic();
+            }
+
 
             boolean mandatoryFields = false;
             if(mandatory1||mandatory2||mandatory3||mandatory4||mandatory5||mandatory6||mandatory7||mandatory8||mandatory9||mandatory10){
@@ -407,6 +398,7 @@ public class MyController{
             if(!(BINNWID_ERROR.isVisible() || BIN_ERROR.isVisible() || BINLENGTH_ERROR.isVisible() || BucketBoundLabel.isVisible() || BucketNWIDBoundLabel.isVisible()) && mandatoryFields) {
                 try{
                     run("enable");
+                    run("clear");
                     run("Mid");
                     run("Bin1");
                     if(BIN20.isVisible() && !(BIN20.getText().isEmpty()))
@@ -424,7 +416,7 @@ public class MyController{
                     hostFailed.setHeaderText(null);
                     hostFailed.setContentText("Query was received by the DRD");
                     hostFailed.showAndWait();
-                } catch (IOException | InterruptedException ioException) {
+                } catch (IOException ioException) {
                     Alert hostFailed = new Alert(Alert.AlertType.ERROR);
                     hostFailed.setTitle("Connection Error");
                     hostFailed.setHeaderText(null);
@@ -447,7 +439,7 @@ public class MyController{
                 hostFailed.setHeaderText(null);
                 hostFailed.setContentText("Query was received by the DRD");
                 hostFailed.showAndWait();
-            } catch (IOException | InterruptedException ioException) {
+            } catch (IOException ioException) {
                 ioException.printStackTrace();
                 Alert hostFailed = new Alert(Alert.AlertType.ERROR);
                 hostFailed.setTitle("Connection Error");
@@ -590,16 +582,31 @@ public class MyController{
         }
 
     }
+
+    /**
+     * Generates the enable XMl with the users username
+     * @return Enable XML response as a string with length
+     */
     public String enable() {
         String enable = "<drd><rti>00000070</rti><echo>"+userName+"_drd_sim_routing</echo><sim_routes><enable>true</enable></sim_routes></drd>";
         int len = enable.length();
         return "00"+ len+ enable;
     }
+
+    /**
+     * Generates the clear XML with users username
+     * @return Clear XML response as string with length
+     */
     public String clear() {
         String clear = "<drd><rti>00000070</rti><echo>"+userName+"_drd_sim_routing</echo><sim_routes><clear>all</clear></sim_routes></drd>";
         int len = clear.length();
         return "00" + len + clear;
     }
+
+    /**
+     * Generates the MID sections XML response with users username
+     * @return MID XML as a string with length
+     */
     public String buildMid() {
         String Mid = "";
         TextField[] midFields = {MIDNWID_0,MIDNWID_1,MIDNWID_2,MIDNWID_3,MIDNWID_4,MIDNWID_5,MIDNWID_6};
@@ -607,19 +614,20 @@ public class MyController{
 
         for(int i = 0; i < midFields.length; i++) {
             if(!(midFields[i].getText().isEmpty())) {
-
                 Mid = Mid + "<ntwk_id>" + midString[i] + "</ntwk_id>";
-
             } else {
                 i++;
             }
         }
         String midResponse = "<drd><rti>00000070</rti><echo>"+userName+"_drd_sim_routing</echo><sim_routes><set_merch><mtid>" + merchantNumber + "</mtid><ntwks>" + Mid + "</ntwks></set_merch></sim_routes></drd>";
         int len = midResponse.length();
-        return "00"+len + midResponse;
-        //return midResponse;
+        return "00"+ len + midResponse;
     }
 
+    /**
+     * Generates BIN row 1 as an XML response with users username
+     * @return BIN XML as a string with length
+     */
     public String buildBin1() {
         String bin1nwid = "";
         TextField[] binNwid = {BINNWID_10,BINNWID_11,BINNWID_12, BINNWID_13, BINNWID_14,BINNWID_15,BINNWID_16};
@@ -628,20 +636,20 @@ public class MyController{
 
         for(int i = 0; i < binNwid.length; i++){
             if(!(binNwid[i].getText().isEmpty())){
-
                 bin1nwid = bin1nwid +  "<ntwk>" + "<id>" + bin1nwidString[i] + "</id>" + "<capa>" + bin1nwidStringLetter[i] + "</capa>" + "</ntwk>";
-
             }else {
                 i++;
             }
         }
-
         String binResponse1 = "<drd><rti>00000070</rti><echo>"+userName+"_drd_sim_routing</echo><sim_routes><set_bin><len>"+ BINLEN1 +"</len><bin>"+BIN1+"</bin><ntwks>" + bin1nwid +"</ntwks></set_bin></sim_routes></drd>";
         int length = binResponse1.length();
         return "00"+length + binResponse1;
-
     }
 
+    /**
+     * Generates BIN row 2 as an XML response with users username
+     * @return BIN XML as a string with length
+     */
     public String buildBin2() {
         String bin2nwid = "";
         TextField[] bin2Nwid = {BINNWID_20,BINNWID_21,BINNWID_22, BINNWID_23, BINNWID_24,BINNWID_25,BINNWID_26};
@@ -650,20 +658,20 @@ public class MyController{
 
         for(int i = 0; i < bin2Nwid.length; i++){
             if(!(bin2Nwid[i].getText().isEmpty())){
-
                 bin2nwid = bin2nwid +  "<ntwk>" + "<id>" + bin2nwidString[i] + "</id>" + "<capa>" + bin2nwidStringLetter[i] + "</capa>" + "</ntwk>";
-
             }else {
                 i++;
             }
         }
-
         String binResponse2 = "<drd><rti>00000070</rti><echo>"+userName+"_drd_sim_routing</echo><sim_routes><set_bin><len>"+ BINLEN2 +"</len><bin>"+BIN2+"</bin><ntwks>" + bin2nwid +"</ntwks></set_bin></sim_routes></drd>";
         int length = binResponse2.length();
         return "00"+length + binResponse2;
-
     }
 
+    /**
+     * Generates BIN row 3 as an XML response with users username
+     * @return BIN XML as a string with length
+     */
     public String buildBin3() {
         String bin3nwid = "";
         TextField[] bin3Nwid = {BINNWID_30,BINNWID_31,BINNWID_32, BINNWID_33, BINNWID_34,BINNWID_35,BINNWID_36};
@@ -672,20 +680,20 @@ public class MyController{
 
         for(int i = 0; i < bin3Nwid.length; i++){
             if(!(bin3Nwid[i].getText().isEmpty())){
-
                 bin3nwid = bin3nwid +  "<ntwk>" + "<id>" + bin3nwidString[i] + "</id>" + "<capa>" + bin3nwidStringLetter[i] + "</capa>" + "</ntwk>";
-
             }else {
                 i++;
             }
         }
-
         String binResponse3 = "<drd><rti>00000070</rti><echo>"+userName+"_drd_sim_routing</echo><sim_routes><set_bin><len>"+ BINLEN3 +"</len><bin>"+BIN3+"</bin><ntwks>" + bin3nwid +"</ntwks></set_bin></sim_routes></drd>";
         int length = binResponse3.length();
         return "00"+length + binResponse3;
-
     }
 
+    /**
+     * Generates BIN row 3 as an XML response with users username
+     * @return BIN XML as a string with length
+     */
     public String buildBin4() {
         String bin4nwid = "";
         TextField[] bin4Nwid = {BINNWID_40,BINNWID_41,BINNWID_42, BINNWID_43, BINNWID_44,BINNWID_45,BINNWID_46};
@@ -694,20 +702,22 @@ public class MyController{
 
         for(int i = 0; i < bin4Nwid.length; i++){
             if(!(bin4Nwid[i].getText().isEmpty())){
-
                 bin4nwid = bin4nwid +  "<ntwk>" + "<id>" + bin4nwidString[i] + "</id>" + "<capa>" + bin4nwidStringLetter[i] + "</capa>" + "</ntwk>";
-
             }else {
                 i++;
             }
         }
-
         String binResponse4 = "<drd><rti>00000070</rti><echo>"+userName+"_drd_sim_routing</echo><sim_routes><set_bin><len>"+ BINLEN4 +"</len><bin>"+BIN4+"</bin><ntwks>" + bin4nwid +"</ntwks></set_bin></sim_routes></drd>";
         int length = binResponse4.length();
         return "00"+length + binResponse4;
-
     }
 
+    /**
+     * Generates buckets as an XML response with users username, there can be more responses than user entered since we handle overlap, etc,
+     * which in turn creates new buckets
+     * @param finalBucketsBuild ArrayList of buckets created in bucketLogic
+     * @return ArrayList of XML reponses
+     */
     public ArrayList<String> buildBucket(ArrayList<Bucket> finalBucketsBuild) {
         String bucket0 = "";
         String bucketNwid0="";
@@ -869,8 +879,13 @@ public class MyController{
 
         return finalString;
     }
-    //<drd><rti>00000070</rti><echo>drd_sim_routing</echo><sim_routes><set_bucket><amount><min>1001</min><max>100000000</max></amount><mtid>23437736627</mtid><ntwks><ntwk_id>30</ntwk_id><ntwk_id>41</ntwk_id></ntwks></set_bucket></sim_routes></drd>
-    public void run(String input) throws IOException, InterruptedException {
+
+    /**
+     * Main method to communicate with the DRD with the use of Sockets
+     * @param input the type of XML needed to be sent
+     * @throws IOException
+     */
+    public void run(String input) throws IOException {
         String confirmation = "00090<drd><echo>"+userName+"_drd_sim_routing</echo><rti>00000070</rti><respCode>000</respCode></drd>";
         String Response="";
         if(input.equals("enable")){
@@ -906,25 +921,23 @@ public class MyController{
         out.println(Response);
 
         char[] c = new char[95];
-        int test = in.read(c, 0, 95);
+        in.read(c, 0, 95);
         if(confirmation.equals(new String(c))) {
             System.out.print("DRD RESPONSE: ");
             System.out.print(c);
         } else{
             throw new IOException();
         }
+
         System.out.println();
-
-        TimeUnit.MILLISECONDS.sleep(200);
         out.close();
-        TimeUnit.MILLISECONDS.sleep(200);
         in.close();
-        TimeUnit.MILLISECONDS.sleep(200);
         socket.close();
-
-
     }
 
+    /**
+     * Handles closing of empty text fields after user has clicked build
+     */
     private void closeUnused() {
         TextField[] MID_Inputs = {MIDNWID_1, MIDNWID_2, MIDNWID_3,
                 MIDNWID_4, MIDNWID_5, MIDNWID_6};
@@ -944,27 +957,27 @@ public class MyController{
         if (BUCKET2.isVisible() && BUCKET_2[0].getText().isEmpty() && BUCKET_2[1].getText().isEmpty()) {
             BUCKET2.setVisible(false);
             bucketNum--;
-            System.out.println(bucketNum);
+            //System.out.println(bucketNum);
         }
         if (BUCKET3.isVisible() && BUCKET_3[0].getText().isEmpty() && BUCKET_3[1].getText().isEmpty()) {
             BUCKET3.setVisible(false);
             bucketNum--;
-            System.out.println(bucketNum);
+            //System.out.println(bucketNum);
         }
         if (BUCKET4.isVisible() && BUCKET_4[0].getText().isEmpty() && BUCKET_4[1].getText().isEmpty()) {
             BUCKET4.setVisible(false);
             bucketNum--;
-            System.out.println(bucketNum);
+            //System.out.println(bucketNum);
         }
         if (BUCKET5.isVisible() && BUCKET_5[0].getText().isEmpty() && BUCKET_5[1].getText().isEmpty()) {
             BUCKET5.setVisible(false);
             bucketNum--;
-            System.out.println(bucketNum);
+            //System.out.println(bucketNum);
         }
         if (BUCKET6.isVisible() && BUCKET_6[0].getText().isEmpty() && BUCKET_6[1].getText().isEmpty()) {
             BUCKET6.setVisible(false);
             bucketNum--;
-            System.out.println(bucketNum);
+            //System.out.println(bucketNum);
         }
         bucket_Counter = bucketNum;
 
@@ -1019,6 +1032,9 @@ public class MyController{
         binnwid_Counter40 = BINNWID4_count;
     }
 
+    /**
+     * Adds bucket text fields
+     */
     private void addBucket(){
         if (bucket_Counter <= 5) {
             if (bucket_Counter == 1) {
@@ -1037,6 +1053,9 @@ public class MyController{
         }
     }
 
+    /**
+     * Removes bucket text fields and clears text in them
+     */
     private void removeBucket() {
         int i = 1;
 
@@ -1093,11 +1112,22 @@ public class MyController{
         }
     }
 
+    /**
+     * Checks if passed in string is only digits
+     * @param text String that is passed in
+     * @return boolean, if text is digits then true
+     */
     public boolean validateNumber(String text) {
+        text = text.trim();
         return text.matches("[0-9]*");
     }
-
+    /**
+     * Validates the capability tag for BIN NWID's
+     * @param text the string passed in
+     * @return true if string contains one of accepted values
+     */
     public boolean validateLetter(String text) {
+        text = text.trim();
         char[] arr = {'P','L','B','A','C','D','E','F','X'};
         boolean response = false;
         for(int i = 0; i < arr.length; i++) {
@@ -1108,38 +1138,45 @@ public class MyController{
                 response = false;
             }
         }
-        int p = 0;
         return response;
-        //return text.matches("[a-zA-Z]+");
     }
 
+    /**
+     * Method used by BIN NWID's to set nwid number and capability tag
+     * @param bin text field
+     * @param num the nwid number
+     * @param let the capability tag
+     * @param error the error boolean associated with the texfield
+     * @return String array of nwid,capability,and error
+     */
     public String[] validateBins(TextField bin, String num, String let, boolean error) {
         String[] arr = new String[3];
-        int len = bin.getText().length();
+        String x = bin.getText();
+        x = x.trim();
+        int len = x.length();
         if(len == 2){
-            if(validateNumber(bin.getText().substring(0,1))) {
-                num = (bin.getText());
+            if(validateNumber(x.substring(0,1))) {
+                num = x;
                 num = num.substring(0, 1);
                 arr[0] = num;
                 bin.setStyle("");
                 error = false;
-                if(validateLetter(bin.getText().substring(1,2))) {
-                    let = bin.getText().substring(1,2);
+                if(validateLetter(x.substring(1,2))) {
+                    let =x.substring(1,2);
                     arr[1] = let;
                 }else {
                     bin.setStyle("-fx-text-inner-color: red");
                     error = true;
                 }
             }
-
         }else if(len == 3) {
-            num = bin.getText();
+            num = x;
             num = num.substring(0,2);
             arr[0] = num;
             bin.setStyle("");
             error = false;
-            if(validateLetter(bin.getText().substring(2,3))) {
-                let = bin.getText().substring(2,3);
+            if(validateLetter(x.substring(2,3))) {
+                let = x.substring(2,3);
                 arr[1] = let;
             } else {
                 bin.setStyle("-fx-text-inner-color: red");
@@ -1150,26 +1187,26 @@ public class MyController{
             error = true;
 
         }
-
         arr[2] = String.valueOf(error);
         return arr;
-
     }
 
+    /**
+     * Validates and sets MID section and Host/Port text fields
+     * If invalid sets boolean values to true to display errors
+     */
     private void setFieldsMid() {
         if(!(MID.getText().isEmpty()) && validateNumber(MID.getText())) {
             merchantNumber = (MID.getText());
+            merchantNumber = merchantNumber.trim();
             MID.setStyle("");
             midError1 = false;
             mandatory1 = false;
-            //System.out.println(merchantNumber);
         }else if(MID.getText().isEmpty()){
-            //System.out.println("Error MID is Empty");
             MID.setStyle("-fx-control-inner-background: #ff000099");
             mandatory1 = true;
             midError1 = false;
         } else if(!(validateNumber(MID.getText()))) {
-            //System.out.println("Error Invalid MID");
             MID.setStyle("-fx-text-inner-color: red");
             midError1 = true;
             mandatory1 = false;
@@ -1199,99 +1236,84 @@ public class MyController{
         if (k > 0) {
             mandatory9 = true;
         }
-
         if(!(MIDNWID_0.getText().isEmpty())) {
             if(validateNumber(MIDNWID_0.getText())) {
                 MIDNWID0 = (MIDNWID_0.getText());
+                MIDNWID0 = MIDNWID0.trim();
                 MIDNWID_0.setStyle("");
                 midError2 = false;
                 mandatory2 = false;
-                //System.out.println(MIDNWID0);
             }else {
-                //System.out.println("Invalid MID NWID1");
                 MIDNWID_0.setStyle("-fx-text-inner-color: red");
                 midError2 = true;
                 mandatory2 = false;
             }
         } else {
-            //System.out.println("Error Required MID NWID1 is Empty");
             mandatory2 = true;
             MIDNWID_0.setStyle("-fx-control-inner-background: #ff000099");
         }
-
         if(!(MIDNWID_1.getText().isEmpty()) && MIDNWID_1.isVisible()) {
             if(validateNumber(MIDNWID_1.getText())) {
                 MIDNWID1 = (MIDNWID_1.getText());
+                MIDNWID1 = MIDNWID1.trim();
                 MIDNWID_1.setStyle("");
                 midError3 = false;
-                //System.out.println(MIDNWID1);
             }else {
-                //System.out.println("Invalid MID NWID2");
                 MIDNWID_1.setStyle("-fx-text-inner-color: red");
                 midError3 = true;
             }
         }
-
         if(!(MIDNWID_2.getText().isEmpty()) && MIDNWID_2.isVisible()) {
             if(validateNumber(MIDNWID_2.getText())) {
                 MIDNWID2 = (MIDNWID_2.getText());
+                MIDNWID2 = MIDNWID2.trim();
                 MIDNWID_2.setStyle("");
                 midError4 = false;
-                //System.out.println(MIDNWID2);
             }else {
-                //System.out.println("Invalid MID NWID3");
                 MIDNWID_2.setStyle("-fx-text-inner-color: red");
                 midError4 = true;
             }
         }
-
         if(!(MIDNWID_3.getText().isEmpty()) && MIDNWID_3.isVisible()) {
             if(validateNumber(MIDNWID_3.getText())) {
                 MIDNWID3 = (MIDNWID_3.getText());
+                MIDNWID3 = MIDNWID3.trim();
                 MIDNWID_3.setStyle("");
                 midError5 = false;
-                //System.out.println(MIDNWID3);
             }else {
-                //System.out.println("Invalid MID NWID4");
                 MIDNWID_3.setStyle("-fx-text-inner-color: red");
                 midError5 = true;
             }
         }
-
         if(!(MIDNWID_4.getText().isEmpty()) && MIDNWID_4.isVisible()) {
             if(validateNumber(MIDNWID_4.getText())) {
                 MIDNWID4 = (MIDNWID_4.getText());
+                MIDNWID4 = MIDNWID4.trim();
                 MIDNWID_4.setStyle("");
                 midError6 = false;
-                //System.out.println(MIDNWID4);
             }else {
-                //System.out.println("Invalid MID NWID5");
                 MIDNWID_4.setStyle("-fx-text-inner-color: red");
                 midError6 = true;
             }
         }
-
         if(!(MIDNWID_5.getText().isEmpty()) && MIDNWID_5.isVisible()) {
             if(validateNumber(MIDNWID_5.getText())) {
                 MIDNWID5 = (MIDNWID_5.getText());
+                MIDNWID5 = MIDNWID5.trim();
                 MIDNWID_5.setStyle("");
                 midError7 = false;
-                //System.out.println(MIDNWID5);
             }else {
-                //System.out.println("Invalid MID NWID6");
                 MIDNWID_5.setStyle("-fx-text-inner-color: red");
                 midError7 = true;
             }
         }
-
         if(!(MIDNWID_6.getText().isEmpty()) && MIDNWID_6.isVisible()) {
             if(validateNumber(MIDNWID_6.getText())) {
                 MIDNWID6 = (MIDNWID_6.getText());
+                MIDNWID6 = MIDNWID6.trim();
                 MIDNWID_6.setStyle("");
                 midError8 = false;
-                //System.out.println(MIDNWID6);
             }else {
-                //System.out.println("Invalid MID NWID7");
                 MIDNWID_6.setStyle("-fx-text-inner-color: red");
                 midError8 = true;
             }
@@ -1304,92 +1326,84 @@ public class MyController{
 
     }
 
+    /**
+     * Validates and sets Bin row 1 text fields
+     * If invalid sets boolean values to true to display errors
+     */
     private void setFieldsBin1() {
         //Validate and set Bin Number 1
         if (!(BIN10.getText().isEmpty()) && validateNumber(BIN10.getText())) {
-
-            BIN1 = Long.parseLong(BIN10.getText());
+            BIN1 = BIN10.getText();
+            BIN1 = BIN1.trim();
             BIN10.setStyle("");
             binError1 = false;
             mandatory3 = false;
-            //System.out.println(BIN1);
         }else if(BIN10.getText().isEmpty()){
             BIN10.setStyle("-fx-control-inner-background: #ff000099");
-            //System.out.println("Error Bin 1 is Empty");
             mandatory3 = true;
             binError1 = false;
         } else if(!(validateNumber(BIN10.getText()))) {
             BIN10.setStyle("-fx-text-inner-color: red");
-            //System.out.println("Error Invalid Bin1");
             binError1 = true;
             mandatory3 = false;
         }
         //Validate and set Bin Len 1
         if(!(BINLEN_1.getText().isEmpty()) && validateNumber(BINLEN_1.getText())) {
-            BINLEN1 = Integer.parseInt(BINLEN_1.getText());
+            BINLEN1 = BINLEN_1.getText();
+            BINLEN1 = BINLEN1.trim();
             BINLEN_1.setStyle("");
             lengthError1 = false;
-            //System.out.println(BINLEN1);
         } else if((BINLEN_1.getText().isEmpty())) {
             BINLEN_1.setStyle("-fx-control-inner-background: #ff000099");
-            //System.out.println("Error Bin 1 Length is Empty");
             lengthError1 = false;
             mandatory4 = true;
         } else if(!(validateNumber(BINLEN_1.getText()))) {
             BINLEN_1.setStyle("-fx-text-inner-color: red");
-            //System.out.println("Error Invalid Bin1 Length");
             lengthError1 = true;
             mandatory4 = false;
         }
         //Validate and set BINNWID1 & Letter
         if(!(BINNWID_10.getText().isEmpty())) {
-            int len = BINNWID_10.getText().length();
+            String x =  BINNWID_10.getText();
+            x = x.trim();
+            int len = x.length();
             if(len == 2) {
-                if (validateNumber(BINNWID_10.getText().substring(0, 1))) {
-                    BINNWID10 = (BINNWID_10.getText());
-                    BINNWID10 = BINNWID10.substring(0, 1);
+                if (validateNumber(x.substring(0, 1))) {
+                    BINNWID10 = x.substring(0, 1);
                     BINNWID_10.setStyle("");
                     binnwidError1 = false;
                     mandatory5 = false;
-                    //System.out.println(BINNWID10);
-                    if (validateLetter(BINNWID_10.getText().substring(1, 2))) {
-                        BINNWID1_L = BINNWID_10.getText().substring(1, 2);
-                        //System.out.println(BINNWID1_L);
+                    if (validateLetter(x.substring(1, 2))) {
+                        BINNWID1_L = x.substring(1, 2);
                     } else {
                         BINNWID_10.setStyle("-fx-text-inner-color: red");
                         binnwidError1 = true;
                     }
                 }
             } else if(len == 3) {
-                if (validateNumber(BINNWID_10.getText().substring(0, 2))) {
-                    BINNWID10 = (BINNWID_10.getText());
-                    BINNWID10 = BINNWID10.substring(0, 2);
+                if (validateNumber(x.substring(0, 2))) {
+                    BINNWID10 = x.substring(0, 2);
                     BINNWID_10.setStyle("");
                     binnwidError1 = false;
                     mandatory5 = false;
-                    //System.out.println(BINNWID10);
-                    if (validateLetter(BINNWID_10.getText().substring(2, 3))) {
-                        BINNWID1_L = BINNWID_10.getText().substring(2, 3);
-                        //System.out.println(BINNWID1_L);
+                    if (validateLetter(x.substring(2, 3))) {
+                        BINNWID1_L =x.substring(2, 3);
                     } else {
                         BINNWID_10.setStyle("-fx-text-inner-color: red");
                         binnwidError1 = true;
                     }
                 }
             } else {
-                //System.out.println("Invalid NWID10");
                 BINNWID_10.setStyle("-fx-text-inner-color: red");
                 binnwidError1 = true;
                 mandatory5 = false;
 
             }
         } else {
-            //System.out.println("Error Required Bin NWID 10 is Empty");
             BINNWID_10.setStyle("-fx-control-inner-background: #ff000099");
             binnwidError1 = false;
             mandatory5 = true;
         }
-
         //Validate and set BINNWID2 & Letter
         if(!(BINNWID_11.getText().isEmpty()) && BINNWID_11.isVisible() ) {
             String[] arr = validateBins(BINNWID_11,BINNWID11,BINNWID11_L,binnwidError2);
@@ -1451,36 +1465,34 @@ public class MyController{
             } else {
                 binnwidError7 = false;
             }
-
         }
-
     }
 
+    /**
+     * Validates and sets bin row 2 text fields
+     * If invalid sets boolean values to true to display errors
+     */
     private void setFieldsBin2() {
         //Validate and set Bin Number 2
         if (!(BIN20.getText().isEmpty()) && validateNumber(BIN20.getText())) {
-            BIN2 =  Long.parseLong(BIN20.getText());
+            BIN2 =  BIN20.getText();
+            BIN2 = BIN2.trim();
             BIN20.setStyle("");
             binError2 = false;
-            //System.out.println(BIN2);
         } else if(!(validateNumber(BIN20.getText()))) {
-            //System.out.println("Error Invalid Bin1");
             BIN20.setStyle("-fx-text-inner-color: red");
             binError2 = true;
         }
-
         //Validate and set Bin Len 2
         if(!(BINLEN_2.getText().isEmpty()) && validateNumber(BINLEN_2.getText())) {
-            BINLEN2 = Integer.parseInt(BINLEN_2.getText());
+            BINLEN2 = BINLEN_2.getText();
+            BINLEN2 = BINLEN2.trim();
             BINLEN_2.setStyle("");
             lengthError2 = false;
-            //System.out.println(BINLEN2);
         } else if(!(validateNumber(BINLEN_2.getText()))) {
             BINLEN_2.setStyle("-fx-text-inner-color: red");
-            //System.out.println("Error Invalid Bin2 Length");
             lengthError2 = true;
         }
-
         //Validate and set BINNWID20 & Letter
         if(!(BINNWID_20.getText().isEmpty())) {
             String[] arr = validateBins(BINNWID_20,BINNWID20,BINNWID2_L,binnwidError8);
@@ -1556,31 +1568,31 @@ public class MyController{
         }
     }
 
+    /**
+     * Validates and sets bin row 3 text fields
+     * If invalid sets boolean values to true to display errors
+     */
     private void setFieldsBin3() {
         //Validate and set Bin Number 3
-        if (!(BIN30.getText().isEmpty()) && validateNumber(BIN30.getText())) {
-            BIN3 =  Long.parseLong(BIN30.getText());
+        if (!(BIN30.getText().isEmpty()) && validateNumber(BIN30.getText().trim())) {
+            BIN3 = BIN30.getText();
+            BIN3 = BIN3.trim();
             BIN30.setStyle("");
             binError3 = false;
-            //System.out.println(BIN3);
         } else if(!(validateNumber(BIN30.getText()))) {
             BIN30.setStyle("-fx-text-inner-color: red");
-            //System.out.println("Error Invalid Bin3");
             binError3 = true;
         }
-
         //Validate and set Bin Len 3
-        if(!(BINLEN_3.getText().isEmpty()) && validateNumber(BINLEN_3.getText())) {
-            BINLEN3 = Integer.parseInt(BINLEN_3.getText());
+        if(!(BINLEN_3.getText().isEmpty()) && validateNumber(BINLEN_3.getText().trim())) {
+            BINLEN3 = BINLEN_3.getText();
+            BINLEN3 = BINLEN3.trim();
             BINLEN_3.setStyle("");
             lengthError3 = false;
-            //System.out.println(BINLEN3);
         } else if(!(validateNumber(BINLEN_3.getText()))) {
             BINLEN_3.setStyle("-fx-text-inner-color: red");
-            //System.out.println("Error Invalid Bin3 Length");
             lengthError3 = true;
         }
-
         //Validate and set BINNWID30 & Letter
         if(!(BINNWID_30.getText().isEmpty())) {
             String[] arr = validateBins(BINNWID_30,BINNWID30,BINNWID3_L,binnwidError15);
@@ -1595,8 +1607,8 @@ public class MyController{
         //Validate and set BINNWID31 & Letter
         if(!(BINNWID_31.getText().isEmpty()) && BINNWID_31.isVisible()) {
             String[] arr = validateBins(BINNWID_31,BINNWID31,BINNWID31_L,binnwidError16);
-            BINNWID26 = arr[0];
-            BINNWID26_L = arr[1];
+            BINNWID31 = arr[0];
+            BINNWID31_L = arr[1];
             if(arr[2].equals("true")) {
                 binnwidError16 = true;
             } else {
@@ -1655,31 +1667,32 @@ public class MyController{
             }
         }
     }
+
+    /**
+     * Validates and sets bin row 4 text fields
+     * If invalid sets boolean values to true to display errors
+     */
     private void setFieldsBin4() {
         //Validate and set Bin Number 4
         if (!(BIN40.getText().isEmpty()) && validateNumber(BIN40.getText())) {
-            BIN4 =  Long.parseLong(BIN40.getText());
+            BIN4 = BIN40.getText();
+            BIN4 = BIN4.trim();
             BIN40.setStyle("");
             binError4 = false;
-            //System.out.println(BIN4);
         } else if(!(validateNumber(BIN40.getText()))) {
-            //System.out.println("Error Invalid Bin4");
             BIN40.setStyle("-fx-text-inner-color: red");
             binError4 = true;
         }
-
         //Validate and set Bin Len 4
         if(!(BINLEN_4.getText().isEmpty()) && validateNumber(BINLEN_4.getText())) {
-            BINLEN4 = Integer.parseInt(BINLEN_4.getText());
+            BINLEN4 = BINLEN_4.getText();
+            BINLEN4 = BINLEN4.trim();
             BINLEN_4.setStyle("");
             lengthError4 = false;
-            //System.out.println(BINLEN4);
         } else if(!(validateNumber(BINLEN_4.getText()))) {
-            //System.out.println("Error Invalid Bin4 Length");
             BINLEN_4.setStyle("-fx-text-inner-color: red");
             lengthError4 = true;
         }
-
         //Validate and set BINNWID40 & Letter
         if(!(BINNWID_40.getText().isEmpty())) {
             String[] arr = validateBins(BINNWID_40,BINNWID40,BINNWID4_L,binnwidError22);
@@ -1691,7 +1704,6 @@ public class MyController{
                 binnwidError22 = false;
             }
         }
-
         //Validate and set BINNWID41 & Letter
         if(!(BINNWID_41.getText().isEmpty()) && BINNWID_41.isVisible()) {
             String[] arr = validateBins(BINNWID_41,BINNWID41,BINNWID41_L,binnwidError23);
@@ -1703,7 +1715,6 @@ public class MyController{
                 binnwidError23 = false;
             }
         }
-
         //Validate and set BINNWID42 & Letter
         if(!(BINNWID_42.getText().isEmpty()) && BINNWID_42.isVisible() ) {
             String[] arr = validateBins(BINNWID_42,BINNWID42,BINNWID42_L,binnwidError24);
@@ -1756,16 +1767,26 @@ public class MyController{
             }
         }
     }
+
+    /**
+     * Validates bucket nwid value
+     * @param input textfield
+     * @return false if invalid
+     */
     private boolean isBucketNWID(TextField input) {
         try {
             int x  = Integer.parseInt(input.getText());
             return x >= 0 && x <= 74;
-
         } catch (NumberFormatException e) {
             return false;
         }
     }
 
+    /**
+     * Validates if buckets are in the bound of 0 to 10 million
+     * @param input text field
+     * @return false if buckets are less than 0 or greater than 10 million
+     */
     private boolean isBucketBound(TextField input) {
         try {
             int x = Integer.parseInt(input.getText());
@@ -1774,400 +1795,72 @@ public class MyController{
             return false;
         }
     }
-
+    /**
+     * Validates if min is less than max in a given bucket
+     * @param min min textfield
+     * @param max max textfield
+     * @return false if min is less than max
+     */
     private boolean validBounds(TextField min, TextField max) {
-        int x = Integer.parseInt(min.getText());
-        int y = Integer.parseInt(max.getText());
+        int x = 0;
+        int y = 0;
+        if(validateNumber(min.getText()) && validateNumber(max.getText())) {
+            x = Integer.parseInt(min.getText());
+            y = Integer.parseInt(max.getText());
+        }
 
         return x <= y && isBucketBound(min) && isBucketBound(max);
     }
 
+    /**
+     * Validates and sets bucket pane 1
+     * Sets errors to true if applicable
+     */
     private void setFieldsBuckets1(){
-
         if(!(BUCKET_MIN_1.getText().isEmpty())) {
             if(isBucketBound(BUCKET_MIN_1)) {
                 BUCKETMIN1 = Integer.parseInt(BUCKET_MIN_1.getText());
                 BUCKET_MIN_1.setStyle("");
                 mandatory6 = false;
-
-                //System.out.println(BUCKETMIN1);
             }else{
-                //System.out.println("Enter a Valid Min for Bucket 1");
                 mandatory6 = false;
                 BUCKET_MIN_1.setStyle("-fx-text-inner-color: red");
             }
         } else {
-            //System.out.println("Missing Bucket 1 Min");
             BUCKET_MIN_1.setStyle("-fx-control-inner-background: #ff000099");
             mandatory6 = true;
         }
-
         if(!(BUCKET_MAX_1.getText().isEmpty())) {
             if(isBucketBound(BUCKET_MAX_1)) {
                 BUCKETMAX1 = Integer.parseInt(BUCKET_MAX_1.getText());
                 BUCKET_MAX_1.setStyle("");
                 mandatory7 = false;
-                //System.out.println(BUCKETMAX1);
             }else{
-                //System.out.println("Enter a Valid Max for Bucket 1");
                 BUCKET_MAX_1.setStyle("-fx-text-inner-color: red");
                 mandatory7 = false;
             }
-
         } else {
-            //System.out.println("Missing Bucket 1 Max");
             BUCKET_MAX_1.setStyle("-fx-control-inner-background: #ff000099");
             mandatory7 = true;
         }
-
         if(!(BUCKET_NWID_1.getText().isEmpty())) {
             if (isBucketNWID(BUCKET_NWID_1)) {
                 BUCKETNWID1 = Integer.parseInt(BUCKET_NWID_1.getText());
                 BUCKET_NWID_1.setStyle("");
-                //System.out.println(BUCKETNWID1);
             } else{
-                //System.out.println("Enter a Valid NWID1 for Bucket 1");
                 BUCKET_NWID_1.setStyle("-fx-text-inner-color: red");
             }
             mandatory8 = false;
         } else {
-            //System.out.println("Missing Bucket 1 NWID1");
             BUCKET_NWID_1.setStyle("-fx-control-inner-background: #ff000099");
             mandatory8 = true;
         }
-
-
-        if(!(BUCKET_NWID_11.getText().isEmpty())) {
-            if(isBucketNWID(BUCKET_NWID_11)) {
-                BUCKETNWID11 = Integer.parseInt(BUCKET_NWID_11.getText());
-                BUCKET_NWID_11.setStyle("");
-                //System.out.println(BUCKETNWID11);
-            }else{
-                //System.out.println("Enter a Valid NWID2 for Bucket 1");
-                BUCKET_NWID_11.setStyle("-fx-text-inner-color: red");
-
-            }
-        }
-
-        if(!(BUCKET_NWID_111.getText().isEmpty())) {
-            if(isBucketNWID(BUCKET_NWID_111)) {
-                BUCKETNWID111 = Integer.parseInt(BUCKET_NWID_111.getText());
-                BUCKET_NWID_111.setStyle("");
-                //System.out.println(BUCKETNWID111);
-            }else{
-                //System.out.println("Enter a Valid NWID3 for Bucket 1");
-                BUCKET_NWID_111.setStyle("-fx-text-inner-color: red");
-            }
-        }
-
-        if(!(BUCKET_NWID_1111.getText().isEmpty())) {
-            if(isBucketNWID(BUCKET_NWID_1111)) {
-                BUCKETNWID1111 = Integer.parseInt(BUCKET_NWID_1111.getText());
-                BUCKET_NWID_1111.setStyle("");
-                //System.out.println(BUCKETNWID1111);
-            }else{
-                //System.out.println("Enter a Valid NWID4 for Bucket 1");
-                BUCKET_NWID_1111.setStyle("-fx-text-inner-color: red");
-            }
-        }
     }
 
-    private void setFieldsBuckets2(){
-
-        if(!(BUCKET_MIN_2.getText().isEmpty())) {
-            if(isBucketBound(BUCKET_MIN_2)) {
-                BUCKETMIN2 = Integer.parseInt(BUCKET_MIN_2.getText());
-                //System.out.println(BUCKETMIN2);
-            }else{
-                //System.out.println("Enter a Valid Min for Bucket 2");
-            }
-        }
-
-        if(!(BUCKET_MAX_2.getText().isEmpty())) {
-            if(isBucketBound(BUCKET_MAX_2)) {
-                BUCKETMAX2 = Integer.parseInt(BUCKET_MAX_2.getText());
-                //System.out.println(BUCKETMAX2);
-            }else{
-                //System.out.println("Enter a Valid Max for Bucket 2");
-            }
-        }
-
-        if(!(BUCKET_NWID_2.getText().isEmpty())) {
-            if(isBucketNWID(BUCKET_NWID_2)) {
-                BUCKETNWID2 = Integer.parseInt(BUCKET_NWID_2.getText());
-                //System.out.println(BUCKETNWID2);
-            }else{
-                // System.out.println("Enter a Valid NWID1 for Bucket 2");
-            }
-        }
-
-
-        if(!(BUCKET_NWID_22.getText().isEmpty())) {
-            if(isBucketNWID(BUCKET_NWID_22)) {
-                BUCKETNWID22 = Integer.parseInt(BUCKET_NWID_22.getText());
-                //System.out.println(BUCKETNWID22);
-            }else{
-                //System.out.println("Enter a Valid NWID2 for Bucket 2");
-            }
-        }
-
-        if(!(BUCKET_NWID_222.getText().isEmpty())) {
-            if(isBucketNWID(BUCKET_NWID_222)) {
-                BUCKETNWID222 = Integer.parseInt(BUCKET_NWID_222.getText());
-                //System.out.println(BUCKETNWID222);
-            }else{
-                //System.out.println("Enter a Valid NWID3 for Bucket 2");
-            }
-        }
-
-        if(!(BUCKET_NWID_2222.getText().isEmpty())) {
-            if(isBucketNWID(BUCKET_NWID_2222)) {
-                BUCKETNWID2222 = Integer.parseInt(BUCKET_NWID_2222.getText());
-                System.out.println(BUCKETNWID2222);
-            }else{
-                System.out.println("Enter a Valid NWID4 for Bucket 2");
-            }
-        }
-
-    }
-
-    private void setFieldsBuckets3(){
-
-        if(!(BUCKET_MIN_3.getText().isEmpty())) {
-            if(isBucketBound(BUCKET_MIN_3)) {
-                BUCKETMIN3 = Integer.parseInt(BUCKET_MIN_3.getText());
-                //System.out.println(BUCKETMIN3);
-            }else{
-                //System.out.println("Enter a Valid Min for Bucket 3");
-            }
-        }
-
-        if(!(BUCKET_MAX_3.getText().isEmpty())) {
-            if(isBucketBound(BUCKET_MAX_3)) {
-                BUCKETMAX3 = Integer.parseInt(BUCKET_MAX_3.getText());
-
-                //System.out.println(BUCKETMAX3);
-            }else{
-                //System.out.println("Enter a Valid Max for Bucket 3");
-            }
-        }
-
-        if(!(BUCKET_NWID_3.getText().isEmpty())) {
-            if(isBucketNWID(BUCKET_NWID_3)) {
-                BUCKETNWID3 = Integer.parseInt(BUCKET_NWID_3.getText());
-                //System.out.println(BUCKETNWID3);
-            }else{
-                //System.out.println("Enter a Valid NWID1 for Bucket 3");
-            }
-        }
-
-
-        if(!(BUCKET_NWID_33.getText().isEmpty())) {
-            if(isBucketNWID(BUCKET_NWID_33)) {
-                BUCKETNWID33 = Integer.parseInt(BUCKET_NWID_33.getText());
-                //System.out.println(BUCKETNWID33);
-            }else{
-                //System.out.println("Enter a Valid NWID2 for Bucket 3");
-            }
-        }
-
-        if(!(BUCKET_NWID_333.getText().isEmpty())) {
-            if(isBucketNWID(BUCKET_NWID_333)) {
-                BUCKETNWID333 = Integer.parseInt(BUCKET_NWID_333.getText());
-                //System.out.println(BUCKETNWID333);
-            }else{
-                //System.out.println("Enter a Valid NWID3 for Bucket 3");
-            }
-        }
-
-        if(!(BUCKET_NWID_3333.getText().isEmpty())) {
-            if(isBucketNWID(BUCKET_NWID_3333)) {
-                BUCKETNWID3333 = Integer.parseInt(BUCKET_NWID_3333.getText());
-                //System.out.println(BUCKETNWID3333);
-            }else{
-                //System.out.println("Enter a Valid NWID4 for Bucket 3");
-            }
-        }
-
-    }
-    private void setFieldsBuckets4(){
-
-        if(!(BUCKET_MIN_4.getText().isEmpty())) {
-            if(isBucketBound(BUCKET_MIN_4)) {
-                BUCKETMIN4 = Integer.parseInt(BUCKET_MIN_4.getText());
-                //System.out.println(BUCKETMIN4);
-            }else{
-                System.out.println("Enter a Valid Min for Bucket 4");
-            }
-        }
-
-        if(!(BUCKET_MAX_4.getText().isEmpty())) {
-            if(isBucketBound(BUCKET_MAX_4)) {
-                BUCKETMAX4 = Integer.parseInt(BUCKET_MAX_4.getText());
-                //System.out.println(BUCKETMAX4);
-            }else{
-                //System.out.println("Enter a Valid Max for Bucket 4");
-            }
-        }
-
-        if(!(BUCKET_NWID_4.getText().isEmpty())) {
-            if(isBucketNWID(BUCKET_NWID_4)) {
-                BUCKETNWID4 = Integer.parseInt(BUCKET_NWID_4.getText());
-                // System.out.println(BUCKETNWID4);
-            }else{
-                //System.out.println("Enter a Valid NWID1 for Bucket 4");
-            }
-        }
-
-
-        if(!(BUCKET_NWID_44.getText().isEmpty())) {
-            if(isBucketNWID(BUCKET_NWID_44)) {
-                BUCKETNWID44 = Integer.parseInt(BUCKET_NWID_44.getText());
-                //System.out.println(BUCKETNWID44);
-            }else{
-                //System.out.println("Enter a Valid NWID2 for Bucket 4");
-            }
-        }
-
-        if(!(BUCKET_NWID_444.getText().isEmpty())) {
-            if(isBucketNWID(BUCKET_NWID_444)) {
-                BUCKETNWID444 = Integer.parseInt(BUCKET_NWID_444.getText());
-                //System.out.println(BUCKETNWID444);
-            }else{
-                //System.out.println("Enter a Valid NWID3 for Bucket 4");
-            }
-        }
-
-        if(!(BUCKET_NWID_4444.getText().isEmpty())) {
-            if(isBucketNWID(BUCKET_NWID_4444)) {
-                BUCKETNWID4444 = Integer.parseInt(BUCKET_NWID_4444.getText());
-                //System.out.println(BUCKETNWID4444);
-            }else{
-                //System.out.println("Enter a Valid NWID4 for Bucket 4");
-            }
-        }
-
-    }
-
-    private void setFieldsBuckets5(){
-
-        if(!(BUCKET_MIN_5.getText().isEmpty())) {
-            if(isBucketBound(BUCKET_MIN_5)) {
-                BUCKETMIN5 = Integer.parseInt(BUCKET_MIN_5.getText());
-                //System.out.println(BUCKETMIN5);
-            }else{
-                // System.out.println("Enter a Valid Min for Bucket 5");
-            }
-        }
-
-        if(!(BUCKET_MAX_5.getText().isEmpty())) {
-            if(isBucketBound(BUCKET_MAX_5)) {
-                BUCKETMAX5 = Integer.parseInt(BUCKET_MAX_5.getText());
-                //System.out.println(BUCKETMAX5);
-            }else{
-                // System.out.println("Enter a Valid Max for Bucket 5");
-            }
-        }
-
-        if(!(BUCKET_NWID_5.getText().isEmpty())) {
-            if(isBucketNWID(BUCKET_NWID_5)) {
-                BUCKETNWID5 = Integer.parseInt(BUCKET_NWID_5.getText());
-                //System.out.println(BUCKETNWID5);
-            }else{
-                //System.out.println("Enter a Valid NWID1 for Bucket 5");
-            }
-        }
-
-
-        if(!(BUCKET_NWID_55.getText().isEmpty())) {
-            if(isBucketNWID(BUCKET_NWID_55)) {
-                BUCKETNWID55 = Integer.parseInt(BUCKET_NWID_55.getText());
-                //System.out.println(BUCKETNWID55);
-            }else{
-                //System.out.println("Enter a Valid NWID2 for Bucket 5");
-            }
-        }
-
-        if(!(BUCKET_NWID_555.getText().isEmpty())) {
-            if(isBucketNWID(BUCKET_NWID_555)) {
-                BUCKETNWID555 = Integer.parseInt(BUCKET_NWID_555.getText());
-                //System.out.println(BUCKETNWID555);
-            }else{
-                // System.out.println("Enter a Valid NWID3 for Bucket 5");
-            }
-        }
-
-        if(!(BUCKET_NWID_5555.getText().isEmpty())) {
-            if(isBucketNWID(BUCKET_NWID_5555)) {
-                BUCKETNWID5555 = Integer.parseInt(BUCKET_NWID_5555.getText());
-                //System.out.println(BUCKETNWID5555);
-            }else{
-                //System.out.println("Enter a Valid NWID4 for Bucket 5");
-            }
-        }
-
-    }
-
-    private void setFieldsBuckets6(){
-
-        if(!(BUCKET_MIN_6.getText().isEmpty())) {
-            if(isBucketBound(BUCKET_MIN_6)) {
-                BUCKETMIN6 = Integer.parseInt(BUCKET_MIN_6.getText());
-                //System.out.println(BUCKETMIN6);
-            }else{
-                //System.out.println("Enter a Valid Min for Bucket 6");
-            }
-        }
-
-        if(!(BUCKET_MAX_6.getText().isEmpty())) {
-            if(isBucketBound(BUCKET_MAX_6)) {
-                BUCKETMAX6 = Integer.parseInt(BUCKET_MAX_6.getText());
-
-                //System.out.println(BUCKETMAX6);
-            }else{
-                //System.out.println("Enter a Valid Max for Bucket 6");
-            }
-        }
-
-        if(!(BUCKET_NWID_6.getText().isEmpty())) {
-            if(isBucketNWID(BUCKET_NWID_6)) {
-                BUCKETNWID6 = Integer.parseInt(BUCKET_NWID_6.getText());
-                //System.out.println(BUCKETNWID6);
-            }else{
-                // System.out.println("Enter a Valid NWID1 for Bucket 6");
-            }
-        }
-
-
-        if(!(BUCKET_NWID_66.getText().isEmpty())) {
-            if(isBucketNWID(BUCKET_NWID_66)) {
-                BUCKETNWID66 = Integer.parseInt(BUCKET_NWID_66.getText());
-                //System.out.println(BUCKETNWID66);
-            }else{
-                //System.out.println("Enter a Valid NWID2 for Bucket 6");
-            }
-        }
-
-        if(!(BUCKET_NWID_666.getText().isEmpty())) {
-            if(isBucketNWID(BUCKET_NWID_666)) {
-                BUCKETNWID666 = Integer.parseInt(BUCKET_NWID_666.getText());
-                //System.out.println(BUCKETNWID666);
-            }else{
-                //System.out.println("Enter a Valid NWID3 for Bucket 6");
-            }
-        }
-
-        if(!(BUCKET_NWID_6666.getText().isEmpty())) {
-            if(isBucketNWID(BUCKET_NWID_6666)) {
-                BUCKETNWID6666 = Integer.parseInt(BUCKET_NWID_6666.getText());
-                //System.out.println(BUCKETNWID6666);
-            }else{
-                //System.out.println("Enter a Valid NWID4 for Bucket 6");
-            }
-        }
-
-    }
-
+    /**
+     * validates bucket all bucket fields
+     * sets errors
+     */
     private void checkBuckets() {
         int j = 0;
         int i = 0;
@@ -2179,9 +1872,10 @@ public class MyController{
         int BUCKETMIN6 = 0, BUCKETMAX6 = 0;
         boolean InvalidMinAndMax = false;
 
-        if(!(BUCKET_MIN_1.getText().isEmpty() && BUCKET_MAX_1.getText().isEmpty())) {
+        if(!(BUCKET_MIN_1.getText().isEmpty() && BUCKET_MAX_1.getText().isEmpty()) && validateNumber(BUCKET_MIN_1.getText()) && validateNumber(BUCKET_MAX_1.getText())) {
             BUCKETMIN1 = Integer.parseInt(BUCKET_MIN_1.getText());
             BUCKETMAX1 = Integer.parseInt(BUCKET_MAX_1.getText());
+
             if (!validBounds(BUCKET_MIN_1, BUCKET_MAX_1)) {
                 InvalidMinAndMax = true;
                 BUCKET_MIN_1.setStyle("-fx-text-inner-color: red");
@@ -2191,6 +1885,9 @@ public class MyController{
         } else {
             BUCKETMIN1 = 0;
             BUCKETMAX1 = 0;
+            BUCKET_MIN_1.setStyle("-fx-text-inner-color: red");
+            BUCKET_MAX_1.setStyle("-fx-text-inner-color: red");
+            j++;
         }
         if (!BUCKET_MIN_2.getText().isEmpty() && !BUCKET_MAX_2.getText().isEmpty()) {
             if (BUCKET_NWID_2.getText().isEmpty()) {
@@ -2255,23 +1952,23 @@ public class MyController{
         }
 
 
-        if (bucket_Counter >= 2) {
+        if (bucket_Counter >= 2 && !BucketBoundLabel.isVisible()) {
             BUCKETMIN2 = Integer.parseInt(BUCKET_MIN_2.getText());
             BUCKETMAX2 = Integer.parseInt(BUCKET_MAX_2.getText());
         }
-        if (bucket_Counter >= 3) {
+        if (bucket_Counter >= 3 && !BucketBoundLabel.isVisible()) {
             BUCKETMIN3 = Integer.parseInt(BUCKET_MIN_3.getText());
             BUCKETMAX3 = Integer.parseInt(BUCKET_MAX_3.getText());
         }
-        if (bucket_Counter >= 4) {
+        if (bucket_Counter >= 4 && !BucketBoundLabel.isVisible() ) {
             BUCKETMIN4 = Integer.parseInt(BUCKET_MIN_4.getText());
             BUCKETMAX4 = Integer.parseInt(BUCKET_MAX_4.getText());
         }
-        if (bucket_Counter >= 5) {
+        if (bucket_Counter >= 5 && !BucketBoundLabel.isVisible()) {
             BUCKETMIN5 = Integer.parseInt(BUCKET_MIN_5.getText());
             BUCKETMAX5 = Integer.parseInt(BUCKET_MAX_5.getText());
         }
-        if (bucket_Counter == 6) {
+        if (bucket_Counter == 6 && !BucketBoundLabel.isVisible() ) {
             BUCKETMIN6 = Integer.parseInt(BUCKET_MIN_6.getText());
             BUCKETMAX6 = Integer.parseInt(BUCKET_MAX_6.getText());
         }
@@ -2406,7 +2103,8 @@ public class MyController{
         }
 
         if (i == 0) {
-            whiteoutBuckets();
+            if (j==0)
+                whiteoutBuckets();
 
             if(BUCKET_MIN_1.getText().isEmpty() || BUCKET_MAX_1.getText().isEmpty()){
                 BUCKET_MIN_1.setStyle("-fx-control-inner-background: #ff000099");
@@ -2432,6 +2130,10 @@ public class MyController{
 
     }
 
+    /**
+     * Validates all bucket nwids
+     * @return true is all bucket nwids entered are valid
+     */
     private boolean checkBucketNWIDs() {
         TextField[] NWIDS = {BUCKET_NWID_1, BUCKET_NWID_11, BUCKET_NWID_111, BUCKET_NWID_1111,
                 BUCKET_NWID_2, BUCKET_NWID_22, BUCKET_NWID_222, BUCKET_NWID_2222,
@@ -2463,6 +2165,11 @@ public class MyController{
         }
     }
 
+    /**
+     * Takes in user entered buckets
+     * If there is a overlap then handles creating new buckets
+     * @return arraylist of bucket objects
+     */
     private ArrayList<Bucket> bucketLogic() {
         TextField[] BUCKET_1 = {BUCKET_MIN_1, BUCKET_MAX_1, BUCKET_NWID_1, BUCKET_NWID_11, BUCKET_NWID_111, BUCKET_NWID_1111};
         TextField[] BUCKET_2 = {BUCKET_MIN_2, BUCKET_MAX_2, BUCKET_NWID_2, BUCKET_NWID_22, BUCKET_NWID_222, BUCKET_NWID_2222};
@@ -2490,7 +2197,7 @@ public class MyController{
                 }
             }
             b1.setNWIDS(NWIDS1);
-            System.out.println(b1.getNWIDS().get(0));
+            //System.out.println(b1.getNWIDS().get(0));
         }
         if (!(BUCKET_2[0].getText().isEmpty() && BUCKET_2[2].getText().isEmpty())) {
             b2 = new Bucket(Integer.parseInt(BUCKET_MIN_2.getText()),
@@ -2591,11 +2298,20 @@ public class MyController{
         }
         for (Bucket b : finalBuckets) {
             if (b != null) {
-                System.out.println("Min: " + b.getMin() + " Max: " + b.getMax() + "nwid :" + b.getNWIDS());
+                //System.out.println("Min: " + b.getMin() + " Max: " + b.getMax() + "nwid :" + b.getNWIDS());
             }
         }
         return finalBuckets;
     }
+
+    /**
+     * Helper method for bucketLogic, checks overlap of buckets
+     * @param newest
+     * @param older
+     * @param arr
+     * @param position
+     * @return
+     */
     public boolean checkOverlap(Bucket newest, Bucket older, ArrayList<Bucket> arr, int position) {
         if (older.getMin() >= newest.getMin() && older.getMax() <= newest.getMax()) {
             older.setNWIDS(null);
@@ -2642,7 +2358,14 @@ public class MyController{
         return false;
     }
 
-
+    /**
+     * Helper for check buckets
+     * @param min
+     * @param max
+     * @param left
+     * @param right
+     * @return
+     */
     private boolean checkBucketsHelper(int min, int max, int left, int right) {
         if (left < min && right < min) {
             return true;
@@ -3093,6 +2816,11 @@ public class MyController{
         BucketBoundLabel.setVisible(false);
 
     }
+
+    /**
+     * Saves data to file saved in users documents
+     * Persistence
+     */
     String userName = System.getProperty("user.name");
     public void saveData(){
         TextField[] row1 = {MID,MIDNWID_0,MIDNWID_1,MIDNWID_2,MIDNWID_3,MIDNWID_4,MIDNWID_5,MIDNWID_6,
@@ -3124,8 +2852,6 @@ public class MyController{
             pw.println(binnwid_Counter30);
             pw.println(binnwid_Counter40);
             pw.println(bucket_Counter);
-
-
             pw.close();
 
         } catch (IOException e) {
@@ -3134,6 +2860,9 @@ public class MyController{
 
     }
 
+    /**
+     * Reads saved text file only if files exists, loads persistence
+     */
     public void readData() {
         TextField[] row1 = {MID,MIDNWID_0,MIDNWID_1,MIDNWID_2,MIDNWID_3,MIDNWID_4,MIDNWID_5,MIDNWID_6,
                 BIN10,BINLEN_1,BINNWID_10,BINNWID_11,BINNWID_12,BINNWID_13,BINNWID_14,BINNWID_15,BINNWID_16,
@@ -3148,8 +2877,6 @@ public class MyController{
                 BUCKET_MIN_6,BUCKET_MAX_6,BUCKET_NWID_6,BUCKET_NWID_66,BUCKET_NWID_666,BUCKET_NWID_6666, HOST, PORT};
         int[] num = {bin_Counter, midnwid_Counter,binnwid_Counter10,binnwid_Counter20,binnwid_Counter30,binnwid_Counter40,
                 bucket_Counter};
-        //String[] arr = {host, port};
-
         try {
             File file = new File("C:/Users/" + userName + "/Documents/drd-gui-data.txt");
             Scanner scan = new Scanner(file);
@@ -3212,8 +2939,5 @@ public class MyController{
         }
 
     }
-
-
-
 
 }

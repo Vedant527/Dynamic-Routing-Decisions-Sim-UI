@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -413,7 +412,7 @@
                   <Label fx:id="BIN_ERROR" layoutX="14.0" layoutY="196.0" text="BIN#: Must be a numberical value(ex:1234...)" textFill="RED" visible="false" />
                   <Label fx:id="BINLENGTH_ERROR" layoutX="14.0" layoutY="213.0" text="PAN Length: Must be a numberical value(ex:1234...)" textFill="RED" visible="false" />
                   <Label fx:id="BINNWID_ERROR" layoutX="14.0" layoutY="230.0" text="Must be a numerical value (0 - 74) followed by a capital capability letter (See help for valid capability letters)" textFill="RED" visible="false" />
-                  <Label fx:id="BUCKET_ERROR" layoutX="4.0" layoutY="464.0" prefHeight="43.0" prefWidth="620.0" text="Warning: Bucket Attributes highlighted in red are overlapping. Buckets further right will take precedence over buckets on left. To remove this error, ensure the range between any of the buckets min and max do not overlap." textFill="#ff9a00e8" visible="false" wrapText="true" />
+                  <Label fx:id="BUCKET_ERROR" layoutX="4.0" layoutY="464.0" prefHeight="43.0" prefWidth="620.0" text="Warning: Bucket Attributes highlighted in red are overlapping. Buckets further right will take precedence over buckets on left. To remove this warning, ensure the range between any of the buckets min and max do not overlap." textFill="#ff9a00e8" visible="false" wrapText="true" />
                   <Label fx:id="BucketBoundLabel" layoutX="5.0" layoutY="434.0" prefHeight="17.0" prefWidth="587.0" text="Bucket Min and Max must be Integers between 00 and 1000000000, with the Min being less than the Max" textFill="RED" visible="false" />
                   <Label fx:id="BucketNWIDBoundLabel" layoutX="5.0" layoutY="450.0" prefHeight="17.0" prefWidth="587.0" text="Bucket NWIDs must be Integers between 0 and 74" textFill="RED" visible="false" />
                </children>
