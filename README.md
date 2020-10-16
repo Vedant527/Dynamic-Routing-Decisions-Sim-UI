@@ -1,6 +1,8 @@
 GBS Debit Routing Intern Project Summer 2020
 Interns: Vedant Bhat & Rakesh Gorrepati
 Mentor: Eric Poliashenko
+Note: Open Instruction page to view with proper formatting
+
 
 About: A GUI tool which allows for queries to the DRD and provides capability for groups, who work with the DRD, 
        to quickly receive a pseudo-response from DRD without having to do all the extra work/time to acquire it through
