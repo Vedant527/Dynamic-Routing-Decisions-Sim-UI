@@ -51,11 +51,11 @@ Acronyms:
 	*Bucket Max : Numerical value, must be less than associated min
 	*Bucket NWID : Network ID associated with the Bucket
 	*Host & Port : DRD related information, where the query will be sent to form the GUI
-	*NWID(s) : Any integer between 0 - 74
+	*NWID(s) : Any integer between 0 - 74 representing an existing Network (ie: STAR, PULSE)
 
 Buttons:
     *Clear : Sends clear request to DRD, clears all text fields in gui.
-    *Build : Sends query to DRD. Given that there are no errors and minimum required fields are fill out.
+    *Build : Sends query to DRD. Given that there are no errors and minimum required fields are filled out.
     *Add("+") : Adds text fields
     *Delete("-") : Removes text fields
 
